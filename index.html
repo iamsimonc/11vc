@@ -1,3 +1,6 @@
+11＋
+
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -31,19 +34,11 @@
         /* 測試紙樣式 (VR 題型) */
         .test-item { display: none; padding: 20px; border: 1px solid #000; margin-bottom: 25px; page-break-inside: avoid; }
         
-       @media print {
+        @media print {
             body { background: white !important; color: black !important; }
-            /* 隱藏網頁上的所有控制按鈕、語音區塊和挑戰切換區 */
-            .no-print, .word-info, [id^="content-"], [id^="challenge-"], [id^="btn-toggle-"], .btn { 
-                display: none !important; 
-            }
-            /* 強制顯示測試題目 */
-            .test-item { 
-                display: block !important; 
-                visibility: visible !important;
-                page-break-inside: avoid;
-            }
-            .container { max-width: 100%; width: 100%; margin: 0; padding: 0; }
+            .no-print, .word-info, .btn-audio, .btn-record, .btn-play-rec { display: none !important; }
+            .test-item { display: block !important; }
+            .container { max-width: 100%; }
         }
     </style>
 </head>
@@ -72,8 +67,9 @@
     let currentWords = [];
     let mediaRecorder;
     let audioChunks = {};
-    let currentTestType = 'standard';
+    let currentTestType = 'standard'; // 追蹤目前的測試模式
 
+    // 1. 加載數據
     window.onload = function() {
         Papa.parse("vocab.csv", {
             download: true, header: true, skipEmptyLines: true,
@@ -84,16 +80,19 @@
         });
     };
 
+    // 2. 切換測試模式並列印
     function printTest(type) {
         currentTestType = type;
-        render(); 
-        setTimeout(() => { window.print(); }, 300);
+        render(); // 重新渲染內容以適應考法
+        setTimeout(() => { window.print(); }, 300); // 稍微延遲確保渲染完成後彈出列印
     }
 
+    // 3. 基於 Week 的隨機抽取
     function generateByWeek() {
         const week = parseInt(document.getElementById('weekInput').value) || 1;
         const cores = allVocab.filter(v => v.type.toUpperCase() === 'CORE');
         const elites = allVocab.filter(v => v.type.toUpperCase() === 'ELITE');
+
         const seedShuffle = (arr, seed) => {
             let m = arr.length, t, i;
             while (m) {
@@ -102,22 +101,39 @@
             }
             return arr;
         };
+
         const startC = (week - 1) * 7;
         const startE = (week - 1) * 3;
+        
         let poolC = seedShuffle([...cores], week).slice(startC, startC + 7);
         let poolE = seedShuffle([...elites], week + 50).slice(startE, startE + 3);
+
         currentWords = seedShuffle([...poolC, ...poolE], week + 99);
         render();
     }
 
+    // 4. 語音與錄音功能 (保持原樣)
     function playNative(text) {
-        window.speechSynthesis.cancel();
+        window.speechSynthesis.cancel(); // 播放前先清理，防止語音重疊
+        
         const msg = new SpeechSynthesisUtterance(text);
         const voices = window.speechSynthesis.getVoices();
-        const preferredVoice = voices.find(v => v.name === 'Google UK English Female') || voices.find(v => v.lang === 'en-GB');
-        if (preferredVoice) msg.voice = preferredVoice;
+
+        // 優先順序：Google UK 女聲 > Google UK 男聲 > 任何英國口音 > 預設
+        const preferredVoice = 
+            voices.find(v => v.name === 'Google UK English Female') ||
+            voices.find(v => v.name === 'Google UK English Male') ||
+            voices.find(v => v.name.includes('UK English')) ||
+            voices.find(v => v.lang === 'en-GB');
+
+        if (preferredVoice) {
+            msg.voice = preferredVoice;
+        }
+
         msg.lang = 'en-GB';
-        msg.rate = 0.75;
+        msg.rate = 0.75; // 稍微調慢，發音更清晰
+        msg.pitch = 1.0;
+        
         window.speechSynthesis.speak(msg);
     }
 
@@ -142,72 +158,80 @@
         }
     }
 
-    // 5. 核心渲染邏輯 (加入隱藏挑戰模式)
+    // 5. 核心渲染邏輯：根據 currentTestType 生成不同考法
     function render() {
         const display = document.getElementById('mainDisplay');
         display.innerHTML = '';
 
         currentWords.forEach((item, i) => {
-            const word = item.word;
-            const anagram = word.toUpperCase().split('').sort(() => 0.5 - Math.random()).join(' ');
-            const sentence = `The boy sa${word.slice(0,2).toLowerCase()} i${word.slice(2).toLowerCase()} it was great.`;
+            const typeClass = item.type.toLowerCase() === 'core' ? 'badge-core' : 'badge-elite';
+            const word = item.word.toUpperCase();
+            
+            // 題型 2: Anagram (字母重組)
+            const anagram = word.split('').sort(() => 0.5 - Math.random()).join(' ');
+
+            // 題型 3: Hidden Word (隨機句子)
+            const sentence = `The boy sa${word.slice(0,2).toLowerCase()} i${word.slice(2).toLowerCase()} it was great.`.replace("  ", " ");
 
             const card = document.createElement('div');
-            // 注意：這裡不要給外層 card 加隱藏屬性
             card.innerHTML = `
-                <div class="word-info-container"> 
-                    <div id="content-${i}">
-                        <h2 style="color:var(--core);">${i+1}. ${word}</h2>
-                        <p><strong>💡 Mnemonic:</strong> ${item.memory}</p>
-                        </div>
+                <div class="vocab-card word-info">
+                    <span class="badge ${typeClass}">${item.type}</span>
+                    <div style="margin: 15px 0;">
+                        <button class="btn btn-audio" onclick="playNative('${word}')">🔊 Native Voice</button>
+                        <button class="btn btn-record" id="rec-${i}" onclick="toggleRecord(${i})">🎤 Record</button>
+                        <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️ Play My Voice</button>
+                    </div>
+<h2 style="color:var(--core); margin-bottom: 10px;">${i+1}. ${word}</h2>
 
-                    <div id="challenge-${i}" style="display: none;">
-                        </div>
+<p style="margin-bottom: 15px;">
+    <strong style="color: #f1c40f;">💡 Mnemonic:</strong><br>
+    <span style="font-size: 1.1em;">${item.memory}</span>
+</p>
 
-                    <button class="btn" id="btn-toggle-${i}" onclick="toggleChallenge(${i})">🎯 Start Challenge</button>
+<div style="display: flex; gap: 30px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+    <div>
+        <span style="color: #55efc4; font-weight: bold;">🟢 SYNONYM</span><br>
+        <span style="font-size: 1.2em;">${item.syn}</span>
+    </div>
+    <div style="border-left: 1px solid #444; padding-left: 30px;">
+        <span style="color: #ff7675; font-weight: bold;">🔴 ANTONYM</span><br>
+        <span style="font-size: 1.2em;">${item.ant}</span>
+    </div>
+</div>
                 </div>
 
                 <div class="test-item">
-                    <div style="border-bottom:1px solid #000; margin-bottom:10px;">
-                        11+ VR Test - Week ${document.getElementById('weekInput').value} | Mode: ${currentTestType.toUpperCase()}
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:5px; margin-bottom:10px;">
+                        <span>11+ VR Test: Week ${document.getElementById('weekInput').value}</span>
+                        <span>Mode: ${currentTestType.toUpperCase()}</span>
                     </div>
+
                     ${currentTestType === 'standard' ? `
-                        <p><b>Q${i+1}:</b> Find a synonym of "${item.syn}" and antonym of "${item.ant}".</p>
-                        <p style="font-size:1.4em; font-family:monospace;">${word.charAt(0).toUpperCase()} ${"_ ".repeat(word.length-2)} ${word.slice(-1).toUpperCase()} (${word.length} letters)</p>
+                        <p><b>Question ${i+1}:</b> Find a word that is a <b>synonym</b> of "${item.syn}" and an <b>antonym</b> of "${item.ant}".</p>
+                        <p style="font-size: 1.4em; font-family: monospace; font-weight: bold; margin: 15px 0;">
+                            ${word.charAt(0)} ${"_ ".repeat(word.length - 2)} ${word.slice(-1)} (${word.length} letters)
+                        </p>
                     ` : ''}
+
                     ${currentTestType === 'anagram' ? `
-                        <p><b>Q${i+1}:</b> Rearrange these letters to form a word that means "${item.syn}":</p>
-                        <p style="font-size:1.4em; letter-spacing:5px;">${anagram}</p>
+                        <p><b>Question ${i+1}:</b> Rearrange these letters to form a word that means "${item.syn}":</p>
+                        <p style="font-size: 1.4em; font-weight: bold; letter-spacing: 3px; margin: 15px 0;">${anagram}</p>
+                        <p>Answer: ___________________________</p>
                     ` : ''}
+
                     ${currentTestType === 'hidden' ? `
-                        <p><b>Q${i+1}:</b> A ${word.length}-letter word is hidden here: "${sentence}"</p>
+                        <p><b>Question ${i+1}:</b> A ${word.length}-letter word is <b>hidden</b> between two words in this sentence. Find it:</p>
+                        <p style="font-size: 1.2em; font-style: italic; margin: 15px 0; background: #f9f9f9; padding: 10px; border: 1px solid #ddd;">"${sentence}"</p>
+                        <p>Hidden Word: ___________________________</p>
                     ` : ''}
+
+                    <div style="margin-top: 20px; border-bottom: 1px dashed #ccc; height: 1px;"></div>
                 </div>
             `;
             display.appendChild(card);
         });
     }
-
-    // 6. 挑戰切換邏輯
-    function toggleChallenge(id) {
-        const content = document.getElementById(`content-${id}`);
-        const challenge = document.getElementById(`challenge-${id}`);
-        const btn = document.getElementById(`btn-toggle-${id}`);
-
-        if (content.style.display !== "none") {
-            content.style.display = "none";
-            challenge.style.display = "block";
-            btn.innerText = "👁️ Show Word (Peek)";
-            btn.style.background = "#4b5563";
-        } else {
-            content.style.display = "block";
-            challenge.style.display = "none";
-            btn.innerText = "🎯 Start Anagram Challenge";
-            btn.style.background = "#6c5ce7";
-        }
-    }
-    
-    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 </script>
 
 </body>
