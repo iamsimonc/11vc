@@ -1,118 +1,253 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kathryn 11+ VR Expert Mode</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kathryn 11+ VR Expert Mode</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        :root { --primary: #6c5ce7; --core: #55efc4; --elite: #fd79a8; --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; }
+        body { font-family: 'Arial', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
+        .container { max-width: 900px; margin: auto; }
+        
+        /* 介面與按鈕 */
+        .no-print { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 30px; border: 1px solid #334155; }
+        .btn { padding: 10px 18px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; margin-right: 5px; transition: 0.3s; }
+        .btn-audio { background: #4b5563; color: white; }
+        .btn-record { background: #e74c3c; color: white; }
+        .btn-play-rec { background: #f1c40f; color: black; }
+        .btn-gen { background: var(--primary); color: white; }
+        .btn-print { background: #27ae60; color: white; }
 
-<style>
-:root {
---primary:#6c5ce7; --core:#55efc4; --elite:#fd79a8;
---bg:#0f172a; --card-bg:#1e293b; --text:#f8fafc;
-}
-body { font-family:Arial; background:var(--bg); color:var(--text); padding:20px;}
-.container{max-width:900px;margin:auto;}
-.btn{padding:10px 18px;border-radius:8px;border:none;cursor:pointer;font-weight:bold;}
-.btn-gen{background:var(--primary);color:white;}
-.btn-record{background:#e74c3c;color:white;}
-.btn-play-rec{background:#f1c40f;color:black;}
-.vocab-card{background:var(--card-bg);padding:25px;border-radius:15px;margin-bottom:20px;}
-</style>
+        /* 練習卡片 */
+        .vocab-card { background: var(--card-bg); padding: 25px; border-radius: 15px; margin-bottom: 20px; border-left: 10px solid var(--primary); }
+        .badge { padding: 4px 10px; border-radius: 5px; font-size: 0.8em; font-weight: bold; }
+        .badge-core { background: var(--core); color: #000; }
+        .badge-elite { background: var(--elite); color: #fff; }
+
+        /* 測試紙樣式 (平時隱藏，列印時顯示) */
+        .test-item { display: none; padding: 20px; border: 1px solid #000; margin-bottom: 25px; page-break-inside: avoid; }
+        
+        @media print {
+            body { background: white !important; color: black !important; }
+            .container { max-width: 100%; width: 100%; margin: 0; padding: 0; }
+            .no-print, .btn, .web-interactive-area { display: none !important; }
+            .test-item { display: block !important; visibility: visible !important; }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="container">
-  <h1>🚀 Kathryn 11+ VR 練習系統</h1>
-  Week:
-  <input id="weekInput" type="number" value="1" style="width:60px">
+    <div class="no-print">
+        <h1>🚀 Kathryn 11+ VR 練習系統</h1>
+        <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+            <label>輸入 Week: </label>
+            <input type="number" id="weekInput" value="1" style="width:50px; padding:8px;">
+            <button class="btn btn-gen" onclick="generateByWeek()">🔄 隨機生成本週 (7:3)</button>
+            
+            <button class="btn" style="background:#27ae60; color:white;" onclick="printTest('standard')">🖨️ 1. 標準填空</button>
+            <button class="btn" style="background:#2980b9; color:white;" onclick="printTest('anagram')">🖨️ 2. 字母重組</button>
+            <button class="btn" style="background:#8e44ad; color:white;" onclick="printTest('hidden')">🖨️ 3. 隱藏字挑戰</button>
+        </div>
+        <p style="font-size: 0.9em; color: #aaa;">* 點擊下方紫色按鈕 "Start Challenge" 可遮住生字進行拼字練習。</p>
+    </div>
 
-  <div id="mainDisplay"></div>
+    <div id="mainDisplay"></div>
 </div>
 
 <script>
-const GAS_URL =
-'https://script.google.com/macros/s/AKfycbxPeeeBTqiT2-MFsH4R_aHTPOdGZTeNicNJWMA4qG1jGasJHjpi_as_cUGoeS_Y3Ck8sg/exec';
+    let allVocab = [];
+    let currentWords = [];
+    let mediaRecorder;
+    let audioChunks = {};
+    let currentTestType = 'standard';
 
-let currentWords = [
-  { word:'EXCITED', type:'CORE' },
-  { word:'BRAVE', type:'CORE' }
-];
-
-function render(){
-  const d=document.getElementById('mainDisplay');
-  d.innerHTML='';
-  currentWords.forEach((item,i)=>{
-    d.innerHTML+=`
-      <div class="vocab-card">
-        <h2>${item.word}</h2>
-        <div id="challenge-${i}"></div>
-        <button class="btn btn-gen" onclick="startChallenge(${i})">
-          Start Challenge
-        </button>
-      </div>`;
-  });
-}
-
-function startChallenge(i){
-  const item=currentWords[i];
-  const word=item.word.toUpperCase();
-  const letters=word.split('').sort(()=>Math.random()-0.5);
-
-  let answer=Array(word.length).fill('');
-  const div=document.getElementById(`challenge-${i}`);
-  div.innerHTML='';
-
-  const box=document.createElement('div');
-  box.style.fontSize='2em';
-  box.style.marginBottom='10px';
-  update();
-
-  function update(){ box.textContent=answer.join(' '); }
-
-  letters.forEach(l=>{
-    const b=document.createElement('button');
-    b.textContent=l;
-    b.className='btn btn-gen';
-    b.onclick=()=>{
-      const idx=answer.indexOf('');
-      if(idx>-1){ answer[idx]=l; update(); }
+    // 1. 加載數據
+    window.onload = function() {
+        Papa.parse("vocab.csv", {
+            download: true, header: true, skipEmptyLines: true,
+            complete: function(results) {
+                allVocab = results.data.filter(row => row.word);
+                generateByWeek();
+            }
+        });
     };
-    div.appendChild(b);
-  });
 
-  const back=document.createElement('button');
-  back.textContent='⌫';
-  back.className='btn btn-record';
-  back.onclick=()=>{
-    for(let i=answer.length-1;i>=0;i--){
-      if(answer[i]){ answer[i]=''; update(); break; }
+    // 2. 列印功能
+    function printTest(type) {
+        currentTestType = type;
+        render(); 
+        setTimeout(() => { window.print(); }, 500);
     }
-  };
 
-  const submit=document.createElement('button');
-  submit.textContent='Submit';
-  submit.className='btn btn-play-rec';
-  submit.onclick=()=>{
-    fetch(GAS_URL,{
-      method:'POST',
-      mode:'no-cors',
-      body:JSON.stringify({
-        week:document.getElementById('weekInput').value,
-        correctWord:word,
-        kathrynAnswer:answer.join('')
-      }),
-      headers:{'Content-Type':'application/json'}
-    });
-    alert('✅ Answer saved!');
-  };
+    // 3. 隨機生成
+    function generateByWeek() {
+        const week = parseInt(document.getElementById('weekInput').value) || 1;
+        const cores = allVocab.filter(v => v.type.toUpperCase() === 'CORE');
+        const elites = allVocab.filter(v => v.type.toUpperCase() === 'ELITE');
 
-  div.prepend(box);
-  div.append(back,submit);
-}
+        const seedShuffle = (arr, seed) => {
+            let m = arr.length, t, i;
+            while (m) {
+                i = Math.floor(Math.abs(Math.sin(seed++)) * m--);
+                t = arr[m]; arr[m] = arr[i]; arr[i] = t;
+            }
+            return arr;
+        };
 
-render();
+        const startC = (week - 1) * 7;
+        const startE = (week - 1) * 3;
+        
+        let poolC = seedShuffle([...cores], week).slice(startC, startC + 7);
+        let poolE = seedShuffle([...elites], week + 50).slice(startE, startE + 3);
+
+        currentWords = seedShuffle([...poolC, ...poolE], week + 99);
+        render();
+    }
+
+    // 4. 播放 MP3 音檔
+    function playNative(word) {
+        const fileName = word.toLowerCase() + '.mp3';
+        const audioPath = `audio/${fileName}`;
+        const audio = new Audio(audioPath);
+        audio.play().catch(err => {
+            console.error(`播放失敗: ${audioPath}`, err);
+        });
+    }
+
+    // 5. 錄音功能 (iOS 兼容)
+    async function toggleRecord(id) {
+        const btn = document.getElementById(`rec-${id}`);
+        if (!mediaRecorder || mediaRecorder.state === "inactive") {
+            try {
+                const mimeType = MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "audio/webm";
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
+                audioChunks[id] = [];
+                mediaRecorder.ondataavailable = e => { if(e.data.size>0) audioChunks[id].push(e.data); };
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(audioChunks[id], { type: mimeType });
+                    const url = URL.createObjectURL(blob);
+                    const playBtn = document.getElementById(`play-${id}`);
+                    playBtn.style.display = 'inline-block';
+                    playBtn.onclick = () => { new Audio(url).play(); };
+                };
+                mediaRecorder.start();
+                btn.innerText = "🛑 Stop"; btn.style.background = "#000";
+            } catch(e) { 
+                alert("無法使用麥克風，請檢查：\n1. 網址是否為 https\n2. 手機是否靜音模式\n3. 權限是否開啟"); 
+            }
+        } else {
+            mediaRecorder.stop();
+            if(mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            btn.innerText = "🎤 Re-record"; btn.style.background = "#e74c3c";
+        }
+    }
+
+    // 6. 渲染畫面
+    function render() {
+        const display = document.getElementById('mainDisplay');
+        display.innerHTML = '';
+
+        currentWords.forEach((item, i) => {
+            const typeClass = item.type.toLowerCase() === 'core' ? 'badge-core' : 'badge-elite';
+            const word = item.word.toUpperCase(); 
+            const displayWord = item.word; 
+            const anagram = word.split('').sort(() => 0.5 - Math.random()).join(' ');
+            const sentence = `The boy sa${word.slice(0,2).toLowerCase()} i${word.slice(2).toLowerCase()} it was great.`.replace("  ", " ");
+
+            const card = document.createElement('div');
+            card.innerHTML = `
+
+<div style="margin-top:25px; padding-top:15px; border-top:1px dashed #555; text-align:center;">
+  <strong style="color:#f1c40f;">🧩 Spelling Challenge</strong>
+
+  <div id="spell-answer-${i}" style="
+    font-size:2em;
+    letter-spacing:10px;
+    margin:15px 0;
+    min-height:1.5em;">
+  </div>
+
+  <div id="spell-letters-${i}" style="margin-bottom:10px;"></div>
+
+  <button class="btn btn-record" onclick="spellBack(${i})">⌫</button>
+  <button class="btn btn-play-rec" onclick="submitSpell(${i}, '${word}')">Submit</button>
+</div>
+
+            
+                <div class="vocab-card word-info web-interactive-area">
+                    <div id="learn-view-${i}">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span class="badge ${typeClass}">${item.type}</span>
+                            <div>
+                                <button class="btn btn-audio" onclick="playNative('${displayWord}')">🔊 Voice</button>
+                                <button class="btn btn-record" id="rec-${i}" onclick="toggleRecord(${i})">🎤</button>
+                                <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️</button>
+                            </div>
+                        </div>
+                        <h2 style="color:var(--core); margin: 10px 0;">${i+1}. ${displayWord}</h2>
+                        <p style="margin-bottom: 15px;"><strong style="color: #f1c40f;">💡 Mnemonic:</strong><br>
+                        <span style="font-size: 1.1em;">${item.memory}</span></p>
+                        <div style="display: flex; gap: 30px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+                            <div><span style="color: #55efc4; font-weight: bold;">🟢 SYNONYM</span><br><span style="font-size: 1.2em;">${item.syn}</span></div>
+                            <div style="border-left: 1px solid #444; padding-left: 30px;"><span style="color: #ff7675; font-weight: bold;">🔴 ANTONYM</span><br><span style="font-size: 1.2em;">${item.ant}</span></div>
+                        </div>
+                    </div>
+
+                    <div id="challenge-view-${i}" style="display: none; text-align: center; padding: 20px 0;">
+                        <strong style="color: var(--elite); font-size: 1.2em;">🧩 11+ VR Challenge (Anagram):</strong>
+                        <div style="background: #000; padding: 15px; border-radius: 8px; margin: 10px 0; border: 2px dashed #666;">
+                            <span style="font-family: monospace; font-size: 2em; letter-spacing: 5px; color: white;">${anagram}</span>
+                        </div>
+                    </div>
+
+                    <button class="btn" id="btn-toggle-${i}" onclick="toggleChallenge(${i})" style="width: 100%; margin-top: 20px; background: var(--primary);">
+                        🎯 Start Challenge (Hide Word)
+                    </button>
+                </div>
+
+                <div class="test-item">
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:5px; margin-bottom:10px;">
+                        <span>11+ VR Test: Week ${document.getElementById('weekInput').value}</span>
+                        <span>Mode: ${currentTestType.toUpperCase()}</span>
+                    </div>
+
+                    ${currentTestType === 'standard' ? `<p><b>Q${i+1}:</b> Find a synonym of "${item.syn}" and antonym of "${item.ant}".</p>
+                        <p style="font-size: 1.4em; font-family: monospace; font-weight: bold; margin: 15px 0;">${word.charAt(0)} ${"_ ".repeat(word.length - 2)} ${word.slice(-1)} (${word.length} letters)</p>` : ''}
+
+                    ${currentTestType === 'anagram' ? `<p><b>Q${i+1}:</b> Rearrange these letters to form a word that means "${item.syn}":</p>
+                        <p style="font-size: 1.4em; font-weight: bold; letter-spacing: 3px; margin: 15px 0;">${anagram}</p>
+                        <p>Answer: ___________________________</p>` : ''}
+
+                    ${currentTestType === 'hidden' ? `<p><b>Q${i+1}:</b> A ${word.length}-letter word is <b>hidden</b> in this sentence:</p>
+                        <p style="font-size: 1.2em; font-style: italic; margin: 15px 0; background: #f9f9f9; padding: 10px; border: 1px solid #ddd;">"${sentence}"</p>
+                        <p>Hidden Word: ___________________________</p>` : ''}
+                    <div style="margin-top: 20px; border-bottom: 1px dashed #ccc; height: 1px;"></div>
+                </div>
+            `;
+            display.appendChild(card);
+            initSpell(i, word);
+        });
+    }
+
+    function toggleChallenge(i) {
+        const learnView = document.getElementById(`learn-view-${i}`);
+        const challengeView = document.getElementById(`challenge-view-${i}`);
+        const btn = document.getElementById(`btn-toggle-${i}`);
+        if (learnView.style.display !== 'none') {
+            learnView.style.display = 'none';
+            challengeView.style.display = 'block';
+            btn.innerText = '👁️ Show Word (Peek)';
+            btn.style.background = '#4b5563';
+        } else {
+            learnView.style.display = 'block';
+            challengeView.style.display = 'none';
+            btn.innerText = '🎯 Start Challenge (Hide Word)';
+            btn.style.background = '#6c5ce7';
+        }
+    }
 </script>
 
 </body>
