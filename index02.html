@@ -111,22 +111,54 @@
         render();
     }
 
-    // 4. 語音功能 (高品質英式發音)
+  // 4. 語音功能 (融合電腦 Google UK 與 iPad Daniel Enhanced)
     function playNative(text) {
+        // 每次播放前先取消，防止聲音重疊
         window.speechSynthesis.cancel();
+        
         const msg = new SpeechSynthesisUtterance(text);
-        const voices = window.speechSynthesis.getVoices();
+        
+        // 重新抓取語音清單 (解決延遲加載問題)
+        let voices = window.speechSynthesis.getVoices();
+
+        // --- 權重邏輯：誰排在前面，誰就是首選 ---
         const preferredVoice = 
+            // 1. 電腦 Chrome 的高品質首選
             voices.find(v => v.name === 'Google UK English Female') ||
-            voices.find(v => v.name.includes('UK English')) ||
+            // 2. iPad/iPhone 的高品質首選 (確保排除壓縮版)
+            voices.find(v => v.name.includes('Daniel') && !v.name.toLowerCase().includes('compact')) ||
+            // 3. 其他高品質英式發音
+            voices.find(v => v.name.includes('Google UK English Male')) ||
+            voices.find(v => v.name.includes('UK English') && !v.name.toLowerCase().includes('compact')) ||
+            // 4. 最後保底
             voices.find(v => v.lang === 'en-GB');
 
-        if (preferredVoice) msg.voice = preferredVoice;
+        if (preferredVoice) {
+            msg.voice = preferredVoice;
+            // 控制台檢查 (電腦按 F12 可看見目前用了哪個聲音)
+            console.log("Current Voice: " + preferredVoice.name);
+        }
+
         msg.lang = 'en-GB';
-        msg.rate = 0.75;
+
+        // 設定你最習慣的清晰語速
+        // 電腦版 Google 聲建議 0.75，iOS Daniel 建議稍微快一點點 0.8 防止拖音
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        msg.rate = isIOS ? 0.8 : 0.75; 
+        
+        msg.pitch = 1.0;
+
+        // 啟動發音
         window.speechSynthesis.speak(msg);
     }
-    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+    // 關鍵：確保瀏覽器隨時準備好語音清單
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = () => {
+            window.speechSynthesis.getVoices();
+            console.log("Voices loaded/updated");
+        };
+    }
 
     // 錄音功能
     async function toggleRecord(id) {
