@@ -1,0 +1,104 @@
+function toggleChallenge(i) {
+    const learnView = document.getElementById(`learn-view-${i}`);
+    const challengeView = document.getElementById(`challenge-view-${i}`);
+    const btn = document.getElementById(`btn-toggle-${i}`);
+
+    if (learnView.style.display !== 'none') {
+        learnView.style.display = 'none';
+        challengeView.style.display = 'block';
+        btn.innerText = '👁️ Show Word (Peek)';
+        btn.style.background = '#4b5563';
+
+        // 生成互動拼字
+        generateInteractiveChallenge(i);
+    } else {
+        learnView.style.display = 'block';
+        challengeView.style.display = 'none';
+        btn.innerText = '🎯 Start Challenge (Hide Word)';
+        btn.style.background = '#6c5ce7';
+    }
+}
+
+// 互動拼字
+function generateInteractiveChallenge(i) {
+    const item = currentWords[i];
+    const challengeDiv = document.getElementById(`challenge-view-${i}`);
+    challengeDiv.innerHTML = '';
+
+    const word = item.word.toUpperCase();
+    const letters = word.split('').sort(() => 0.5 - Math.random());
+
+    const answerArray = Array(word.length).fill(''); // 存使用者拼字
+    const answerDiv = document.createElement('div');
+    answerDiv.style.marginBottom = '15px';
+    answerDiv.style.fontSize = '2em';
+    answerDiv.style.letterSpacing = '10px';
+    answerDiv.textContent = answerArray.join(' ');
+
+    const lettersDiv = document.createElement('div');
+    lettersDiv.style.display = 'flex';
+    lettersDiv.style.justifyContent = 'center';
+    lettersDiv.style.flexWrap = 'wrap';
+    lettersDiv.style.gap = '10px';
+    lettersDiv.style.marginBottom = '10px';
+
+    letters.forEach((letter, idx) => {
+        const btn = document.createElement('button');
+        btn.textContent = letter;
+        btn.className = 'btn btn-gen';
+        btn.style.fontSize = '1.5em';
+        btn.onclick = () => {
+            // 找到第一個空位置填入字母
+            const firstEmpty = answerArray.findIndex(a => a === '');
+            if(firstEmpty !== -1){
+                answerArray[firstEmpty] = letter;
+                answerDiv.textContent = answerArray.join(' ');
+            }
+        };
+        lettersDiv.appendChild(btn);
+    });
+
+    // Backspace
+    const backspaceBtn = document.createElement('button');
+    backspaceBtn.textContent = '⌫ Backspace';
+    backspaceBtn.className = 'btn btn-record';
+    backspaceBtn.onclick = () => {
+        const lastFilled = answerArray.map((v, idx) => v !== '' ? idx : -1).filter(v => v!==-1).pop();
+        if(lastFilled !== undefined){
+            answerArray[lastFilled] = '';
+            answerDiv.textContent = answerArray.join(' ');
+        }
+    };
+
+    // Submit
+    const submitBtn = document.createElement('button');
+    submitBtn.textContent = '✅ Submit';
+    submitBtn.className = 'btn btn-play-rec';
+    submitBtn.onclick = () => {
+        const kathrynAnswer = answerArray.join('');
+        const week = parseInt(document.getElementById('weekInput').value) || 1;
+
+        // POST 到 Google Apps Script
+        fetch('https://script.google.com/macros/s/AKfycbyVKRndDLY1M46DBzCQV79UWU6EsQBiP33VWK6HAqNWMnWfT-D5Ck3SjOrQ0vyS9NF29Q/exec', {
+            method: 'POST',
+            body: JSON.stringify({
+                week: week,
+                correctWord: word,
+                kathrynAnswer: kathrynAnswer
+            }),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(res => res.json())
+          .then(data => {
+              alert('✅ Your answer has been saved!');
+          })
+          .catch(err => {
+              console.error(err);
+              alert('❌ Failed to save your answer. Check network.');
+          });
+    };
+
+    challengeDiv.appendChild(answerDiv);
+    challengeDiv.appendChild(lettersDiv);
+    challengeDiv.appendChild(backspaceBtn);
+    challengeDiv.appendChild(submitBtn);
+}
