@@ -140,46 +140,42 @@
         document.getElementById(`ans-${wordIdx}`).innerText = userAnswers[wordIdx];
     }
 
-    async function submitAnswer(wordIdx) {
-        const week = document.getElementById('weekInput').value;
-        const correctWord = currentWords[wordIdx].word.toUpperCase();
-        const userAnswer = userAnswers[wordIdx] || "";
-        const btn = document.getElementById(`submit-btn-${wordIdx}`);
+    async function async function submitAnswer(wordIdx) {
+    const week = document.getElementById('weekInput').value;
+    const correctWord = currentWords[wordIdx].word.toUpperCase();
+    const userAnswer = userAnswers[wordIdx] || "";
+    const btn = document.getElementById(`submit-btn-${wordIdx}`);
 
-        // 如果長度不對（還沒拼完），按了沒反應
-        if (userAnswer.length < correctWord.length) return; 
+    if (userAnswer.length < correctWord.length) return; 
 
-        btn.innerText = "Saving...";
-        btn.disabled = true;
+    btn.innerText = "Saving...";
+    btn.disabled = true;
 
-        // 準備要送出的資料
-        const payload = {
-            week: week,
-            correctWord: correctWord,
-            userAnswer: userAnswer,
-            status: correctWord === userAnswer ? "✅ Correct" : "❌ Incorrect"
-        };
+    // 準備 JSON 數據
+    const payload = {
+        week: week,
+        correctWord: correctWord,
+        userAnswer: userAnswer,
+        status: (correctWord === userAnswer) ? "✅ Correct" : "❌ Incorrect"
+    };
 
-        try {
-            // 發送 JSON 數據到您的 Google Script URL
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors', 
-                cache: 'no-cache',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+    try {
+        await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Google Script 必須用 no-cors
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
 
-            // 成功後直接顯示已提交，不彈出視窗
-            btn.innerText = "✅ Submitted";
-            btn.style.background = "#2d3436"; // 按鈕變深色表示完成
-            
-        } catch (e) {
-            console.error("Submission error:", e);
-            btn.innerText = "❌ Error";
-            btn.disabled = false;
-        }
+        // 成功後直接顯示狀態
+        btn.innerText = "✅ Submitted";
+        btn.style.background = "#2d3436";
+        
+    } catch (e) {
+        btn.innerText = "❌ Error";
+        btn.disabled = false;
     }
+}
 
     function render() {
         const display = document.getElementById('mainDisplay');
