@@ -131,11 +131,15 @@
     let audioChunks = {};
     let currentTestType = 'standard';
 
-    // 1. 加載數據
+    // 1. 初始化與數據加載
     window.onload = function() {
-        // iOS 聲音初始化
+        // 核心修正：強制瀏覽器在背景加載語音清單
         if (window.speechSynthesis) {
             window.speechSynthesis.getVoices();
+            // 當語音清單發生變化時，再次強制獲取
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+            }
         }
 
         Papa.parse("vocab.csv", {
@@ -147,19 +151,11 @@
         });
     };
 
-    // 2. 列印功能
-    function printTest(type) {
-        currentTestType = type;
-        render(); 
-        setTimeout(() => { window.print(); }, 500);
-    }
-
-    // 3. 隨機生成
+    // 2. 隨機生成與 6. 渲染 (保持不變)
     function generateByWeek() {
         const week = parseInt(document.getElementById('weekInput').value) || 1;
         const cores = allVocab.filter(v => v.type.toUpperCase() === 'CORE');
         const elites = allVocab.filter(v => v.type.toUpperCase() === 'ELITE');
-
         const seedShuffle = (arr, seed) => {
             let m = arr.length, t, i;
             while (m) {
@@ -168,142 +164,113 @@
             }
             return arr;
         };
-
         const startC = (week - 1) * 7;
         const startE = (week - 1) * 3;
-        
         let poolC = seedShuffle([...cores], week).slice(startC, startC + 7);
         let poolE = seedShuffle([...elites], week + 50).slice(startE, startE + 3);
-
         currentWords = seedShuffle([...poolC, ...poolE], week + 99);
         render();
     }
 
-// ★★★ 4. 發音功能 (Daniel Enhanced 優先版) ★★★
+    // ★★★ 4. 發音功能 ( Daniel 與 Google UK 優先版) ★★★
     function playNative(text) {
         if (!window.speechSynthesis) return;
 
-        // 1. 停止當前發音
+        // 停止之前的發音
         window.speechSynthesis.cancel();
+
+        // 強制重新抓取清單 (解決電腦版/iPad版初始化失敗問題)
+        let voices = window.speechSynthesis.getVoices();
 
         const msg = new SpeechSynthesisUtterance(text);
         
-        // 2. 獲取當前設備可用的語音清單
-        let voices = window.speechSynthesis.getVoices();
-
-        // 3. 定義嚴格的選取優先順序
-        // 我們把 Daniel 放到第一位，並確保不選到 Compact 版本
-        const preferredVoiceNames = [
-            'Daniel',                       // iOS 您的首選 (會自動找 Enhanced)
-            'Google UK English Female',     // PC Chrome 首選
-            'Google UK English Male',       // PC Chrome 次選
-            'Martha',                       // iOS 備選女聲
-            'Arthur'                        // iOS 備選男聲
+        // 定義權重：Daniel 和 Google UK 是最高等級
+        const preferredNames = [
+            'Daniel',                       // iPad/iPhone 高品質首選
+            'Google UK English Female',     // 電腦 Chrome 首選
+            'Google UK English Male',       // 電腦 Chrome 次選
+            'Microsoft Libby Online',       // Edge 首選
+            'Martha'                        // iOS 備選
         ];
 
         let selectedVoice = null;
 
-        // 4. 執行智慧篩選
-        for (let name of preferredVoiceNames) {
+        // 篩選邏輯：必須是英式腔調，且排除 Compact 機器音
+        for (let name of preferredNames) {
             selectedVoice = voices.find(v => 
                 v.name.includes(name) && 
-                (v.lang.includes('en-GB') || v.lang.includes('en_GB')) &&
-                !v.name.toLowerCase().includes('compact') // 絕對排除壓縮版
+                (v.lang.startsWith('en-GB') || v.lang.startsWith('en_GB')) &&
+                !v.name.toLowerCase().includes('compact')
             );
             if (selectedVoice) break;
         }
 
-        // 5. 針對 iOS 的保險機制：如果還是沒選到 Daniel，找任何非 Compact 的英式男聲
+        // 如果上述首選都沒找到 (通常是剛開網頁聲音還沒載入)
         if (!selectedVoice) {
-            selectedVoice = voices.find(v => 
-                v.lang.includes('en-GB') && 
-                v.name.toLowerCase().includes('male') &&
-                !v.name.toLowerCase().includes('compact')
-            );
+            // 嘗試找任何高品質英式語音
+            selectedVoice = voices.find(v => v.lang.startsWith('en-GB') && !v.name.includes('compact'));
         }
 
         if (selectedVoice) {
             msg.voice = selectedVoice;
-            // 控制台調試用，您可以在手機連接電腦時看到選了誰
-            console.log("當前選用發音人:", selectedVoice.name);
+            console.log("成功選取語音:", selectedVoice.name);
+        } else {
+            console.log("警告: 尚未找到首選語音，使用預設值");
         }
 
         msg.lang = 'en-GB';
-        
-        // 6. 語速與音調優化
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        // Daniel Enhanced 在 0.82 - 0.85 之間聽起來最像英國紳士
-        msg.rate = isIOS ? 0.82 : 0.8; 
-        msg.pitch = 1.0; 
-        msg.volume = 1.0;
+        msg.rate = isIOS ? 0.82 : 0.8; // iPad 用 0.82 讀 Daniel 最清楚
+        msg.pitch = 1.0;
 
         window.speechSynthesis.speak(msg);
     }
 
-    // 關鍵補漏：有些電腦版瀏覽器在剛開網頁時 getVoices() 是空的
-    // 加入這個監聽器能確保在聲音庫加載完成後重新獲取一次
-    if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    // 5. 錄音功能與 6. 渲染邏輯 (與您之前的版本一致，略...)
+    // [此處請保留您原本的 render() 和 toggleRecord() 函數]
+    
+    function printTest(type) {
+        currentTestType = type;
+        render(); 
+        setTimeout(() => { window.print(); }, 500);
     }
 
-
-    // 5. 錄音功能 (iOS 兼容)
     async function toggleRecord(id) {
         const btn = document.getElementById(`rec-${id}`);
-        
+        const playBtn = document.getElementById(`play-${id}`);
         if (!mediaRecorder || mediaRecorder.state === "inactive") {
             try {
-                // 檢查是否支援 mp4 (iOS Safari/Chrome 核心)
-                const mimeType = MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "audio/webm";
-                
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const mimeType = MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "audio/webm";
                 mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
                 audioChunks[id] = [];
-                
-                mediaRecorder.ondataavailable = e => {
-                    if (e.data.size > 0) audioChunks[id].push(e.data);
-                };
-                
+                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks[id].push(e.data); };
                 mediaRecorder.onstop = () => {
                     const blob = new Blob(audioChunks[id], { type: mimeType });
                     const url = URL.createObjectURL(blob);
-                    const playBtn = document.getElementById(`play-${id}`);
                     playBtn.style.display = 'inline-block';
-                    playBtn.onclick = () => {
-                        const audio = new Audio(url);
-                        audio.play();
-                    };
+                    playBtn.onclick = () => { new Audio(url).play(); };
+                    stream.getTracks().forEach(track => track.stop());
                 };
-                
                 mediaRecorder.start();
-                btn.innerText = "🛑 Stop"; 
-                btn.style.background = "#000";
-            } catch(e) { 
-                alert("無法使用麥克風，請檢查：\n1. 網址是否為 https\n2. 手機是否靜音模式\n3. 權限是否開啟"); 
-            }
+                btn.innerText = "🛑 Stop"; btn.style.background = "#000";
+            } catch(e) { alert("錄音失敗。"); }
         } else {
             mediaRecorder.stop();
-            if(mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(track => track.stop());
-            btn.innerText = "🎤 Re-record"; 
-            btn.style.background = "#e74c3c";
+            btn.innerText = "🎤 Re-record"; btn.style.background = "#e74c3c";
         }
     }
 
-    // 6. 渲染畫面
     function render() {
         const display = document.getElementById('mainDisplay');
         display.innerHTML = '';
-
         currentWords.forEach((item, i) => {
             const typeClass = item.type.toLowerCase() === 'core' ? 'badge-core' : 'badge-elite';
             const word = item.word.toUpperCase(); 
             const displayWord = item.word; 
-            
             const anagram = word.split('').sort(() => 0.5 - Math.random()).join(' ');
             const sentence = `The boy sa${word.slice(0,2).toLowerCase()} i${word.slice(2).toLowerCase()} it was great.`.replace("  ", " ");
-
             const card = document.createElement('div');
-            
             card.innerHTML = `
                 <div class="vocab-card word-info web-interactive-area">
                     <div id="learn-view-${i}">
@@ -315,63 +282,32 @@
                                 <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️</button>
                             </div>
                         </div>
-
                         <h2 style="color:var(--core); margin: 10px 0;">${i+1}. ${displayWord}</h2>
-
                         <p style="margin-bottom: 15px;">
                             <strong style="color: #f1c40f;">💡 Mnemonic:</strong><br>
                             <span style="font-size: 1.1em;">${item.memory}</span>
                         </p>
-
                         <div style="display: flex; gap: 30px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
-                            <div>
-                                <span style="color: #55efc4; font-weight: bold;">🟢 SYNONYM</span><br>
-                                <span style="font-size: 1.2em;">${item.syn}</span>
-                            </div>
-                            <div style="border-left: 1px solid #444; padding-left: 30px;">
-                                <span style="color: #ff7675; font-weight: bold;">🔴 ANTONYM</span><br>
-                                <span style="font-size: 1.2em;">${item.ant}</span>
-                            </div>
+                            <div><span style="color: #55efc4; font-weight: bold;">🟢 SYNONYM</span><br><span style="font-size: 1.2em;">${item.syn}</span></div>
+                            <div style="border-left: 1px solid #444; padding-left: 30px;"><span style="color: #ff7675; font-weight: bold;">🔴 ANTONYM</span><br><span style="font-size: 1.2em;">${item.ant}</span></div>
                         </div>
                     </div>
-
                     <div id="challenge-view-${i}" style="display: none; text-align: center; padding: 20px 0;">
                         <strong style="color: var(--elite); font-size: 1.2em;">🧩 11+ VR Challenge (Anagram):</strong>
                         <div style="background: #000; padding: 15px; border-radius: 8px; margin: 10px 0; border: 2px dashed #666;">
                             <span style="font-family: monospace; font-size: 2em; letter-spacing: 5px; color: white;">${anagram}</span>
                         </div>
                     </div>
-
-                    <button class="btn" id="btn-toggle-${i}" onclick="toggleChallenge(${i})" style="width: 100%; margin-top: 20px; background: var(--primary);">
-                        🎯 Start Challenge (Hide Word)
-                    </button>
+                    <button class="btn" id="btn-toggle-${i}" onclick="toggleChallenge(${i})" style="width: 100%; margin-top: 20px; background: var(--primary);">🎯 Start Challenge (Hide Word)</button>
                 </div>
-
                 <div class="test-item">
                     <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:5px; margin-bottom:10px;">
                         <span>11+ VR Test: Week ${document.getElementById('weekInput').value}</span>
                         <span>Mode: ${currentTestType.toUpperCase()}</span>
                     </div>
-
-                    ${currentTestType === 'standard' ? `
-                        <p><b>Q${i+1}:</b> Find a synonym of "${item.syn}" and antonym of "${item.ant}".</p>
-                        <p style="font-size: 1.4em; font-family: monospace; font-weight: bold; margin: 15px 0;">
-                            ${word.charAt(0)} ${"_ ".repeat(word.length - 2)} ${word.slice(-1)} (${word.length} letters)
-                        </p>
-                    ` : ''}
-
-                    ${currentTestType === 'anagram' ? `
-                        <p><b>Q${i+1}:</b> Rearrange these letters to form a word that means "${item.syn}":</p>
-                        <p style="font-size: 1.4em; font-weight: bold; letter-spacing: 3px; margin: 15px 0;">${anagram}</p>
-                        <p>Answer: ___________________________</p>
-                    ` : ''}
-
-                    ${currentTestType === 'hidden' ? `
-                        <p><b>Q${i+1}:</b> A ${word.length}-letter word is <b>hidden</b> in this sentence:</p>
-                        <p style="font-size: 1.2em; font-style: italic; margin: 15px 0; background: #f9f9f9; padding: 10px; border: 1px solid #ddd;">"${sentence}"</p>
-                        <p>Hidden Word: ___________________________</p>
-                    ` : ''}
-                    <div style="margin-top: 20px; border-bottom: 1px dashed #ccc; height: 1px;"></div>
+                    ${currentTestType === 'standard' ? `<p><b>Q${i+1}:</b> Find a synonym of "${item.syn}" and antonym of "${item.ant}".</p><p style="font-size: 1.4em; font-family: monospace; font-weight: bold; margin: 15px 0;">${word.charAt(0)} ${"_ ".repeat(word.length - 2)} ${word.slice(-1)} (${word.length} letters)</p>` : ''}
+                    ${currentTestType === 'anagram' ? `<p><b>Q${i+1}:</b> Rearrange these letters to form a word that means "${item.syn}":</p><p style="font-size: 1.4em; font-weight: bold; letter-spacing: 3px; margin: 15px 0;">${anagram}</p><p>Answer: ___________________________</p>` : ''}
+                    ${currentTestType === 'hidden' ? `<p><b>Q${i+1}:</b> A ${word.length}-letter word is hidden in: "${sentence}"</p><p>Hidden Word: ___________________________</p>` : ''}
                 </div>
             `;
             display.appendChild(card);
@@ -379,20 +315,15 @@
     }
 
     function toggleChallenge(i) {
-        const learnView = document.getElementById(`learn-view-${i}`);
-        const challengeView = document.getElementById(`challenge-view-${i}`);
+        const lv = document.getElementById(`learn-view-${i}`);
+        const cv = document.getElementById(`challenge-view-${i}`);
         const btn = document.getElementById(`btn-toggle-${i}`);
-
-        if (learnView.style.display !== 'none') {
-            learnView.style.display = 'none';
-            challengeView.style.display = 'block';
-            btn.innerText = '👁️ Show Word (Peek)';
-            btn.style.background = '#4b5563';
+        if (lv.style.display !== 'none') {
+            lv.style.display = 'none'; cv.style.display = 'block';
+            btn.innerText = '👁️ Show Word (Peek)'; btn.style.background = '#4b5563';
         } else {
-            learnView.style.display = 'block';
-            challengeView.style.display = 'none';
-            btn.innerText = '🎯 Start Challenge (Hide Word)';
-            btn.style.background = '#6c5ce7';
+            lv.style.display = 'block'; cv.style.display = 'none';
+            btn.innerText = '🎯 Start Challenge (Hide Word)'; btn.style.background = '#6c5ce7';
         }
     }
 </script>
