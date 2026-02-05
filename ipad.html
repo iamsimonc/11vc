@@ -116,39 +116,48 @@
         render();
     }
 
-    // 4. 發音功能 (電腦版與手機版智慧相容)
+    // 4. iPad/iPhone 專用發音功能 (鎖定 Kate 加強版)
     function playNative(text) {
+        if (!window.speechSynthesis) return;
         window.speechSynthesis.cancel();
-        let voices = window.speechSynthesis.getVoices();
+
         const msg = new SpeechSynthesisUtterance(text);
+        let voices = window.speechSynthesis.getVoices();
 
-        // 智慧搜尋發音人
-        let preferredVoice = 
-            // 2. 其次找 iOS 高品質聲音 (Martha, Arthur, Daniel)
-            voices.find(v => v.name.includes('Kate')) || 
-            voices.find(v => v.name.includes('Daniel') && !v.name.includes('Compact')) ||
-            // 3. 最後才找任何英式腔調 (en-GB)
-            voices.find(v => v.lang === 'en-GB' || v.lang === 'en_GB');
+        // 核心邏輯：極端優先 Kate
+        // 1. 優先尋找名稱包含 Kate 且包含 Enhanced (加強版) 的語音
+        // 2. 其次尋找 Kate (排除 Compact 壓縮版)
+        let selectedVoice = 
+            voices.find(v => v.name.includes('Kate') && v.name.includes('Enhanced')) ||
+            voices.find(v => v.name.includes('Kate') && !v.name.toLowerCase().includes('compact'));
 
-        if (preferredVoice) {
-            msg.voice = preferredVoice;
+        // 如果真的找不到 Kate (例如系統還沒準備好)，則找任何非壓縮的英式女聲作保底
+        if (!selectedVoice) {
+            selectedVoice = voices.find(v => 
+                (v.lang.includes('en-GB') || v.lang.includes('en_GB')) && 
+                v.name.toLowerCase().includes('female') &&
+                !v.name.toLowerCase().includes('compact')
+            );
+        }
+
+        if (selectedVoice) {
+            msg.voice = selectedVoice;
+            console.log("iPad 目前成功選用:", selectedVoice.name);
         }
 
         msg.lang = 'en-GB';
         
-        // 根據設備微調語速：電腦版 0.8 很剛好，iOS 0.85 較好聽
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        msg.rate = isIOS ? 0.85 : 0.8; 
-        
+        // Kate Enhanced 語速建議：0.8 聽起來最像真人教學
+        msg.rate = 0.8; 
         msg.pitch = 1.0;
+
         window.speechSynthesis.speak(msg);
     }
 
-    // 關鍵補漏：有些電腦版瀏覽器在剛開網頁時 getVoices() 是空的
-    // 加入這個監聽器能確保在聲音庫加載完成後重新獲取一次
-    if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-    }
+    // 關鍵修正：確保 iPad 隨時更新聲音清單
+    window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+    };
 
 
     // 5. 錄音功能 (iOS 兼容)
