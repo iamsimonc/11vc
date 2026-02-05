@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kathryn's Auto 11+ Trainer</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #e74c3c; --bg: #f0f2f5; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); padding: 20px; line-height: 1.6; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        /* 導覽列 */
+        .controls { display: flex; gap: 10px; justify-content: center; margin-bottom: 30px; position: sticky; top: 0; background: white; padding: 15px; z-index: 100; border-bottom: 2px solid #eee; }
+        button { cursor: pointer; border: none; border-radius: 8px; padding: 12px 20px; font-weight: bold; transition: 0.2s; }
+        .btn-gen { background: #8e44ad; color: white; }
+        .btn-print { background: #27ae60; color: white; }
+        .btn-hide { background: #34495e; color: white; }
+
+        /* 單字卡 */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { border: 2px solid #eee; padding: 15px; border-radius: 12px; position: relative; }
+        .word-header { display: flex; justify-content: space-between; align-items: center; color: #2980b9; font-size: 22px; font-weight: bold; }
+        .type-tag { font-size: 12px; padding: 2px 6px; border-radius: 4px; background: #eee; color: #666; }
+        .mnemonic { background: #fff9c4; padding: 10px; border-radius: 6px; font-size: 0.9em; margin: 10px 0; border-left: 5px solid #f1c40f; }
+
+        /* 練習區 */
+        .quiz-section { margin-top: 50px; border-top: 5px double #3498db; padding-top: 20px; }
+        .q-item { background: #f9f9f9; padding: 15px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ddd; }
+        .ans-text { display: none; color: #27ae60; font-weight: bold; margin-left: 10px; }
+
+        @media print {
+            .no-print, .controls, .btn-audio, .btn-rec, audio, #study-area, .ans-btn { display: none !important; }
+            .quiz-section { display: block !important; margin: 0; }
+            .q-item { border: none; border-bottom: 1px solid #000; padding: 25px 0; font-size: 18px; }
+            .container { box-shadow: none; max-width: 100%; }
+            h2::after { content: " - Weekly Spelling & VR Test"; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="controls no-print">
+        <button class="btn-gen" onclick="generateWeeklySet()">🎲 隨機生成本週 10 字</button>
+        <button class="btn-hide" onclick="document.getElementById('study-area').toggleAttribute('hidden')">🙈 隱藏/顯示學習區</button>
+        <button class="btn-print" onclick="window.print()">🖨️ 一鍵製作測試紙</button>
+    </div>
+
+    <div id="study-area">
+        <h1 style="text-align: center;">Kathryn's 11+ Vocabulary Mastery</h1>
+        <div id="wordGrid" class="grid"></div>
+    </div>
+
+    <div class="quiz-section">
+        <h2>✍️ 週末小測 (Automatic Exam)</h2>
+        <div id="quizContainer"></div>
+    </div>
+</div>
+
+<script>
+    // 這裡就是您的「字庫」，您可以一次性把 500 字貼進來
+    const database = [
+        { w: "Abandon", m: "A-Band 離開了", s: "Desert", a: "Keep", type: "Core" },
+        { w: "Accurate", m: "雙C。看準才準確", s: "Precise", a: "Wrong", type: "Core" },
+        { w: "Accommodate", m: "2貓(CC)2鼠(MM)同住(單d)", s: "Lodge", a: "Reject", type: "Elite" },
+        { w: "Exaggerate", m: "雙G像張大的誇張眼睛", s: "Overstate", a: "Understate", type: "Elite" },
+        { w: "Fascinate", m: "注意 SC。令人著迷", s: "Captivate", a: "Bore", type: "Elite" },
+        { w: "Ancient", m: "注意 c-i-e。古老", s: "Antique", a: "Modern", type: "Core" },
+        { w: "Annual", m: "雙N。每年的生日", s: "Yearly", a: "Occasional", type: "Core" },
+        { w: "Approve", m: "雙P。兩隻拇指贊成", s: "Support", a: "Deny", type: "Core" },
+        { w: "Bargain", m: "gain 了便宜貨", s: "Deal", a: "Overprice", type: "Core" },
+        { w: "Advantage", m: "結尾 -age。長輩優勢", s: "Benefit", a: "Obstacle", type: "Core" },
+        { w: "Benevolent", m: "Ben(好)意。仁慈的", s: "Kind", a: "Malevolent", type: "Elite" },
+        { w: "Conscience", m: "Science(科學)前有Con。良心", s: "Morals", a: "Immality", type: "Elite" },
+        // ... 您可以繼續增加至數百個字
+    ];
+
+    function speak(t) {
+        const m = new SpeechSynthesisUtterance(t);
+        m.lang = 'en-GB'; m.rate = 0.8;
+        window.speechSynthesis.speak(m);
+    }
+
+    function generateWeeklySet() {
+        // 隨機洗牌並抽取 10 個
+        const shuffled = [...database].sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 10);
+        
+        displayWords(selected);
+        generateQuiz(selected);
+    }
+
+    function displayWords(words) {
+        const grid = document.getElementById('wordGrid');
+        grid.innerHTML = '';
+        words.forEach((item, i) => {
+            grid.innerHTML += `
+                <div class="card">
+                    <div class="word-header">
+                        ${item.w} <span class="type-tag">${item.type}</span>
+                        <button class="no-print" onclick="speak('${item.w}')" style="background:none; font-size:20px;">🔊</button>
+                    </div>
+                    <div class="mnemonic">💡 ${item.m}</div>
+                    <div style="font-size: 0.85em;">
+                        <b>Syn:</b> ${item.s} <br> <b>Ant:</b> ${item.a}
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function generateQuiz(words) {
+        const container = document.getElementById('quizContainer');
+        container.innerHTML = '';
+        
+        words.forEach((item, i) => {
+            // 自動生成 Type 13 缺字題 (挖掉中間)
+            const mid = Math.floor(item.w.length/2);
+            const display = item.w.substring(0, mid-1) + "( _ _ _ )" + item.w.substring(mid+2);
+            const ans = item.w.substring(mid-1, mid+2).toUpperCase();
+
+            container.innerHTML += `
+                <div class="q-item">
+                    ${i+1}. <b>Complete the word:</b> ${display.toUpperCase()} <br>
+                    <small>(Hint: ${item.m})</small>
+                    <button class="ans-btn no-print" onclick="this.nextElementSibling.style.display='inline'">Ans</button>
+                    <span class="ans-text">${ans}</span>
+                </div>
+            `;
+        });
+    }
+
+    // 初始化載入
+    generateWeeklySet();
+</script>
+
+</body>
+</html>
