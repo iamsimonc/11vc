@@ -70,6 +70,11 @@
 
     // 1. 加載數據
     window.onload = function() {
+        // iOS 語音加載優化：主動觸發一次
+        if (window.speechSynthesis) {
+            window.speechSynthesis.getVoices();
+        }
+
         Papa.parse("vocab.csv", {
             download: true, header: true, skipEmptyLines: true,
             complete: function(results) {
@@ -83,7 +88,7 @@
     function printTest(type) {
         currentTestType = type;
         render(); 
-        setTimeout(() => { window.print(); }, 500); // 延長到 500ms 確保渲染完成
+        setTimeout(() => { window.print(); }, 500);
     }
 
     // 3. 基於 Week 的隨機抽取
@@ -111,73 +116,100 @@
         render();
     }
 
-    // 4. 語音功能 (高品質英式發音)
+    // 4. 語音功能 (iOS/Android/PC 全兼容版)
     function playNative(text) {
         window.speechSynthesis.cancel();
         const msg = new SpeechSynthesisUtterance(text);
-        const voices = window.speechSynthesis.getVoices();
+        
+        // 強制重新獲取語音列表 (解決 iOS 有時讀不到列表的問題)
+        let voices = window.speechSynthesis.getVoices();
+        
+        // 針對 iOS 優化的英式發音順序
         const preferredVoice = 
-            voices.find(v => v.name === 'Google UK English Female') ||
-            voices.find(v => v.name.includes('UK English')) ||
+            voices.find(v => v.name.includes('Martha')) || // iOS 優質女聲
+            voices.find(v => v.name.includes('Arthur')) || // iOS 優質男聲
+            voices.find(v => v.name.includes('Daniel')) || // iOS 標準男聲
+            voices.find(v => v.name === 'Google UK English Female') || // Android/PC
+            voices.find(v => v.name === 'Google UK English Male') ||
             voices.find(v => v.lang === 'en-GB');
 
         if (preferredVoice) msg.voice = preferredVoice;
+        
         msg.lang = 'en-GB';
-        msg.rate = 0.75;
+        msg.rate = 0.8; // iOS 上 0.75 可能會太慢，改回 0.8
+        
         window.speechSynthesis.speak(msg);
     }
+
+    // 確保語音列表載入
     window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 
-    // 錄音功能
+    // 5. 錄音功能 (iOS 兼容修正版)
     async function toggleRecord(id) {
         const btn = document.getElementById(`rec-${id}`);
+        
         if (!mediaRecorder || mediaRecorder.state === "inactive") {
             try {
+                // 修正：iOS 需要 mp4 格式，且必須檢查瀏覽器支持的 MIME type
+                const mimeType = MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "audio/webm";
+                
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
                 audioChunks[id] = [];
-                mediaRecorder.ondataavailable = e => audioChunks[id].push(e.data);
-                mediaRecorder.onstop = () => {
-                    const blob = new Blob(audioChunks[id], { type: 'audio/wav' });
-                    const url = URL.createObjectURL(blob);
-                    document.getElementById(`play-${id}`).style.display = 'inline-block';
-                    document.getElementById(`play-${id}`).onclick = () => new Audio(url).play();
+                
+                mediaRecorder.ondataavailable = e => {
+                    if (e.data.size > 0) audioChunks[id].push(e.data);
                 };
+                
+                mediaRecorder.onstop = () => {
+                    // 修正：使用正確的 MIME type 建立 Blob，否則 iPhone 播不出聲音
+                    const blob = new Blob(audioChunks[id], { type: mimeType });
+                    const url = URL.createObjectURL(blob);
+                    const playBtn = document.getElementById(`play-${id}`);
+                    playBtn.style.display = 'inline-block';
+                    playBtn.onclick = () => {
+                        const audio = new Audio(url);
+                        audio.play();
+                    };
+                };
+                
                 mediaRecorder.start();
-                btn.innerText = "🛑 Stop..."; btn.style.background = "#000";
-            } catch(e) { alert("請允許麥克風權限"); }
+                btn.innerText = "🛑 Stop"; 
+                btn.style.background = "#000";
+            } catch(e) { 
+                alert("無法錄音：\n1. 請確認網址是 HTTPS 或 localhost\n2. 請在設定允許瀏覽器使用麥克風\n錯誤：" + e.message); 
+            }
         } else {
             mediaRecorder.stop();
-            btn.innerText = "🎤 Re-record"; btn.style.background = "#e74c3c";
+            // 停止所有音軌，釋放麥克風 (這點在 iPhone 很重要)
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            btn.innerText = "🎤 Re-record"; 
+            btn.style.background = "#e74c3c";
         }
     }
 
-    // 5. 核心渲染邏輯 (網頁互動 + 列印安全)
+    // 6. 核心渲染邏輯 (網頁互動 + 列印安全)
     function render() {
         const display = document.getElementById('mainDisplay');
         display.innerHTML = '';
 
         currentWords.forEach((item, i) => {
             const typeClass = item.type.toLowerCase() === 'core' ? 'badge-core' : 'badge-elite';
-            const word = item.word.toUpperCase(); // 顯示用
-            const displayWord = item.word; // 網頁學習用標準大小寫 (依您的偏好可調整)
+            const word = item.word.toUpperCase(); 
+            const displayWord = item.word; 
             
-            // 題型數據準備
             const anagram = word.split('').sort(() => 0.5 - Math.random()).join(' ');
             const sentence = `The boy sa${word.slice(0,2).toLowerCase()} i${word.slice(2).toLowerCase()} it was great.`.replace("  ", " ");
 
             const card = document.createElement('div');
             
-            // ★★★ 關鍵結構：將網頁互動區 (web-interactive-area) 與列印區 (test-item) 平行放置 ★★★
-            // 這樣即使 web-interactive-area 裡面的東西被隱藏，test-item 也不會受影響
             card.innerHTML = `
                 <div class="vocab-card word-info web-interactive-area">
-                    
                     <div id="learn-view-${i}">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <span class="badge ${typeClass}">${item.type}</span>
                             <div>
-                                <button class="btn btn-audio" onclick="playNative('${word}')">🔊 Voice</button>
+                                <button class="btn btn-audio" onclick="playNative('${displayWord}')">🔊 Voice</button>
                                 <button class="btn btn-record" id="rec-${i}" onclick="toggleRecord(${i})">🎤</button>
                                 <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️</button>
                             </div>
@@ -204,11 +236,9 @@
 
                     <div id="challenge-view-${i}" style="display: none; text-align: center; padding: 20px 0;">
                         <strong style="color: var(--elite); font-size: 1.2em;">🧩 11+ VR Challenge (Anagram):</strong>
-                        <p style="margin-top: 15px; color: #aaa;">Rearrange these letters:</p>
                         <div style="background: #000; padding: 15px; border-radius: 8px; margin: 10px 0; border: 2px dashed #666;">
                             <span style="font-family: monospace; font-size: 2em; letter-spacing: 5px; color: white;">${anagram}</span>
                         </div>
-                        <p style="color: #f1c40f;">(Can you verify the spelling?)</p>
                     </div>
 
                     <button class="btn" id="btn-toggle-${i}" onclick="toggleChallenge(${i})" style="width: 100%; margin-top: 20px; background: var(--primary);">
@@ -240,7 +270,6 @@
                         <p style="font-size: 1.2em; font-style: italic; margin: 15px 0; background: #f9f9f9; padding: 10px; border: 1px solid #ddd;">"${sentence}"</p>
                         <p>Hidden Word: ___________________________</p>
                     ` : ''}
-
                     <div style="margin-top: 20px; border-bottom: 1px dashed #ccc; height: 1px;"></div>
                 </div>
             `;
@@ -248,24 +277,21 @@
         });
     }
 
-    // 6. 挑戰模式切換功能
     function toggleChallenge(i) {
         const learnView = document.getElementById(`learn-view-${i}`);
         const challengeView = document.getElementById(`challenge-view-${i}`);
         const btn = document.getElementById(`btn-toggle-${i}`);
 
         if (learnView.style.display !== 'none') {
-            // 切換到挑戰模式 (隱藏生字，顯示 Anagram)
             learnView.style.display = 'none';
             challengeView.style.display = 'block';
             btn.innerText = '👁️ Show Word (Peek)';
-            btn.style.background = '#4b5563'; // 灰色按鈕
+            btn.style.background = '#4b5563';
         } else {
-            // 切換回學習模式 (顯示生字)
             learnView.style.display = 'block';
             challengeView.style.display = 'none';
             btn.innerText = '🎯 Start Challenge (Hide Word)';
-            btn.style.background = '#6c5ce7'; // 紫色按鈕
+            btn.style.background = '#6c5ce7';
         }
     }
 </script>
