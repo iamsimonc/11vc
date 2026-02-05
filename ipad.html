@@ -28,15 +28,10 @@
         /* 測試紙樣式 (平時隱藏，列印時顯示) */
         .test-item { display: none; padding: 20px; border: 1px solid #000; margin-bottom: 25px; page-break-inside: avoid; }
         
-        /* 列印專用設定 (關鍵修復區) */
         @media print {
             body { background: white !important; color: black !important; }
             .container { max-width: 100%; width: 100%; margin: 0; padding: 0; }
-            
-            /* 1. 隱藏網頁介面元素 */
             .no-print, .btn, .web-interactive-area { display: none !important; }
-            
-            /* 2. 強制顯示測試題目 (使用 !important 覆蓋任何 JS 的隱藏設定) */
             .test-item { display: block !important; visibility: visible !important; }
         }
     </style>
@@ -70,11 +65,6 @@
 
     // 1. 加載數據
     window.onload = function() {
-        // iOS 聲音初始化
-        if (window.speechSynthesis) {
-            window.speechSynthesis.getVoices();
-        }
-
         Papa.parse("vocab.csv", {
             download: true, header: true, skipEmptyLines: true,
             complete: function(results) {
@@ -116,85 +106,42 @@
         render();
     }
 
-    // 4. iPad/iPhone 專用發音功能 (絕對鎖定 Kate，排除所有男聲)
-    function playNative(text) {
-        if (!window.speechSynthesis) return;
-        window.speechSynthesis.cancel();
-
-        const msg = new SpeechSynthesisUtterance(text);
-        
-        // 獲取清單
-        let voices = window.speechSynthesis.getVoices();
-
-        // 【暴力篩選】只准 Kate 進入候選名單
-        // 我們同時找 Kate 的加強版 (Enhanced) 和普通版
-        let kateVoice = voices.find(v => v.name.includes('Kate') && v.name.includes('Enhanced')) ||
-                        voices.find(v => v.name.includes('Kate'));
-
-        // 如果 Kate 真的還沒準備好 (voices 清單為空或沒載入)
-        if (!kateVoice) {
-            console.log("偵測到 Kate 尚未載入，嘗試強制刷新語音引擎...");
-            window.speechSynthesis.getVoices();
-            // 這種情況下，我們先不指定 voice，只鎖定 en-GB，並讓系統重試
-            msg.lang = 'en-GB';
-        } else {
-            msg.voice = kateVoice;
-            console.log("成功強制鎖定 Kate: " + kateVoice.name);
-        }
-
-        // 鎖定語言
-        msg.lang = 'en-GB';
-        msg.rate = 0.8; // Kate 的清晰語速
-        msg.pitch = 1.0;
-
-        window.speechSynthesis.speak(msg);
+    // 4. 播放 MP3 音檔
+    function playNative(word) {
+        const fileName = word.toLowerCase() + '.mp3';
+        const audioPath = `audio/${fileName}`;
+        const audio = new Audio(audioPath);
+        audio.play().catch(err => {
+            console.error(`播放失敗: ${audioPath}`, err);
+        });
     }
-
-    // 關鍵：每當語音列表變動，立刻更新 (iPad 喚醒 Kate 的救命符)
-    window.speechSynthesis.onvoiceschanged = () => {
-        const v = window.speechSynthesis.getVoices();
-        console.log("語音清單已更新，可用語音數量: " + v.length);
-    };
 
     // 5. 錄音功能 (iOS 兼容)
     async function toggleRecord(id) {
         const btn = document.getElementById(`rec-${id}`);
-        
         if (!mediaRecorder || mediaRecorder.state === "inactive") {
             try {
-                // 檢查是否支援 mp4 (iOS Safari/Chrome 核心)
                 const mimeType = MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "audio/webm";
-                
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
                 audioChunks[id] = [];
-                
-                mediaRecorder.ondataavailable = e => {
-                    if (e.data.size > 0) audioChunks[id].push(e.data);
-                };
-                
+                mediaRecorder.ondataavailable = e => { if(e.data.size>0) audioChunks[id].push(e.data); };
                 mediaRecorder.onstop = () => {
                     const blob = new Blob(audioChunks[id], { type: mimeType });
                     const url = URL.createObjectURL(blob);
                     const playBtn = document.getElementById(`play-${id}`);
                     playBtn.style.display = 'inline-block';
-                    playBtn.onclick = () => {
-                        const audio = new Audio(url);
-                        audio.play();
-                    };
+                    playBtn.onclick = () => { new Audio(url).play(); };
                 };
-                
                 mediaRecorder.start();
-                btn.innerText = "🛑 Stop"; 
-                btn.style.background = "#000";
+                btn.innerText = "🛑 Stop"; btn.style.background = "#000";
             } catch(e) { 
                 alert("無法使用麥克風，請檢查：\n1. 網址是否為 https\n2. 手機是否靜音模式\n3. 權限是否開啟"); 
             }
         } else {
             mediaRecorder.stop();
             if(mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(track => track.stop());
-            btn.innerText = "🎤 Re-record"; 
-            btn.style.background = "#e74c3c";
+            btn.innerText = "🎤 Re-record"; btn.style.background = "#e74c3c";
         }
     }
 
@@ -207,12 +154,10 @@
             const typeClass = item.type.toLowerCase() === 'core' ? 'badge-core' : 'badge-elite';
             const word = item.word.toUpperCase(); 
             const displayWord = item.word; 
-            
             const anagram = word.split('').sort(() => 0.5 - Math.random()).join(' ');
             const sentence = `The boy sa${word.slice(0,2).toLowerCase()} i${word.slice(2).toLowerCase()} it was great.`.replace("  ", " ");
 
             const card = document.createElement('div');
-            
             card.innerHTML = `
                 <div class="vocab-card word-info web-interactive-area">
                     <div id="learn-view-${i}">
@@ -224,23 +169,12 @@
                                 <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️</button>
                             </div>
                         </div>
-
                         <h2 style="color:var(--core); margin: 10px 0;">${i+1}. ${displayWord}</h2>
-
-                        <p style="margin-bottom: 15px;">
-                            <strong style="color: #f1c40f;">💡 Mnemonic:</strong><br>
-                            <span style="font-size: 1.1em;">${item.memory}</span>
-                        </p>
-
+                        <p style="margin-bottom: 15px;"><strong style="color: #f1c40f;">💡 Mnemonic:</strong><br>
+                        <span style="font-size: 1.1em;">${item.memory}</span></p>
                         <div style="display: flex; gap: 30px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
-                            <div>
-                                <span style="color: #55efc4; font-weight: bold;">🟢 SYNONYM</span><br>
-                                <span style="font-size: 1.2em;">${item.syn}</span>
-                            </div>
-                            <div style="border-left: 1px solid #444; padding-left: 30px;">
-                                <span style="color: #ff7675; font-weight: bold;">🔴 ANTONYM</span><br>
-                                <span style="font-size: 1.2em;">${item.ant}</span>
-                            </div>
+                            <div><span style="color: #55efc4; font-weight: bold;">🟢 SYNONYM</span><br><span style="font-size: 1.2em;">${item.syn}</span></div>
+                            <div style="border-left: 1px solid #444; padding-left: 30px;"><span style="color: #ff7675; font-weight: bold;">🔴 ANTONYM</span><br><span style="font-size: 1.2em;">${item.ant}</span></div>
                         </div>
                     </div>
 
@@ -262,24 +196,16 @@
                         <span>Mode: ${currentTestType.toUpperCase()}</span>
                     </div>
 
-                    ${currentTestType === 'standard' ? `
-                        <p><b>Q${i+1}:</b> Find a synonym of "${item.syn}" and antonym of "${item.ant}".</p>
-                        <p style="font-size: 1.4em; font-family: monospace; font-weight: bold; margin: 15px 0;">
-                            ${word.charAt(0)} ${"_ ".repeat(word.length - 2)} ${word.slice(-1)} (${word.length} letters)
-                        </p>
-                    ` : ''}
+                    ${currentTestType === 'standard' ? `<p><b>Q${i+1}:</b> Find a synonym of "${item.syn}" and antonym of "${item.ant}".</p>
+                        <p style="font-size: 1.4em; font-family: monospace; font-weight: bold; margin: 15px 0;">${word.charAt(0)} ${"_ ".repeat(word.length - 2)} ${word.slice(-1)} (${word.length} letters)</p>` : ''}
 
-                    ${currentTestType === 'anagram' ? `
-                        <p><b>Q${i+1}:</b> Rearrange these letters to form a word that means "${item.syn}":</p>
+                    ${currentTestType === 'anagram' ? `<p><b>Q${i+1}:</b> Rearrange these letters to form a word that means "${item.syn}":</p>
                         <p style="font-size: 1.4em; font-weight: bold; letter-spacing: 3px; margin: 15px 0;">${anagram}</p>
-                        <p>Answer: ___________________________</p>
-                    ` : ''}
+                        <p>Answer: ___________________________</p>` : ''}
 
-                    ${currentTestType === 'hidden' ? `
-                        <p><b>Q${i+1}:</b> A ${word.length}-letter word is <b>hidden</b> in this sentence:</p>
+                    ${currentTestType === 'hidden' ? `<p><b>Q${i+1}:</b> A ${word.length}-letter word is <b>hidden</b> in this sentence:</p>
                         <p style="font-size: 1.2em; font-style: italic; margin: 15px 0; background: #f9f9f9; padding: 10px; border: 1px solid #ddd;">"${sentence}"</p>
-                        <p>Hidden Word: ___________________________</p>
-                    ` : ''}
+                        <p>Hidden Word: ___________________________</p>` : ''}
                     <div style="margin-top: 20px; border-bottom: 1px dashed #ccc; height: 1px;"></div>
                 </div>
             `;
@@ -291,7 +217,6 @@
         const learnView = document.getElementById(`learn-view-${i}`);
         const challengeView = document.getElementById(`challenge-view-${i}`);
         const btn = document.getElementById(`btn-toggle-${i}`);
-
         if (learnView.style.display !== 'none') {
             learnView.style.display = 'none';
             challengeView.style.display = 'block';
