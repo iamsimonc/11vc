@@ -116,45 +116,42 @@
         render();
     }
 
-    // 4. iPad/iPhone 專用發音功能 (鎖定 Kate 加強版)
+ // 4. iPad/iPhone 專用發音功能 (絕對鎖定 Kate)
     function playNative(text) {
         if (!window.speechSynthesis) return;
+
+        // 停止之前的發音
         window.speechSynthesis.cancel();
 
         const msg = new SpeechSynthesisUtterance(text);
+        
+        // 強制要求瀏覽器刷新聲音列表
         let voices = window.speechSynthesis.getVoices();
 
-        // 核心邏輯：極端優先 Kate
-        // 1. 優先尋找名稱包含 Kate 且包含 Enhanced (加強版) 的語音
-        // 2. 其次尋找 Kate (排除 Compact 壓縮版)
-        let selectedVoice = 
-            voices.find(v => v.name.includes('Kate') && v.name.includes('Enhanced')) ||
-            voices.find(v => v.name.includes('Kate') && !v.name.toLowerCase().includes('compact'));
+        // 【核心邏輯】精準定位 Kate
+        // 優先找 Enhanced (加強版)，避開所有男聲 (Daniel, Arthur)
+        let kateVoice = voices.find(v => v.name.includes('Kate') && v.name.includes('Enhanced')) ||
+                        voices.find(v => v.name.includes('Kate') && !v.name.toLowerCase().includes('compact'));
 
-        // 如果真的找不到 Kate (例如系統還沒準備好)，則找任何非壓縮的英式女聲作保底
-        if (!selectedVoice) {
-            selectedVoice = voices.find(v => 
-                (v.lang.includes('en-GB') || v.lang.includes('en_GB')) && 
-                v.name.toLowerCase().includes('female') &&
-                !v.name.toLowerCase().includes('compact')
-            );
-        }
-
-        if (selectedVoice) {
-            msg.voice = selectedVoice;
-            console.log("iPad 目前成功選用:", selectedVoice.name);
+        // 如果真的找不到 Kate (引擎還沒載入)，就先不指定 voice，只設語言為 en-GB
+        // 這樣 iOS 會用系統預設女聲，總比跳去男聲好
+        if (kateVoice) {
+            msg.voice = kateVoice;
+            console.log("iPad 成功選用 Kate:", kateVoice.name);
+        } else {
+            console.log("警告：Kate 尚未載入，嘗試使用系統預設英式發音");
         }
 
         msg.lang = 'en-GB';
         
-        // Kate Enhanced 語速建議：0.8 聽起來最像真人教學
+        // Kate 的清晰語速建議
         msg.rate = 0.8; 
         msg.pitch = 1.0;
 
         window.speechSynthesis.speak(msg);
     }
 
-    // 關鍵修正：確保 iPad 隨時更新聲音清單
+    // 當語音清單變動時，立刻更新 (iPad 喚醒 Kate 的關鍵)
     window.speechSynthesis.onvoiceschanged = () => {
         window.speechSynthesis.getVoices();
     };
