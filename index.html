@@ -116,45 +116,43 @@
         render();
     }
 
-    // ★★★ 4. 發音功能 (針對 iOS 深度優化) ★★★
+    // 4. 發音功能 (電腦版與手機版智慧相容)
     function playNative(text) {
-        // 1. 停止當前發音
         window.speechSynthesis.cancel();
-
-        // 2. 強制重新獲取聲音列表 (iOS 關鍵步驟)
         let voices = window.speechSynthesis.getVoices();
-
-        // 3. 建立發音物件
         const msg = new SpeechSynthesisUtterance(text);
 
-        // 4. 尋找最佳聲音 (iOS 優先順序調整)
-        // iOS 聲音名稱通常包含 'Martha', 'Arthur', 'Daniel'
+        // 智慧搜尋發音人
         let preferredVoice = 
-            voices.find(v => v.name.includes('Martha')) || // iOS 最佳女聲
-            voices.find(v => v.name.includes('Arthur')) || // iOS 最佳男聲
-            voices.find(v => v.name.includes('Daniel') && !v.name.includes('Compact')) || // iOS 最佳男聲(避開壓縮版)
-            voices.find(v => v.lang === 'en-GB' && v.name.includes('Google')) || // Android/Chrome PC
-            voices.find(v => v.lang === 'en-GB'); // 任何其他英國腔
+            // 1. 優先找電腦版 Chrome 的高品質 Google 英式聲音
+            voices.find(v => v.name === 'Google UK English Female') || 
+            voices.find(v => v.name === 'Google UK English Male') ||
+            // 2. 其次找 iOS 高品質聲音 (Martha, Arthur, Daniel)
+            voices.find(v => v.name.includes('Martha')) || 
+            voices.find(v => v.name.includes('Arthur')) || 
+            voices.find(v => v.name.includes('Daniel') && !v.name.includes('Compact')) ||
+            // 3. 最後才找任何英式腔調 (en-GB)
+            voices.find(v => v.lang === 'en-GB' || v.lang === 'en_GB');
 
         if (preferredVoice) {
             msg.voice = preferredVoice;
-            // 測試用：取消下面這行的註解可以在瀏覽器 Console 看到抓到了誰
-            // console.log("Used Voice:", preferredVoice.name); 
         }
 
         msg.lang = 'en-GB';
         
-        // ★ 關鍵調整：iOS 聲音如果太慢(0.7)會變機器人，0.85-0.9 比較自然
-        msg.rate = 0.85; 
-        msg.pitch = 1.0; 
-
+        // 根據設備微調語速：電腦版 0.8 很剛好，iOS 0.85 較好聽
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        msg.rate = isIOS ? 0.85 : 0.8; 
+        
+        msg.pitch = 1.0;
         window.speechSynthesis.speak(msg);
     }
-    
-    // 確保聲音列表加載
-    window.speechSynthesis.onvoiceschanged = function() {
-        window.speechSynthesis.getVoices();
-    };
+
+    // 關鍵補漏：有些電腦版瀏覽器在剛開網頁時 getVoices() 是空的
+    // 加入這個監聽器能確保在聲音庫加載完成後重新獲取一次
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+    }
 
 
     // 5. 錄音功能 (iOS 兼容)
