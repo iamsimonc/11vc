@@ -31,11 +31,19 @@
         /* 測試紙樣式 (VR 題型) */
         .test-item { display: none; padding: 20px; border: 1px solid #000; margin-bottom: 25px; page-break-inside: avoid; }
         
-        @media print {
+       @media print {
             body { background: white !important; color: black !important; }
-            .no-print, .word-info, .btn-audio, .btn-record, .btn-play-rec { display: none !important; }
-            .test-item { display: block !important; }
-            .container { max-width: 100%; }
+            /* 隱藏網頁上的所有控制按鈕、語音區塊和挑戰切換區 */
+            .no-print, .word-info, [id^="content-"], [id^="challenge-"], [id^="btn-toggle-"], .btn { 
+                display: none !important; 
+            }
+            /* 強制顯示測試題目 */
+            .test-item { 
+                display: block !important; 
+                visibility: visible !important;
+                page-break-inside: avoid;
+            }
+            .container { max-width: 100%; width: 100%; margin: 0; padding: 0; }
         }
     </style>
 </head>
