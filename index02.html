@@ -126,9 +126,9 @@
             // 1. 電腦 Chrome 的高品質首選
             voices.find(v => v.name === 'Google UK English Female') ||
             // 2. iPad/iPhone 的高品質首選 (確保排除壓縮版)
-            voices.find(v => v.name.includes('Daniel') && !v.name.toLowerCase().includes('compact')) ||
+            voices.find(v => v.name.includes('Kate(Enhanced)') && !v.name.toLowerCase().includes('compact')) ||
             // 3. 其他高品質英式發音
-            voices.find(v => v.name.includes('Google UK English Male')) ||
+            voices.find(v => v.name.includes('Google UK English Female')) ||
             voices.find(v => v.name.includes('UK English') && !v.name.toLowerCase().includes('compact')) ||
             // 4. 最後保底
             voices.find(v => v.lang === 'en-GB');
