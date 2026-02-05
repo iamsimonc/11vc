@@ -44,14 +44,17 @@
 <div class="container">
     <div class="no-print">
         <h1>🚀 Kathryn 11+ VR 練習系統</h1>
-        <div style="margin-bottom: 15px;">
-            <label>輸入 Week: </label>
-            <input type="number" id="weekInput" value="1" style="width:50px; padding:8px;">
-            <button class="btn btn-gen" onclick="generateByWeek()">🔄 隨機生成本週 (7:3)</button>
-            <button class="btn btn-print" onclick="window.print()">🖨️ 列印 VR 測試紙</button>
-        </div>
-        <p style="font-size: 0.9em; color: #aaa;">* 每個單字均設有標準讀音及 Kathryn 自主錄音對比功能。</p>
+        <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+        <label>輸入 Week: </label>
+        <input type="number" id="weekInput" value="1" style="width:50px; padding:8px;">
+        <button class="btn btn-gen" onclick="generateByWeek()">🔄 隨機生成本週 (7:3)</button>
+        
+        <button class="btn" style="background:#27ae60; color:white;" onclick="printTest('standard')">🖨️ 1. 標準填空</button>
+        <button class="btn" style="background:#2980b9; color:white;" onclick="printTest('anagram')">🖨️ 2. 字母重組</button>
+        <button class="btn" style="background:#8e44ad; color:white;" onclick="printTest('hidden')">🖨️ 3. 隱藏字挑戰</button>
     </div>
+    <p style="font-size: 0.9em; color: #aaa;">* 練習模式在網頁顯示；列印時會根據您點擊的按鈕自動切換考法。</p>
+</div>
 
     <div id="mainDisplay"></div>
 </div>
@@ -61,6 +64,7 @@
     let currentWords = [];
     let mediaRecorder;
     let audioChunks = {};
+    let currentTestType = 'standard'; // 追蹤目前的測試模式
 
     // 1. 加載數據
     window.onload = function() {
@@ -73,13 +77,19 @@
         });
     };
 
-    // 2. 基於 Week 的隨機抽取 (7 Core : 3 Elite)
+    // 2. 切換測試模式並列印
+    function printTest(type) {
+        currentTestType = type;
+        render(); // 重新渲染內容以適應考法
+        setTimeout(() => { window.print(); }, 300); // 稍微延遲確保渲染完成後彈出列印
+    }
+
+    // 3. 基於 Week 的隨機抽取
     function generateByWeek() {
         const week = parseInt(document.getElementById('weekInput').value) || 1;
         const cores = allVocab.filter(v => v.type.toUpperCase() === 'CORE');
         const elites = allVocab.filter(v => v.type.toUpperCase() === 'ELITE');
 
-        // 使用 Week 數隨機洗牌
         const seedShuffle = (arr, seed) => {
             let m = arr.length, t, i;
             while (m) {
@@ -89,7 +99,6 @@
             return arr;
         };
 
-        // 確保每週抽取的單字集不同
         const startC = (week - 1) * 7;
         const startE = (week - 1) * 3;
         
@@ -100,15 +109,13 @@
         render();
     }
 
-    // 3. 語音功能
+    // 4. 語音與錄音功能 (保持原樣)
     function playNative(text) {
         const msg = new SpeechSynthesisUtterance(text);
-        msg.voice = window.speechSynthesis.getVoices().find(v => v.lang === 'en-GB' && v.name.includes('Google')) || null;
         msg.lang = 'en-GB'; msg.rate = 0.8;
         window.speechSynthesis.speak(msg);
     }
 
-    // 4. 錄音功能
     async function toggleRecord(id) {
         const btn = document.getElementById(`rec-${id}`);
         if (!mediaRecorder || mediaRecorder.state === "inactive") {
@@ -123,26 +130,27 @@
                 document.getElementById(`play-${id}`).onclick = () => new Audio(url).play();
             };
             mediaRecorder.start();
-            btn.innerText = "🛑 停止中...";
-            btn.style.background = "#000";
+            btn.innerText = "🛑 Stop..."; btn.style.background = "#000";
         } else {
             mediaRecorder.stop();
-            btn.innerText = "🎤 重新錄音";
-            btn.style.background = "#e74c3c";
+            btn.innerText = "🎤 Re-record"; btn.style.background = "#e74c3c";
         }
     }
 
-  // 5. 渲染頁面與測試紙
+    // 5. 核心渲染邏輯：根據 currentTestType 生成不同考法
     function render() {
         const display = document.getElementById('mainDisplay');
         display.innerHTML = '';
 
         currentWords.forEach((item, i) => {
             const typeClass = item.type.toLowerCase() === 'core' ? 'badge-core' : 'badge-elite';
-            const word = item.word;
+            const word = item.word.toUpperCase();
             
-            // VR Anagram generator for practice zone
-            const anagram = word.split('').sort(() => 0.5 - Math.random()).join(' ').toUpperCase();
+            // 題型 2: Anagram (字母重組)
+            const anagram = word.split('').sort(() => 0.5 - Math.random()).join(' ');
+
+            // 題型 3: Hidden Word (隨機句子)
+            const sentence = `The boy sa${word.slice(0,2).toLowerCase()} i${word.slice(2).toLowerCase()} it was great.`.replace("  ", " ");
 
             const card = document.createElement('div');
             card.innerHTML = `
@@ -150,34 +158,40 @@
                     <span class="badge ${typeClass}">${item.type}</span>
                     <div style="margin: 15px 0;">
                         <button class="btn btn-audio" onclick="playNative('${word}')">🔊 Native Voice</button>
-                        <button class="btn btn-record" id="rec-${i}" onclick="toggleRecord(${i})">🎤 Record My Voice</button>
-                        <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️ Play My Recording</button>
+                        <button class="btn btn-record" id="rec-${i}" onclick="toggleRecord(${i})">🎤 Record</button>
+                        <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️ Play My Voice</button>
                     </div>
                     <h2 style="color:var(--core);">${i+1}. ${word}</h2>
                     <p><strong>💡 Mnemonic:</strong> ${item.memory}</p>
                     <p><strong>🔗 Syn/Ant:</strong> ${item.syn} / ${item.ant}</p>
-                    
-                    <div class="vr-practice-zone">
-                        <strong>🧩 11+ VR Challenge (Anagram):</strong><br>
-                        Rearrange these letters: <span style="letter-spacing:2px; color:var(--elite);">${anagram}</span>
-                    </div>
                 </div>
 
                 <div class="test-item">
-                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; margin-bottom:10px;">
-                        <span style="font-weight:bold;">11+ VR Practice: Week ${document.getElementById('weekInput').value}</span>
-                        <span>Level: ${item.type}</span>
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:5px; margin-bottom:10px;">
+                        <span>11+ VR Test: Week ${document.getElementById('weekInput').value}</span>
+                        <span>Mode: ${currentTestType.toUpperCase()}</span>
                     </div>
-                    <h3 style="margin: 10px 0;">Question ${i+1}</h3>
-                    <p style="font-size: 1.1em; line-height: 1.5;">
-                        The following word is a <b>synonym</b> of "<u>${item.syn}</u>" 
-                        and an <b>antonym</b> of "<u>${item.ant}</u>".
-                    </p>
-                    <p style="font-size: 1.3em; font-family: 'Courier New', monospace; font-weight: bold; margin: 20px 0;">
-                        ${word.charAt(0).toUpperCase()} ${"_ ".repeat(word.length - 2)} ${word.slice(-1).toUpperCase()} 
-                        <span style="font-size: 0.7em; font-weight: normal; color: #666; margin-left:10px;">(${word.length} letters)</span>
-                    </p>
-                    <div style="margin-top: 25px; border-bottom: 1px solid #000; height: 10px; width: 100%;"></div>
+
+                    ${currentTestType === 'standard' ? `
+                        <p><b>Question ${i+1}:</b> Find a word that is a <b>synonym</b> of "${item.syn}" and an <b>antonym</b> of "${item.ant}".</p>
+                        <p style="font-size: 1.4em; font-family: monospace; font-weight: bold; margin: 15px 0;">
+                            ${word.charAt(0)} ${"_ ".repeat(word.length - 2)} ${word.slice(-1)} (${word.length} letters)
+                        </p>
+                    ` : ''}
+
+                    ${currentTestType === 'anagram' ? `
+                        <p><b>Question ${i+1}:</b> Rearrange these letters to form a word that means "${item.syn}":</p>
+                        <p style="font-size: 1.4em; font-weight: bold; letter-spacing: 3px; margin: 15px 0;">${anagram}</p>
+                        <p>Answer: ___________________________</p>
+                    ` : ''}
+
+                    ${currentTestType === 'hidden' ? `
+                        <p><b>Question ${i+1}:</b> A ${word.length}-letter word is <b>hidden</b> between two words in this sentence. Find it:</p>
+                        <p style="font-size: 1.2em; font-style: italic; margin: 15px 0; background: #f9f9f9; padding: 10px; border: 1px solid #ddd;">"${sentence}"</p>
+                        <p>Hidden Word: ___________________________</p>
+                    ` : ''}
+
+                    <div style="margin-top: 20px; border-bottom: 1px dashed #ccc; height: 1px;"></div>
                 </div>
             `;
             display.appendChild(card);
