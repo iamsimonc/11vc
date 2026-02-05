@@ -116,46 +116,45 @@
         render();
     }
 
- // 4. iPad/iPhone 專用發音功能 (絕對鎖定 Kate)
+    // 4. iPad/iPhone 專用發音功能 (絕對鎖定 Kate，排除所有男聲)
     function playNative(text) {
         if (!window.speechSynthesis) return;
-
-        // 停止之前的發音
         window.speechSynthesis.cancel();
 
         const msg = new SpeechSynthesisUtterance(text);
         
-        // 強制要求瀏覽器刷新聲音列表
+        // 獲取清單
         let voices = window.speechSynthesis.getVoices();
 
-        // 【核心邏輯】精準定位 Kate
-        // 優先找 Enhanced (加強版)，避開所有男聲 (Daniel, Arthur)
+        // 【暴力篩選】只准 Kate 進入候選名單
+        // 我們同時找 Kate 的加強版 (Enhanced) 和普通版
         let kateVoice = voices.find(v => v.name.includes('Kate') && v.name.includes('Enhanced')) ||
-                        voices.find(v => v.name.includes('Kate') && !v.name.toLowerCase().includes('compact'));
+                        voices.find(v => v.name.includes('Kate'));
 
-        // 如果真的找不到 Kate (引擎還沒載入)，就先不指定 voice，只設語言為 en-GB
-        // 這樣 iOS 會用系統預設女聲，總比跳去男聲好
-        if (kateVoice) {
-            msg.voice = kateVoice;
-            console.log("iPad 成功選用 Kate:", kateVoice.name);
+        // 如果 Kate 真的還沒準備好 (voices 清單為空或沒載入)
+        if (!kateVoice) {
+            console.log("偵測到 Kate 尚未載入，嘗試強制刷新語音引擎...");
+            window.speechSynthesis.getVoices();
+            // 這種情況下，我們先不指定 voice，只鎖定 en-GB，並讓系統重試
+            msg.lang = 'en-GB';
         } else {
-            console.log("警告：Kate 尚未載入，嘗試使用系統預設英式發音");
+            msg.voice = kateVoice;
+            console.log("成功強制鎖定 Kate: " + kateVoice.name);
         }
 
+        // 鎖定語言
         msg.lang = 'en-GB';
-        
-        // Kate 的清晰語速建議
-        msg.rate = 0.8; 
+        msg.rate = 0.8; // Kate 的清晰語速
         msg.pitch = 1.0;
 
         window.speechSynthesis.speak(msg);
     }
 
-    // 當語音清單變動時，立刻更新 (iPad 喚醒 Kate 的關鍵)
+    // 關鍵：每當語音列表變動，立刻更新 (iPad 喚醒 Kate 的救命符)
     window.speechSynthesis.onvoiceschanged = () => {
-        window.speechSynthesis.getVoices();
+        const v = window.speechSynthesis.getVoices();
+        console.log("語音清單已更新，可用語音數量: " + v.length);
     };
-
 
     // 5. 錄音功能 (iOS 兼容)
     async function toggleRecord(id) {
