@@ -3,66 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kathryn 11+ Vocab Master (Professional Edition)</title>
+    <title>Kathryn 11+ VR Expert Mode</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
-        :root {
-            --primary: #6c5ce7;
-            --core: #55efc4;
-            --elite: #fd79a8;
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --text: #f8fafc;
-        }
-
+        :root { --primary: #6c5ce7; --core: #55efc4; --elite: #fd79a8; --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; }
         body { font-family: 'Arial', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
-        .container { max-width: 850px; margin: auto; }
+        .container { max-width: 900px; margin: auto; }
+        
+        /* 介面與按鈕 */
+        .no-print { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 30px; border: 1px solid #334155; }
+        .btn { padding: 10px 18px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; margin-right: 5px; transition: 0.3s; }
+        .btn-audio { background: #4b5563; color: white; }
+        .btn-record { background: #e74c3c; color: white; }
+        .btn-play-rec { background: #f1c40f; color: black; }
+        .btn-gen { background: var(--primary); color: white; }
+        .btn-print { background: #27ae60; color: white; }
 
-        /* 標籤 */
-        .badge { padding: 4px 10px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-bottom: 12px; display: inline-block; }
+        /* 練習卡片 */
+        .vocab-card { background: var(--card-bg); padding: 25px; border-radius: 15px; margin-bottom: 20px; border-left: 10px solid var(--primary); }
+        .badge { padding: 4px 10px; border-radius: 5px; font-size: 0.8em; font-weight: bold; }
         .badge-core { background: var(--core); color: #000; }
         .badge-elite { background: var(--elite); color: #fff; }
 
-        /* 控制面板 */
-        .controls { background: var(--card-bg); padding: 25px; border-radius: 12px; display: flex; gap: 12px; margin-bottom: 25px; align-items: center; border: 1px solid #334155; }
-        input { padding: 10px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; width: 60px; text-align: center; font-size: 1.1em; }
-        button { padding: 12px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        .btn-gen { background: var(--primary); color: white; }
-        .btn-print { background: #00b894; color: white; }
-        .btn-audio { background: #4b5563; color: white; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
-        button:hover { opacity: 0.9; transform: translateY(-1px); }
-
-        /* 練習卡片 */
-        .vocab-card { background: var(--card-bg); margin-bottom: 20px; padding: 25px; border-radius: 15px; border-left: 8px solid var(--primary); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        .test-content { display: none; } /* 預設隱藏測試內容 */
-
-        /* 🖨️ 列印/測試模式修復 */
+        /* VR 練習區 */
+        .vr-practice-zone { background: #2d3436; padding: 15px; border-radius: 10px; margin-top: 15px; border: 1px dashed #636e72; }
+        
+        /* 測試紙樣式 (VR 題型) */
+        .test-item { display: none; padding: 20px; border: 1px solid #000; margin-bottom: 25px; page-break-inside: avoid; }
+        
         @media print {
-            body { background: white !important; color: black !important; padding: 0; }
-            .no-print { display: none !important; }
+            body { background: white !important; color: black !important; }
+            .no-print, .word-info, .btn-audio, .btn-record, .btn-play-rec { display: none !important; }
+            .test-item { display: block !important; }
             .container { max-width: 100%; }
-            .vocab-card { 
-                background: white !important; 
-                border: 2px solid #eee !important; 
-                border-left: 8px solid #333 !important;
-                page-break-inside: avoid; 
-                margin-bottom: 40px; 
-                color: black !important;
-                padding: 20px;
-            }
-            .word-info { display: none !important; } /* 隱藏答案 */
-            .test-content { display: block !important; } /* 顯示題目 */
-            
-            .test-q { font-size: 1.3em; font-weight: bold; margin-bottom: 15px; display: block; }
-            .test-hint { font-size: 1.1em; color: #333; margin-bottom: 15px; line-height: 1.6; }
-            .answer-line { 
-                margin-top: 25px;
-                border-bottom: 2px solid #000; 
-                height: 40px; 
-                width: 100%;
-                position: relative;
-            }
-            .answer-line::after { content: "Sign: ________________"; position: absolute; right: 0; bottom: -25px; font-size: 0.8em; color: #666; }
         }
     </style>
 </head>
@@ -70,47 +43,29 @@
 
 <div class="container">
     <div class="no-print">
-        <h1 style="color:var(--secondary); margin-bottom:5px;">🎓 Kathryn 11+ Vocab Master</h1>
-        <p style="color:#94a3b8; margin-top:0;">目前已儲存您的護眼與深色模式偏好。</p>
-        
-        <div class="controls">
-            <label>選擇週次 (Week):</label>
-            <input type="number" id="weekInput" value="1" min="1">
-            <button class="btn-gen" onclick="generateByWeek()">🔄 更新單字</button>
-            <button class="btn-print" onclick="window.print()">🖨️ 生成測試紙</button>
+        <h1>🚀 Kathryn 11+ VR 練習系統</h1>
+        <div style="margin-bottom: 15px;">
+            <label>輸入 Week: </label>
+            <input type="number" id="weekInput" value="1" style="width:50px; padding:8px;">
+            <button class="btn btn-gen" onclick="generateByWeek()">🔄 隨機生成本週 (7:3)</button>
+            <button class="btn btn-print" onclick="window.print()">🖨️ 列印 VR 測試紙</button>
         </div>
+        <p style="font-size: 0.9em; color: #aaa;">* 每個單字均設有標準讀音及 Kathryn 自主錄音對比功能。</p>
     </div>
 
-    <div id="vocabList"></div>
+    <div id="mainDisplay"></div>
 </div>
 
 <script>
     let allVocab = [];
-    let currentWeekWords = [];
+    let currentWords = [];
+    let mediaRecorder;
+    let audioChunks = {};
 
-    // 1. 高品質語音邏輯
-    function speak(text) {
-        window.speechSynthesis.cancel();
-        const msg = new SpeechSynthesisUtterance(text);
-        const voices = window.speechSynthesis.getVoices();
-        // 尋找英式女聲或 Google 高品質語音
-        msg.voice = voices.find(v => v.name.includes('Google UK English Female')) || 
-                    voices.find(v => v.lang === 'en-GB') || 
-                    voices[0];
-        msg.rate = 0.8;
-        msg.pitch = 1.0;
-        window.speechSynthesis.speak(msg);
-    }
-
-    // 初始化語音
-    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-
-    // 2. 載入數據
+    // 1. 加載數據
     window.onload = function() {
         Papa.parse("vocab.csv", {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
+            download: true, header: true, skipEmptyLines: true,
             complete: function(results) {
                 allVocab = results.data.filter(row => row.word);
                 generateByWeek();
@@ -118,58 +73,104 @@
         });
     };
 
-    // 3. 核心抽取邏輯 (7:3)
+    // 2. 基於 Week 的隨機抽取 (7 Core : 3 Elite)
     function generateByWeek() {
         const week = parseInt(document.getElementById('weekInput').value) || 1;
         const cores = allVocab.filter(v => v.type.toUpperCase() === 'CORE');
         const elites = allVocab.filter(v => v.type.toUpperCase() === 'ELITE');
 
-        // 計算偏移量以確保不重複
+        // 使用 Week 數隨機洗牌
+        const seedShuffle = (arr, seed) => {
+            let m = arr.length, t, i;
+            while (m) {
+                i = Math.floor(Math.abs(Math.sin(seed++)) * m--);
+                t = arr[m]; arr[m] = arr[i]; arr[i] = t;
+            }
+            return arr;
+        };
+
+        // 確保每週抽取的單字集不同
         const startC = (week - 1) * 7;
         const startE = (week - 1) * 3;
+        
+        let poolC = seedShuffle([...cores], week).slice(startC, startC + 7);
+        let poolE = seedShuffle([...elites], week + 50).slice(startE, startE + 3);
 
-        if (startC >= cores.length) {
-            alert("已超過 Core 單字庫上限，請嘗試較小的 Week 數。");
-            return;
-        }
-
-        currentWeekWords = [
-            ...cores.slice(startC, startC + 7),
-            ...elites.slice(startE, startE + 3)
-        ];
-        renderCards();
+        currentWords = seedShuffle([...poolC, ...poolE], week + 99);
+        render();
     }
 
-    // 4. 渲染頁面
-    function renderCards() {
-        const listDiv = document.getElementById('vocabList');
-        listDiv.innerHTML = '';
+    // 3. 語音功能
+    function playNative(text) {
+        const msg = new SpeechSynthesisUtterance(text);
+        msg.voice = window.speechSynthesis.getVoices().find(v => v.lang === 'en-GB' && v.name.includes('Google')) || null;
+        msg.lang = 'en-GB'; msg.rate = 0.8;
+        window.speechSynthesis.speak(msg);
+    }
 
-        currentWeekWords.forEach((item, index) => {
+    // 4. 錄音功能
+    async function toggleRecord(id) {
+        const btn = document.getElementById(`rec-${id}`);
+        if (!mediaRecorder || mediaRecorder.state === "inactive") {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks[id] = [];
+            mediaRecorder.ondataavailable = e => audioChunks[id].push(e.data);
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(audioChunks[id], { type: 'audio/wav' });
+                const url = URL.createObjectURL(blob);
+                document.getElementById(`play-${id}`).style.display = 'inline-block';
+                document.getElementById(`play-${id}`).onclick = () => new Audio(url).play();
+            };
+            mediaRecorder.start();
+            btn.innerText = "🛑 停止中...";
+            btn.style.background = "#000";
+        } else {
+            mediaRecorder.stop();
+            btn.innerText = "🎤 重新錄音";
+            btn.style.background = "#e74c3c";
+        }
+    }
+
+    // 5. 渲染頁面與測試紙
+    function render() {
+        const display = document.getElementById('mainDisplay');
+        display.innerHTML = '';
+
+        currentWords.forEach((item, i) => {
             const typeClass = item.type.toLowerCase() === 'core' ? 'badge-core' : 'badge-elite';
-            const firstLetter = item.word.charAt(0).toUpperCase();
-            
+            const word = item.word;
+            const hiddenWord = word.charAt(0) + "_ ".repeat(word.length - 2) + word.slice(-1);
+
             const card = document.createElement('div');
-            card.className = 'vocab-card';
             card.innerHTML = `
-                <div class="word-info">
-                    <div class="badge ${typeClass}">${item.type}</div>
-                    <button class="btn-audio no-print" onclick="speak('${item.word}')">🔊 播放讀音</button>
-                    <h2 style="margin: 10px 0;">${index + 1}. ${item.word}</h2>
-                    <p><strong>【記憶】</strong> ${item.memory || '尚無備註'}</p>
-                    <p><strong>【同義】</strong> ${item.syn} ｜ <strong>【反義】</strong> ${item.ant}</p>
+                <div class="vocab-card word-info">
+                    <span class="badge ${typeClass}">${item.type}</span>
+                    <div style="margin: 15px 0;">
+                        <button class="btn btn-audio" onclick="playNative('${word}')">🔊 標準讀音</button>
+                        <button class="btn btn-record" id="rec-${i}" onclick="toggleRecord(${i})">🎤 Kathryn 錄音</button>
+                        <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️ 聽我的發音</button>
+                    </div>
+                    <h2 style="color:var(--core);">${i+1}. ${word}</h2>
+                    <p><strong>💡 記憶法：</strong> ${item.memory}</p>
+                    <p><strong>🔗 同/反義：</strong> ${item.syn} / ${item.ant}</p>
+                    
+                    <div class="vr-practice-zone">
+                        <strong>🧩 11+ VR 挑戰：</strong><br>
+                        請在腦中拼出：${word.split('').sort(() => 0.5 - Math.random()).join(' ')} (Anagram)
+                    </div>
                 </div>
 
-                <div class="test-content">
-                    <span class="test-q">Question ${index + 1} (${item.type})</span>
-                    <div class="test-hint">
-                        <strong>提示：</strong> ${item.syn} (反義詞: ${item.ant})<br>
-                        <strong>拼寫提示：</strong> 以 <b>"${firstLetter}"</b> 開頭，共 <b>${item.word.length}</b> 個字母。
-                    </div>
-                    <div class="answer-line"></div>
+                <div class="test-item">
+                    <h3>Question ${i+1} (Type: ${item.type})</h3>
+                    <p style="font-size: 1.2em;">題目：這是一個與 <b>"${item.syn}"</b> 意思相近，但與 <b>"${item.ant}"</b> 意思相反的單字。</p>
+                    <p style="letter-spacing: 5px; font-size: 1.5em; font-family: monospace;">
+                        拼寫：${word.charAt(0).toUpperCase()} ___ ${word.charAt(word.length-1).toUpperCase()} (共 ${word.length} 個字母)
+                    </p>
+                    <div style="margin-top: 30px; border-bottom: 2px solid #000; height: 30px; width: 80%;"></div>
                 </div>
             `;
-            listDiv.appendChild(card);
+            display.appendChild(card);
         });
     }
 </script>
