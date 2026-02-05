@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kathryn 11+ Vocab Master (Testing Mode)</title>
+    <title>Kathryn 11+ Vocab Master (Professional Edition)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         :root {
@@ -15,41 +15,54 @@
             --text: #f8fafc;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
-        .container { max-width: 800px; margin: auto; }
+        body { font-family: 'Arial', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
+        .container { max-width: 850px; margin: auto; }
 
-        /* 標籤樣式 */
-        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; display: inline-block; }
+        /* 標籤 */
+        .badge { padding: 4px 10px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-bottom: 12px; display: inline-block; }
         .badge-core { background: var(--core); color: #000; }
         .badge-elite { background: var(--elite); color: #fff; }
 
         /* 控制面板 */
-        .controls { background: var(--card-bg); padding: 20px; border-radius: 12px; display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
-        input { padding: 10px; border-radius: 6px; border: none; width: 60px; text-align: center; }
-        button { padding: 10px 15px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+        .controls { background: var(--card-bg); padding: 25px; border-radius: 12px; display: flex; gap: 12px; margin-bottom: 25px; align-items: center; border: 1px solid #334155; }
+        input { padding: 10px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; width: 60px; text-align: center; font-size: 1.1em; }
+        button { padding: 12px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; transition: 0.2s; }
         .btn-gen { background: var(--primary); color: white; }
         .btn-print { background: #00b894; color: white; }
-        .btn-audio { background: #4b5563; color: white; font-size: 1.2em; }
+        .btn-audio { background: #4b5563; color: white; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
 
-        /* 卡片樣式 */
-        .vocab-card { background: var(--card-bg); margin-bottom: 20px; padding: 25px; border-radius: 12px; position: relative; border-left: 6px solid var(--primary); }
-        .test-hint { display: none; font-style: italic; color: #666; }
+        /* 練習卡片 */
+        .vocab-card { background: var(--card-bg); margin-bottom: 20px; padding: 25px; border-radius: 15px; border-left: 8px solid var(--primary); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .test-content { display: none; } /* 預設隱藏測試內容 */
 
-        /* 語音選擇器（隱藏但存在） */
-        #voiceSelect { display: none; }
-
-        /* 🖨️ 列印測試紙模式：隱藏答案 */
+        /* 🖨️ 列印/測試模式修復 */
         @media print {
-            @page { margin: 1cm; }
+            body { background: white !important; color: black !important; padding: 0; }
             .no-print { display: none !important; }
-            body { background: white; color: black; }
-            .vocab-card { border: 1px solid #000; background: white; page-break-inside: avoid; margin-bottom: 30px; }
+            .container { max-width: 100%; }
+            .vocab-card { 
+                background: white !important; 
+                border: 2px solid #eee !important; 
+                border-left: 8px solid #333 !important;
+                page-break-inside: avoid; 
+                margin-bottom: 40px; 
+                color: black !important;
+                padding: 20px;
+            }
+            .word-info { display: none !important; } /* 隱藏答案 */
+            .test-content { display: block !important; } /* 顯示題目 */
             
-            /* 隱藏答案內容 */
-            .word-title, .word-detail { display: none !important; }
-            /* 顯示測試用的提示 */
-            .test-hint { display: block !important; border-bottom: 1px solid #000; margin-top: 10px; height: 30px; }
-            .test-label { font-weight: bold; font-size: 1.2em; }
+            .test-q { font-size: 1.3em; font-weight: bold; margin-bottom: 15px; display: block; }
+            .test-hint { font-size: 1.1em; color: #333; margin-bottom: 15px; line-height: 1.6; }
+            .answer-line { 
+                margin-top: 25px;
+                border-bottom: 2px solid #000; 
+                height: 40px; 
+                width: 100%;
+                position: relative;
+            }
+            .answer-line::after { content: "Sign: ________________"; position: absolute; right: 0; bottom: -25px; font-size: 0.8em; color: #666; }
         }
     </style>
 </head>
@@ -57,14 +70,15 @@
 
 <div class="container">
     <div class="no-print">
-        <h2 style="color:var(--secondary)">🌟 Kathryn 11+ Vocab Master</h2>
+        <h1 style="color:var(--secondary); margin-bottom:5px;">🎓 Kathryn 11+ Vocab Master</h1>
+        <p style="color:#94a3b8; margin-top:0;">目前已儲存您的護眼與深色模式偏好。</p>
+        
         <div class="controls">
-            <label>Week:</label>
+            <label>選擇週次 (Week):</label>
             <input type="number" id="weekInput" value="1" min="1">
-            <button class="btn-gen" onclick="generateByWeek()">生成練習</button>
-            <button class="btn-print" onclick="window.print()">列印測試紙</button>
-            <select id="voiceSelect"></select> </div>
-        <p style="color: #aaa; font-size: 0.9em;">* 列印時會自動轉為測試模式（隱藏答案，僅留首字母提示）。</p>
+            <button class="btn-gen" onclick="generateByWeek()">🔄 更新單字</button>
+            <button class="btn-print" onclick="window.print()">🖨️ 生成測試紙</button>
+        </div>
     </div>
 
     <div id="vocabList"></div>
@@ -73,96 +87,90 @@
 <script>
     let allVocab = [];
     let currentWeekWords = [];
-    let synth = window.speechSynthesis;
 
-    // 1. 初始化人聲選擇（自動挑選高品質英式人聲）
-    function loadVoices() {
-        const voices = synth.getVoices();
-        const select = document.getElementById('voiceSelect');
-        // 優先順序：Google UK English Female > Microsoft Hazel > Any UK English
-        let bestVoice = voices.find(v => v.name.includes('Google UK English Female')) || 
-                        voices.find(v => v.name.includes('Hazel')) ||
-                        voices.find(v => v.lang === 'en-GB');
-        
-        if (bestVoice) {
-            window.selectedVoice = bestVoice;
-        }
-    }
-    if (speechSynthesis.onvoiceschanged !== undefined) {
-        speechSynthesis.onvoiceschanged = loadVoices;
+    // 1. 高品質語音邏輯
+    function speak(text) {
+        window.speechSynthesis.cancel();
+        const msg = new SpeechSynthesisUtterance(text);
+        const voices = window.speechSynthesis.getVoices();
+        // 尋找英式女聲或 Google 高品質語音
+        msg.voice = voices.find(v => v.name.includes('Google UK English Female')) || 
+                    voices.find(v => v.lang === 'en-GB') || 
+                    voices[0];
+        msg.rate = 0.8;
+        msg.pitch = 1.0;
+        window.speechSynthesis.speak(msg);
     }
 
-    // 2. 載入 CSV
+    // 初始化語音
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+    // 2. 載入數據
     window.onload = function() {
         Papa.parse("vocab.csv", {
             download: true,
             header: true,
+            skipEmptyLines: true,
             complete: function(results) {
                 allVocab = results.data.filter(row => row.word);
-                loadVoices();
                 generateByWeek();
             }
         });
     };
 
-    // 3. 按週次抽取 (7 Core : 3 Elite)
+    // 3. 核心抽取邏輯 (7:3)
     function generateByWeek() {
         const week = parseInt(document.getElementById('weekInput').value) || 1;
         const cores = allVocab.filter(v => v.type.toUpperCase() === 'CORE');
         const elites = allVocab.filter(v => v.type.toUpperCase() === 'ELITE');
 
-        // 每週跳過數量以防重複
-        let selectedCores = cores.slice((week-1)*7, (week-1)*7 + 7);
-        let selectedElites = elites.slice((week-1)*3, (week-1)*3 + 3);
+        // 計算偏移量以確保不重複
+        const startC = (week - 1) * 7;
+        const startE = (week - 1) * 3;
 
-        currentWeekWords = [...selectedCores, ...selectedElites];
+        if (startC >= cores.length) {
+            alert("已超過 Core 單字庫上限，請嘗試較小的 Week 數。");
+            return;
+        }
+
+        currentWeekWords = [
+            ...cores.slice(startC, startC + 7),
+            ...elites.slice(startE, startE + 3)
+        ];
         renderCards();
     }
 
-    // 4. 渲染卡片
+    // 4. 渲染頁面
     function renderCards() {
         const listDiv = document.getElementById('vocabList');
         listDiv.innerHTML = '';
 
         currentWeekWords.forEach((item, index) => {
             const typeClass = item.type.toLowerCase() === 'core' ? 'badge-core' : 'badge-elite';
-            const firstLetter = item.word.charAt(0);
-            const wordLen = item.word.length;
-
+            const firstLetter = item.word.charAt(0).toUpperCase();
+            
             const card = document.createElement('div');
             card.className = 'vocab-card';
             card.innerHTML = `
-                <div class="badge ${typeClass}">${item.type}</div>
-                <button class="btn-audio no-print" onclick="playAudio('${item.word}')">🔊 播放讀音</button>
-                
-                <h2 class="word-title">${index + 1}. ${item.word}</h2>
-                <div class="word-detail">
-                    <p><strong>💡 Memory:</strong> ${item.memory || 'N/A'}</p>
-                    <p><strong>🔗 Syn:</strong> ${item.syn} | <strong>🚫 Ant:</strong> ${item.ant}</p>
+                <div class="word-info">
+                    <div class="badge ${typeClass}">${item.type}</div>
+                    <button class="btn-audio no-print" onclick="speak('${item.word}')">🔊 播放讀音</button>
+                    <h2 style="margin: 10px 0;">${index + 1}. ${item.word}</h2>
+                    <p><strong>【記憶】</strong> ${item.memory || '尚無備註'}</p>
+                    <p><strong>【同義】</strong> ${item.syn} ｜ <strong>【反義】</strong> ${item.ant}</p>
                 </div>
 
-                <div class="test-hint">
-                    <span class="test-label">Q${index + 1}. 提示: ${item.syn} (反義: ${item.ant})</span>
-                    <p>請拼寫出這個字 ( ${firstLetter}... , 共 ${wordLen} 個字母 ):</p>
-                    <div style="height:40px; border-bottom: 2px dashed #000; width: 100%;"></div>
+                <div class="test-content">
+                    <span class="test-q">Question ${index + 1} (${item.type})</span>
+                    <div class="test-hint">
+                        <strong>提示：</strong> ${item.syn} (反義詞: ${item.ant})<br>
+                        <strong>拼寫提示：</strong> 以 <b>"${firstLetter}"</b> 開頭，共 <b>${item.word.length}</b> 個字母。
+                    </div>
+                    <div class="answer-line"></div>
                 </div>
             `;
             listDiv.appendChild(card);
         });
-    }
-
-    // 5. 高品質語音播放
-    function playAudio(text) {
-        synth.cancel(); // 停止當前正在播放的聲音
-        const utterance = new SpeechSynthesisUtterance(text);
-        
-        if (window.selectedVoice) {
-            utterance.voice = window.selectedVoice;
-        }
-        utterance.lang = 'en-GB';
-        utterance.rate = 0.8; // 稍慢一點確保清晰
-        utterance.pitch = 1.0;
-        synth.speak(utterance);
     }
 </script>
 
