@@ -70,7 +70,7 @@
 
     // 1. 加載數據
     window.onload = function() {
-        // iOS 語音加載優化：主動觸發一次
+        // iOS 聲音初始化
         if (window.speechSynthesis) {
             window.speechSynthesis.getVoices();
         }
@@ -84,14 +84,14 @@
         });
     };
 
-    // 2. 切換測試模式並列印
+    // 2. 列印功能
     function printTest(type) {
         currentTestType = type;
         render(); 
         setTimeout(() => { window.print(); }, 500);
     }
 
-    // 3. 基於 Week 的隨機抽取
+    // 3. 隨機生成
     function generateByWeek() {
         const week = parseInt(document.getElementById('weekInput').value) || 1;
         const cores = allVocab.filter(v => v.type.toUpperCase() === 'CORE');
@@ -116,41 +116,54 @@
         render();
     }
 
-    // 4. 語音功能 (iOS/Android/PC 全兼容版)
+    // ★★★ 4. 發音功能 (針對 iOS 深度優化) ★★★
     function playNative(text) {
+        // 1. 停止當前發音
         window.speechSynthesis.cancel();
-        const msg = new SpeechSynthesisUtterance(text);
-        
-        // 強制重新獲取語音列表 (解決 iOS 有時讀不到列表的問題)
-        let voices = window.speechSynthesis.getVoices();
-        
-        // 針對 iOS 優化的英式發音順序
-        const preferredVoice = 
-            voices.find(v => v.name.includes('Martha')) || // iOS 優質女聲
-            voices.find(v => v.name.includes('Arthur')) || // iOS 優質男聲
-            voices.find(v => v.name.includes('Daniel')) || // iOS 標準男聲
-            voices.find(v => v.name === 'Google UK English Female') || // Android/PC
-            voices.find(v => v.name === 'Google UK English Male') ||
-            voices.find(v => v.lang === 'en-GB');
 
-        if (preferredVoice) msg.voice = preferredVoice;
-        
+        // 2. 強制重新獲取聲音列表 (iOS 關鍵步驟)
+        let voices = window.speechSynthesis.getVoices();
+
+        // 3. 建立發音物件
+        const msg = new SpeechSynthesisUtterance(text);
+
+        // 4. 尋找最佳聲音 (iOS 優先順序調整)
+        // iOS 聲音名稱通常包含 'Martha', 'Arthur', 'Daniel'
+        let preferredVoice = 
+            voices.find(v => v.name.includes('Martha')) || // iOS 最佳女聲
+            voices.find(v => v.name.includes('Arthur')) || // iOS 最佳男聲
+            voices.find(v => v.name.includes('Daniel') && !v.name.includes('Compact')) || // iOS 最佳男聲(避開壓縮版)
+            voices.find(v => v.lang === 'en-GB' && v.name.includes('Google')) || // Android/Chrome PC
+            voices.find(v => v.lang === 'en-GB'); // 任何其他英國腔
+
+        if (preferredVoice) {
+            msg.voice = preferredVoice;
+            // 測試用：取消下面這行的註解可以在瀏覽器 Console 看到抓到了誰
+            // console.log("Used Voice:", preferredVoice.name); 
+        }
+
         msg.lang = 'en-GB';
-        msg.rate = 0.8; // iOS 上 0.75 可能會太慢，改回 0.8
         
+        // ★ 關鍵調整：iOS 聲音如果太慢(0.7)會變機器人，0.85-0.9 比較自然
+        msg.rate = 0.85; 
+        msg.pitch = 1.0; 
+
         window.speechSynthesis.speak(msg);
     }
+    
+    // 確保聲音列表加載
+    window.speechSynthesis.onvoiceschanged = function() {
+        window.speechSynthesis.getVoices();
+    };
 
-    // 確保語音列表載入
-    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 
-    // 5. 錄音功能 (iOS 兼容修正版)
+    // 5. 錄音功能 (iOS 兼容)
     async function toggleRecord(id) {
         const btn = document.getElementById(`rec-${id}`);
         
         if (!mediaRecorder || mediaRecorder.state === "inactive") {
             try {
-                // 修正：iOS 需要 mp4 格式，且必須檢查瀏覽器支持的 MIME type
+                // 檢查是否支援 mp4 (iOS Safari/Chrome 核心)
                 const mimeType = MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "audio/webm";
                 
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -162,7 +175,6 @@
                 };
                 
                 mediaRecorder.onstop = () => {
-                    // 修正：使用正確的 MIME type 建立 Blob，否則 iPhone 播不出聲音
                     const blob = new Blob(audioChunks[id], { type: mimeType });
                     const url = URL.createObjectURL(blob);
                     const playBtn = document.getElementById(`play-${id}`);
@@ -177,18 +189,17 @@
                 btn.innerText = "🛑 Stop"; 
                 btn.style.background = "#000";
             } catch(e) { 
-                alert("無法錄音：\n1. 請確認網址是 HTTPS 或 localhost\n2. 請在設定允許瀏覽器使用麥克風\n錯誤：" + e.message); 
+                alert("無法使用麥克風，請檢查：\n1. 網址是否為 https\n2. 手機是否靜音模式\n3. 權限是否開啟"); 
             }
         } else {
             mediaRecorder.stop();
-            // 停止所有音軌，釋放麥克風 (這點在 iPhone 很重要)
-            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            if(mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(track => track.stop());
             btn.innerText = "🎤 Re-record"; 
             btn.style.background = "#e74c3c";
         }
     }
 
-    // 6. 核心渲染邏輯 (網頁互動 + 列印安全)
+    // 6. 渲染畫面
     function render() {
         const display = document.getElementById('mainDisplay');
         display.innerHTML = '';
