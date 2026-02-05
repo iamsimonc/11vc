@@ -111,8 +111,26 @@
 
     // 4. 語音與錄音功能 (保持原樣)
     function playNative(text) {
+        window.speechSynthesis.cancel(); // 播放前先清理，防止語音重疊
+        
         const msg = new SpeechSynthesisUtterance(text);
-        msg.lang = 'en-GB'; msg.rate = 0.8;
+        const voices = window.speechSynthesis.getVoices();
+
+        // 優先順序：Google UK 女聲 > Google UK 男聲 > 任何英國口音 > 預設
+        const preferredVoice = 
+            voices.find(v => v.name === 'Google UK English Female') ||
+            voices.find(v => v.name === 'Google UK English Male') ||
+            voices.find(v => v.name.includes('UK English')) ||
+            voices.find(v => v.lang === 'en-GB');
+
+        if (preferredVoice) {
+            msg.voice = preferredVoice;
+        }
+
+        msg.lang = 'en-GB';
+        msg.rate = 0.75; // 稍微調慢，發音更清晰
+        msg.pitch = 1.0;
+        
         window.speechSynthesis.speak(msg);
     }
 
