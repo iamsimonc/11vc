@@ -261,28 +261,50 @@ async function toggleRecord(id) {
 
         if (!mediaRecorder || mediaRecorder.state === "inactive") {
             try {
+                // 1. 取得權限
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
+                
+                // 2. 針對 iOS 選擇支援的 MIME 類型
+                const mimeType = MediaRecorder.isTypeSupported('audio/mp4') 
+                                 ? 'audio/mp4' 
+                                 : 'audio/webm';
+                
+                mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
                 audioChunks[id] = [];
 
-                mediaRecorder.ondataavailable = e => audioChunks[id].push(e.data);
+                mediaRecorder.ondataavailable = e => {
+                    if (e.data.size > 0) audioChunks[id].push(e.data);
+                };
+
                 mediaRecorder.onstop = () => {
-                    const blob = new Blob(audioChunks[id], { type: 'audio/wav' });
+                    // 3. 生成 Blob 時指定正確的類型
+                    const blob = new Blob(audioChunks[id], { type: mimeType });
                     const url = URL.createObjectURL(blob);
+                    
                     playBtn.style.display = 'inline-block';
-                    playBtn.onclick = () => new Audio(url).play();
+                    playBtn.onclick = () => {
+                        const audio = new Audio();
+                        audio.src = url;
+                        // iOS 強制要求在 User Interaction 下載入
+                        audio.load();
+                        audio.play().catch(err => {
+                            console.log("iPad 播放失敗:", err);
+                            // 備案：如果還是播不到，試著將其直接賦予到一個隱藏的 <audio> 標籤
+                        });
+                    };
                 };
 
                 mediaRecorder.start();
                 btn.innerText = "🛑 Stop";
                 btn.style.background = "#ff7675";
             } catch (err) {
-                alert("請開啟麥克風權限以使用錄音功能。");
+                alert("iPad 麥克風開啟失敗，請檢查設定中的 Safari 權限。");
             }
         } else {
             mediaRecorder.stop();
             btn.innerText = "🎤";
             btn.style.background = "#e74c3c";
+            // 停止所有麥克風軌道，否則 iPad 頂部會一直顯示紅點
             mediaRecorder.stream.getTracks().forEach(t => t.stop());
         }
     }
