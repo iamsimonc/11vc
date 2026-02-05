@@ -161,9 +161,23 @@
                         <button class="btn btn-record" id="rec-${i}" onclick="toggleRecord(${i})">🎤 Record</button>
                         <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️ Play My Voice</button>
                     </div>
-                    <h2 style="color:var(--core);">${i+1}. ${word}</h2>
-                    <p><strong>💡 Mnemonic:</strong> ${item.memory}</p>
-                    <p><strong>🔗 Syn/Ant:</strong> ${item.syn} / ${item.ant}</p>
+<h2 style="color:var(--core); margin-bottom: 10px;">${i+1}. ${word}</h2>
+
+<p style="margin-bottom: 15px;">
+    <strong style="color: #f1c40f;">💡 Mnemonic:</strong><br>
+    <span style="font-size: 1.1em;">${item.memory}</span>
+</p>
+
+<div style="display: flex; gap: 30px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+    <div>
+        <span style="color: #55efc4; font-weight: bold;">🟢 SYNONYM</span><br>
+        <span style="font-size: 1.2em;">${item.syn}</span>
+    </div>
+    <div style="border-left: 1px solid #444; padding-left: 30px;">
+        <span style="color: #ff7675; font-weight: bold;">🔴 ANTONYM</span><br>
+        <span style="font-size: 1.2em;">${item.ant}</span>
+    </div>
+</div>
                 </div>
 
                 <div class="test-item">
