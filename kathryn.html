@@ -255,50 +255,35 @@
     }
 
     // 錄音功能保持不變 (省略部分重複代碼以保持簡潔)
-    async function toggleRecord(id) {
+async function toggleRecord(id) {
         const btn = document.getElementById(`rec-${id}`);
         const playBtn = document.getElementById(`play-${id}`);
 
-        // 如果還沒有啟動錄音器
         if (!mediaRecorder || mediaRecorder.state === "inactive") {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 mediaRecorder = new MediaRecorder(stream);
                 audioChunks[id] = [];
 
-                mediaRecorder.ondataavailable = (event) => {
-                    if (event.data.size > 0) {
-                        audioChunks[id].push(event.data);
-                    }
-                };
-
+                mediaRecorder.ondataavailable = e => audioChunks[id].push(e.data);
                 mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks[id], { type: 'audio/wav' });
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    
-                    // 顯示並設定播放按鈕
+                    const blob = new Blob(audioChunks[id], { type: 'audio/wav' });
+                    const url = URL.createObjectURL(blob);
                     playBtn.style.display = 'inline-block';
-                    playBtn.onclick = () => {
-                        const audio = new Audio(audioUrl);
-                        audio.play();
-                    };
+                    playBtn.onclick = () => new Audio(url).play();
                 };
 
                 mediaRecorder.start();
                 btn.innerText = "🛑 Stop";
-                btn.style.background = "#ff7675"; // 變紅色提示正在錄音
+                btn.style.background = "#ff7675";
             } catch (err) {
-                console.error("無法開啟麥克風:", err);
-                alert("請確保已允許瀏覽器存取麥克風。");
+                alert("請開啟麥克風權限以使用錄音功能。");
             }
         } else {
-            // 停止錄音
             mediaRecorder.stop();
             btn.innerText = "🎤";
-            btn.style.background = "#e74c3c"; // 恢復原色
-            
-            // 停止麥克風串流以省電
-            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            btn.style.background = "#e74c3c";
+            mediaRecorder.stream.getTracks().forEach(t => t.stop());
         }
     }
 
