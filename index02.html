@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kathryn 11+ VR Expert Mode</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        :root { --primary: #6c5ce7; --core: #55efc4; --elite: #fd79a8; --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; }
+        body { font-family: 'Arial', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
+        .container { max-width: 900px; margin: auto; }
+        
+        /* 介面與按鈕 */
+        .no-print { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 30px; border: 1px solid #334155; }
+        .btn { padding: 10px 18px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; margin-right: 5px; transition: 0.3s; }
+        .btn-audio { background: #4b5563; color: white; }
+        .btn-record { background: #e74c3c; color: white; }
+        .btn-play-rec { background: #f1c40f; color: black; }
+        .btn-gen { background: var(--primary); color: white; }
+        .btn-print { background: #27ae60; color: white; }
+
+        /* 練習卡片 */
+        .vocab-card { background: var(--card-bg); padding: 25px; border-radius: 15px; margin-bottom: 20px; border-left: 10px solid var(--primary); }
+        .badge { padding: 4px 10px; border-radius: 5px; font-size: 0.8em; font-weight: bold; }
+        .badge-core { background: var(--core); color: #000; }
+        .badge-elite { background: var(--elite); color: #fff; }
+
+        /* 測試紙樣式 (平時隱藏，列印時顯示) */
+        .test-item { display: none; padding: 20px; border: 1px solid #000; margin-bottom: 25px; page-break-inside: avoid; }
+        
+        /* 列印專用設定 (關鍵修復區) */
+        @media print {
+            body { background: white !important; color: black !important; }
+            .container { max-width: 100%; width: 100%; margin: 0; padding: 0; }
+            
+            /* 1. 隱藏網頁介面元素 */
+            .no-print, .btn, .web-interactive-area { display: none !important; }
+            
+            /* 2. 強制顯示測試題目 (使用 !important 覆蓋任何 JS 的隱藏設定) */
+            .test-item { display: block !important; visibility: visible !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="no-print">
+        <h1>🚀 Kathryn 11+ VR 練習系統</h1>
+        <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+            <label>輸入 Week: </label>
+            <input type="number" id="weekInput" value="1" style="width:50px; padding:8px;">
+            <button class="btn btn-gen" onclick="generateByWeek()">🔄 隨機生成本週 (7:3)</button>
+            
+            <button class="btn" style="background:#27ae60; color:white;" onclick="printTest('standard')">🖨️ 1. 標準填空</button>
+            <button class="btn" style="background:#2980b9; color:white;" onclick="printTest('anagram')">🖨️ 2. 字母重組</button>
+            <button class="btn" style="background:#8e44ad; color:white;" onclick="printTest('hidden')">🖨️ 3. 隱藏字挑戰</button>
+        </div>
+        <p style="font-size: 0.9em; color: #aaa;">* 點擊下方紫色按鈕 "Start Challenge" 可遮住生字進行拼字練習。</p>
+    </div>
+
+    <div id="mainDisplay"></div>
+</div>
+
+<script>
+    let allVocab = [];
+    let currentWords = [];
+    let mediaRecorder;
+    let audioChunks = {};
+    let currentTestType = 'standard';
+
+    // 1. 加載數據
+    window.onload = function() {
+        Papa.parse("vocab.csv", {
+            download: true, header: true, skipEmptyLines: true,
+            complete: function(results) {
+                allVocab = results.data.filter(row => row.word);
+                generateByWeek();
+            }
+        });
+    };
+
+    // 2. 切換測試模式並列印
+    function printTest(type) {
+        currentTestType = type;
+        render(); 
+        setTimeout(() => { window.print(); }, 500); // 延長到 500ms 確保渲染完成
+    }
+
+    // 3. 基於 Week 的隨機抽取
+    function generateByWeek() {
+        const week = parseInt(document.getElementById('weekInput').value) || 1;
+        const cores = allVocab.filter(v => v.type.toUpperCase() === 'CORE');
+        const elites = allVocab.filter(v => v.type.toUpperCase() === 'ELITE');
+
+        const seedShuffle = (arr, seed) => {
+            let m = arr.length, t, i;
+            while (m) {
+                i = Math.floor(Math.abs(Math.sin(seed++)) * m--);
+                t = arr[m]; arr[m] = arr[i]; arr[i] = t;
+            }
+            return arr;
+        };
+
+        const startC = (week - 1) * 7;
+        const startE = (week - 1) * 3;
+        
+        let poolC = seedShuffle([...cores], week).slice(startC, startC + 7);
+        let poolE = seedShuffle([...elites], week + 50).slice(startE, startE + 3);
+
+        currentWords = seedShuffle([...poolC, ...poolE], week + 99);
+        render();
+    }
+
+    // 4. 語音功能 (高品質英式發音)
+    function playNative(text) {
+        window.speechSynthesis.cancel();
+        const msg = new SpeechSynthesisUtterance(text);
+        const voices = window.speechSynthesis.getVoices();
+        const preferredVoice = 
+            voices.find(v => v.name === 'Google UK English Female') ||
+            voices.find(v => v.name.includes('UK English')) ||
+            voices.find(v => v.lang === 'en-GB');
+
+        if (preferredVoice) msg.voice = preferredVoice;
+        msg.lang = 'en-GB';
+        msg.rate = 0.75;
+        window.speechSynthesis.speak(msg);
+    }
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+    // 錄音功能
+    async function toggleRecord(id) {
+        const btn = document.getElementById(`rec-${id}`);
+        if (!mediaRecorder || mediaRecorder.state === "inactive") {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks[id] = [];
+                mediaRecorder.ondataavailable = e => audioChunks[id].push(e.data);
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(audioChunks[id], { type: 'audio/wav' });
+                    const url = URL.createObjectURL(blob);
+                    document.getElementById(`play-${id}`).style.display = 'inline-block';
+                    document.getElementById(`play-${id}`).onclick = () => new Audio(url).play();
+                };
+                mediaRecorder.start();
+                btn.innerText = "🛑 Stop..."; btn.style.background = "#000";
+            } catch(e) { alert("請允許麥克風權限"); }
+        } else {
+            mediaRecorder.stop();
+            btn.innerText = "🎤 Re-record"; btn.style.background = "#e74c3c";
+        }
+    }
+
+    // 5. 核心渲染邏輯 (網頁互動 + 列印安全)
+    function render() {
+        const display = document.getElementById('mainDisplay');
+        display.innerHTML = '';
+
+        currentWords.forEach((item, i) => {
+            const typeClass = item.type.toLowerCase() === 'core' ? 'badge-core' : 'badge-elite';
+            const word = item.word.toUpperCase(); // 顯示用
+            const displayWord = item.word; // 網頁學習用標準大小寫 (依您的偏好可調整)
+            
+            // 題型數據準備
+            const anagram = word.split('').sort(() => 0.5 - Math.random()).join(' ');
+            const sentence = `The boy sa${word.slice(0,2).toLowerCase()} i${word.slice(2).toLowerCase()} it was great.`.replace("  ", " ");
+
+            const card = document.createElement('div');
+            
+            // ★★★ 關鍵結構：將網頁互動區 (web-interactive-area) 與列印區 (test-item) 平行放置 ★★★
+            // 這樣即使 web-interactive-area 裡面的東西被隱藏，test-item 也不會受影響
+            card.innerHTML = `
+                <div class="vocab-card word-info web-interactive-area">
+                    
+                    <div id="learn-view-${i}">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span class="badge ${typeClass}">${item.type}</span>
+                            <div>
+                                <button class="btn btn-audio" onclick="playNative('${word}')">🔊 Voice</button>
+                                <button class="btn btn-record" id="rec-${i}" onclick="toggleRecord(${i})">🎤</button>
+                                <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️</button>
+                            </div>
+                        </div>
+
+                        <h2 style="color:var(--core); margin: 10px 0;">${i+1}. ${displayWord}</h2>
+
+                        <p style="margin-bottom: 15px;">
+                            <strong style="color: #f1c40f;">💡 Mnemonic:</strong><br>
+                            <span style="font-size: 1.1em;">${item.memory}</span>
+                        </p>
+
+                        <div style="display: flex; gap: 30px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+                            <div>
+                                <span style="color: #55efc4; font-weight: bold;">🟢 SYNONYM</span><br>
+                                <span style="font-size: 1.2em;">${item.syn}</span>
+                            </div>
+                            <div style="border-left: 1px solid #444; padding-left: 30px;">
+                                <span style="color: #ff7675; font-weight: bold;">🔴 ANTONYM</span><br>
+                                <span style="font-size: 1.2em;">${item.ant}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="challenge-view-${i}" style="display: none; text-align: center; padding: 20px 0;">
+                        <strong style="color: var(--elite); font-size: 1.2em;">🧩 11+ VR Challenge (Anagram):</strong>
+                        <p style="margin-top: 15px; color: #aaa;">Rearrange these letters:</p>
+                        <div style="background: #000; padding: 15px; border-radius: 8px; margin: 10px 0; border: 2px dashed #666;">
+                            <span style="font-family: monospace; font-size: 2em; letter-spacing: 5px; color: white;">${anagram}</span>
+                        </div>
+                        <p style="color: #f1c40f;">(Can you verify the spelling?)</p>
+                    </div>
+
+                    <button class="btn" id="btn-toggle-${i}" onclick="toggleChallenge(${i})" style="width: 100%; margin-top: 20px; background: var(--primary);">
+                        🎯 Start Challenge (Hide Word)
+                    </button>
+                </div>
+
+                <div class="test-item">
+                    <div style="display:flex; justify-content:space-between; border-bottom:1px solid #000; padding-bottom:5px; margin-bottom:10px;">
+                        <span>11+ VR Test: Week ${document.getElementById('weekInput').value}</span>
+                        <span>Mode: ${currentTestType.toUpperCase()}</span>
+                    </div>
+
+                    ${currentTestType === 'standard' ? `
+                        <p><b>Q${i+1}:</b> Find a synonym of "${item.syn}" and antonym of "${item.ant}".</p>
+                        <p style="font-size: 1.4em; font-family: monospace; font-weight: bold; margin: 15px 0;">
+                            ${word.charAt(0)} ${"_ ".repeat(word.length - 2)} ${word.slice(-1)} (${word.length} letters)
+                        </p>
+                    ` : ''}
+
+                    ${currentTestType === 'anagram' ? `
+                        <p><b>Q${i+1}:</b> Rearrange these letters to form a word that means "${item.syn}":</p>
+                        <p style="font-size: 1.4em; font-weight: bold; letter-spacing: 3px; margin: 15px 0;">${anagram}</p>
+                        <p>Answer: ___________________________</p>
+                    ` : ''}
+
+                    ${currentTestType === 'hidden' ? `
+                        <p><b>Q${i+1}:</b> A ${word.length}-letter word is <b>hidden</b> in this sentence:</p>
+                        <p style="font-size: 1.2em; font-style: italic; margin: 15px 0; background: #f9f9f9; padding: 10px; border: 1px solid #ddd;">"${sentence}"</p>
+                        <p>Hidden Word: ___________________________</p>
+                    ` : ''}
+
+                    <div style="margin-top: 20px; border-bottom: 1px dashed #ccc; height: 1px;"></div>
+                </div>
+            `;
+            display.appendChild(card);
+        });
+    }
+
+    // 6. 挑戰模式切換功能
+    function toggleChallenge(i) {
+        const learnView = document.getElementById(`learn-view-${i}`);
+        const challengeView = document.getElementById(`challenge-view-${i}`);
+        const btn = document.getElementById(`btn-toggle-${i}`);
+
+        if (learnView.style.display !== 'none') {
+            // 切換到挑戰模式 (隱藏生字，顯示 Anagram)
+            learnView.style.display = 'none';
+            challengeView.style.display = 'block';
+            btn.innerText = '👁️ Show Word (Peek)';
+            btn.style.background = '#4b5563'; // 灰色按鈕
+        } else {
+            // 切換回學習模式 (顯示生字)
+            learnView.style.display = 'block';
+            challengeView.style.display = 'none';
+            btn.innerText = '🎯 Start Challenge (Hide Word)';
+            btn.style.background = '#6c5ce7'; // 紫色按鈕
+        }
+    }
+</script>
+
+</body>
+</html>
