@@ -62,12 +62,17 @@
 </div>
 
 <script>
+    // ==========================================
+    // 複製檔案後，手動修改這裡的名字即可
+    const STUDENT_NAME = "Kathryn"; 
+    // ==========================================
+
     let allVocab = [];
     let currentWords = [];
     let mediaRecorder;
     let audioChunks = {};
     let currentTestType = 'standard';
-    let userAnswers = {}; // 紀錄每題點擊的答案
+    let userAnswers = {};// 紀錄每題點擊的答案
 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxEvoOp6elsVsYby0oY6cU5GrghiTd7tsh_o07q-wgHxhr51xHCnsyCvYIYeN-YOCYpjw/exec";
 
@@ -141,41 +146,42 @@
     }
 
     async function submitAnswer(wordIdx) {
-    const week = document.getElementById('weekInput').value;
-    const correctWord = currentWords[wordIdx].word.toUpperCase();
-    const userAnswer = userAnswers[wordIdx] || "";
-    const btn = document.getElementById(`submit-btn-${wordIdx}`);
+        const week = document.getElementById('weekInput').value;
+        const correctWord = currentWords[wordIdx].word.toUpperCase();
+        const userAnswer = userAnswers[wordIdx] || "";
+        const btn = document.getElementById(`submit-btn-${wordIdx}`);
 
-    if (userAnswer.length < correctWord.length) return; 
+        if (userAnswer.length < correctWord.length) return; 
 
-    btn.innerText = "Saving...";
-    btn.disabled = true;
+        btn.innerText = "Saving...";
+        btn.disabled = true;
 
-    // 準備 JSON 數據
-    const payload = {
-        week: week,
-        correctWord: correctWord,
-        userAnswer: userAnswer,
-        status: (correctWord === userAnswer) ? "✅ Correct" : "❌ Incorrect"
-    };
+        // 準備數據，這裡加入了 student: STUDENT_NAME
+        const payload = {
+            student: STUDENT_NAME, 
+            week: week,
+            correctWord: correctWord,
+            userAnswer: userAnswer,
+            status: (correctWord === userAnswer) ? "✅ Correct" : "❌ Incorrect"
+        };
 
-    try {
-        await fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors', // Google Script 必須用 no-cors
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+        try {
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
 
-        // 成功後直接顯示狀態
-        btn.innerText = "✅ Submitted";
-        btn.style.background = "#2d3436";
-        
-    } catch (e) {
-        btn.innerText = "❌ Error";
-        btn.disabled = false;
+            btn.innerText = "✅ Submitted";
+            btn.style.background = "#2d3436";
+            
+        } catch (e) {
+            console.error("Submission error:", e);
+            btn.innerText = "❌ Error";
+            btn.disabled = false;
+        }
     }
-}
 
     function render() {
         const display = document.getElementById('mainDisplay');
