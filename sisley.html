@@ -76,40 +76,49 @@
 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxEvoOp6elsVsYby0oY6cU5GrghiTd7tsh_o07q-wgHxhr51xHCnsyCvYIYeN-YOCYpjw/exec";
 
-    window.onload = function() {
-        Papa.parse("vocab.csv", {
-            download: true, header: true, skipEmptyLines: true,
-            complete: function(results) {
-                allVocab = results.data.filter(row => row.word);
-                generateByWeek();
-            }
-        });
-    };
+window.onload = function() {
+    Papa.parse("vocab.csv", {
+        download: true, 
+        header: true, 
+        skipEmptyLines: true,
+        complete: function(results) {
+            allVocab = results.data;
+            console.log("Data Loaded:", allVocab); // 檢查這行是否有資料
+            generateByWeek();
+        }
+    });
+};
 
-    function generateByWeek() {
-        const week = parseInt(document.getElementById('weekInput').value) || 1;
-        const cores = allVocab.filter(v => v.type.toUpperCase() === 'CORE');
-        const elites = allVocab.filter(v => v.type.toUpperCase() === 'ELITE');
+function generateByWeek() {
+    // 1. 取得使用者輸入的天數
+    const targetDay = document.getElementById('weekInput').value.trim();
 
-        const seedShuffle = (arr, seed) => {
-            let m = arr.length, t, i;
-            while (m) {
-                i = Math.floor(Math.abs(Math.sin(seed++)) * m--);
-                t = arr[m]; arr[m] = arr[i]; arr[i] = t;
-            }
-            return arr;
-        };
+    // 2. 進行過濾（加入 trim() 確保不會因為 CSV 多了空格而失敗）
+    currentWords = allVocab.filter(v => {
+        // 同時檢查 'day' 欄位（考慮大小寫或前後空格）
+        const dayValue = (v.day || v.DAY || "").toString().trim();
+        return dayValue === targetDay;
+    });
 
-        // 規則 1: 改為每週 5 個字 (3 Core + 2 Elite)
-        const startC = (week - 1) * 3;
-        const startE = (week - 1) * 2;
+    // 3. 簡單隨機排序
+    currentWords.sort(() => 0.5 - Math.random());
+
+    // 4. 除錯提示（如果還是找不到，顯示 CSV 到底讀到了什麼欄位）
+    if (currentWords.length === 0) {
+        console.log("CSV 第一行範例:", allVocab[0]); // 在 F12 控制台查看
+        const availableCols = allVocab.length > 0 ? Object.keys(allVocab[0]).join(", ") : "None";
         
-        let poolC = seedShuffle([...cores], week).slice(startC, startC + 3);
-        let poolE = seedShuffle([...elites], week + 50).slice(startE, startE + 2);
-
-        currentWords = seedShuffle([...poolC, ...poolE], week + 99);
-        render();
+        document.getElementById('mainDisplay').innerHTML = `
+            <div style="text-align:center; padding:50px; color:#ff7675; background: #1e293b; border-radius: 15px;">
+                <h3>⚠️ 找不到 Day ${targetDay} 的生字</h3>
+                <p>讀取到的 CSV 欄位名稱有：<br><code style="color:white;">${availableCols}</code></p>
+                <p style="font-size:0.8em; color:#aaa;">請確保 CSV 第一行是 word,memory,syn,ant,type,day</p>
+            </div>`;
+        return;
     }
+
+    render();
+}
 
     function playNative(word) {
         const audio = new Audio(`audio/${word.toLowerCase()}.mp3`);
