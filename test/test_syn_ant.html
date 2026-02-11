@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>11+ VR Exam: Synonyms & Antonyms</title>
+    <title>11+ VR Exam: GL Assessment Mode</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         :root {
@@ -37,6 +37,17 @@
             border-radius: 12px;
             margin-bottom: 30px;
             border: 1px solid #e2e8f0;
+        }
+
+        .section-header {
+            background-color: var(--exam-blue);
+            color: white;
+            padding: 15px;
+            margin: 30px 0 20px 0;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .input-group { margin-bottom: 20px; }
@@ -102,7 +113,7 @@
 
 <div class="container">
     <div class="no-print">
-        <h1>🚀 11+ VR Exam Simulator</h1>
+        <h1>🚀 11+ VR Exam Simulator (GL Mode)</h1>
         
         <div class="input-group">
             <label>👤 Student Name (學生姓名):</label>
@@ -123,9 +134,9 @@
         <div class="input-group">
             <label>📝 Test Mode (測驗模式):</label>
             <select id="modeSelect" class="input-field">
-                <option value="syn">Synonyms (同意詞)</option>
-                <option value="ant">Antonyms (反意詞)</option>
-                <option value="both">Mixed (混合測驗：同個單字考兩題)</option>
+                <option value="both">Mixed (GL Mode: SYN Section then ANT Section)</option>
+                <option value="syn">Synonyms Only (僅限同意詞)</option>
+                <option value="ant">Antonyms Only (僅限反意詞)</option>
             </select>
         </div>
 
@@ -136,12 +147,8 @@
 </div>
 
 <script>
-    // ==========================================
-    // 配置區域
-    // ==========================================
     const CSV_URL = "csv/syn_ant.csv"; 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNk4As8i9VDlQBoNijrSimSbO2j6Gf6zVv9dwwlU1XIGelKNNyJxdSDiouZU8j0BgiMg/exec"; 
-    // ==========================================
 
     let rawData = [];
     let examData = [];
@@ -189,43 +196,61 @@
         if (selectedDays.length === 0) return alert("請至少選取一個 Day！");
 
         let filtered = rawData.filter(item => selectedDays.includes(item.day));
-        examData = [];
+        
+        let synPart = [];
+        let antPart = [];
 
         filtered.forEach(item => {
             if (mode === 'syn' || mode === 'both') {
-                examData.push({
+                synPart.push({
                     word: item.Word,
                     instruction: item['Synonym Question'],
                     options: [item['Syn Option A'], item['Syn Option B'], item['Syn Option C'], item['Syn Option D']],
-                    correct: item['Syn Answer'],
+                    correctLetter: item['Syn Answer'],
+                    correctText: item['Syn Option ' + item['Syn Answer']], // 儲存正確答案的文字內容
                     type: 'Synonym'
                 });
             }
             if (mode === 'ant' || mode === 'both') {
-                examData.push({
+                antPart.push({
                     word: item.Word,
                     instruction: item['Antonym Question'],
                     options: [item['Ant Option A'], item['Ant Option B'], item['Ant Option C'], item['Ant Option D']],
-                    correct: item['Ant Answer'],
+                    correctLetter: item['Ant Answer'],
+                    correctText: item['Ant Option ' + item['Ant Answer']], // 儲存正確答案的文字內容
                     type: 'Antonym'
                 });
             }
         });
 
-        examData.sort(() => Math.random() - 0.5);
-        renderQuestions();
+        // GL Mode: 在每一組內隨機排序
+        synPart.sort(() => Math.random() - 0.5);
+        antPart.sort(() => Math.random() - 0.5);
+
+        // 合併結果：先 SYN 後 ANT
+        examData = [...synPart, ...antPart];
+        renderQuestions(synPart.length, antPart.length);
     }
 
-    function renderQuestions() {
+    function renderQuestions(synCount, antCount) {
         const paper = document.getElementById('examPaper');
         const student = document.getElementById('studentName').value;
-        paper.innerHTML = `<h2 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;">11+ VR Selection Test</h2>
+        paper.innerHTML = `<h2 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;">11+ VR Selection Test (GL Assessment Style)</h2>
                            <p><b>Candidate:</b> ${student} &nbsp;&nbsp;&nbsp; <b>Date:</b> ${new Date().toLocaleDateString()}</p>`;
 
+        let currentType = "";
+        
         examData.forEach((q, i) => {
+            // 插入 Section Header (GL Style)
+            if (q.type !== currentType) {
+                currentType = q.type;
+                const sectionTitle = q.type === 'Synonym' ? 'Section 1: Synonyms' : (synCount > 0 ? 'Section 2: Antonyms' : 'Section 1: Antonyms');
+                paper.innerHTML += `<div class="section-header">${sectionTitle}</div>`;
+            }
+
             paper.innerHTML += `
                 <div class="question-block" id="block-${i}">
-                    <div class="q-header">Question ${i+1}:</div>
+                    <div class="q-header">Question ${i + 1}:</div>
                     <span class="target-word">${q.word.toUpperCase()}</span>
                     <div class="instruction">${q.instruction}</div>
                     <div class="options-grid">
@@ -238,7 +263,7 @@
             `;
         });
 
-        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">完成並提交 (Submit)</button>`;
+        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">完成並提交 (Submit All Sections)</button>`;
         window.scrollTo({ top: paper.offsetTop, behavior: 'smooth' });
     }
 
@@ -247,7 +272,8 @@
         parent.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         examData[idx].userChoiceIdx = optIdx;
-        examData[idx].userChoiceLetter = String.fromCharCode(65 + optIdx); // 0->A, 1->B...
+        examData[idx].userChoiceLetter = String.fromCharCode(65 + optIdx);
+        examData[idx].userChoiceText = examData[idx].options[optIdx];
     }
 
     async function submitExam() {
@@ -258,14 +284,15 @@
 
         for (let i = 0; i < total; i++) {
             const q = examData[i];
-            const isCorrect = q.userChoiceLetter === q.correct;
+            const isCorrect = q.userChoiceLetter === q.correctLetter;
             
             const payload = {
                 student: student,
                 submitDate: new Date().toLocaleString(),
                 testType: q.type,
                 word: q.word,
-                userAnswer: q.options[q.userChoiceIdx] || "N/A",
+                userAnswer: q.userChoiceText || "N/A",
+                correctAnswer: q.correctText, // 加入正確答案內容
                 status: isCorrect ? "✅ Correct" : "❌ Incorrect"
             };
 
@@ -281,7 +308,7 @@
         }
 
         document.getElementById('overlay').style.display = 'none';
-        alert("測驗已提交成功！");
+        alert("測驗已提交成功！您的答案與正確答案已儲存。");
         location.reload();
     }
 </script>
