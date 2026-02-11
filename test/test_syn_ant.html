@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>11+ VR Exam Simulator (IPad Optimized)</title>
+    <title>11+ VR Exam Simulator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         :root {
@@ -16,9 +16,9 @@
 
         body {
             font-family: "Times New Roman", serif;
-            background-color: #d1d5db;
+            background-color: #f1f5f9;
             margin: 0;
-            padding: 15px;
+            padding: 10px;
             color: #1e293b;
         }
 
@@ -27,51 +27,47 @@
             margin: auto;
             background: var(--paper-bg);
             padding: 30px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
         }
 
-        /* 控制面板 */
         .no-print {
             background: #f8fafc;
-            padding: 25px;
+            padding: 20px;
             border-radius: 12px;
             margin-bottom: 30px;
-            border: 2px solid #e2e8f0;
+            border: 1px solid #e2e8f0;
         }
 
-        h1 { text-align: center; color: var(--exam-blue); margin-top: 0; font-variant: small-caps; }
-
         .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; font-weight: bold; margin-bottom: 8px; font-family: Arial, sans-serif; }
-        .input-field { width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 1.1em; box-sizing: border-box; }
+        .input-group label { display: block; font-weight: bold; margin-bottom: 8px; font-family: Arial, sans-serif; color: var(--exam-blue); }
+        .input-field { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1.1em; box-sizing: border-box; }
 
         .day-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
             gap: 10px;
             max-height: 200px;
             overflow-y: auto;
             background: white;
             padding: 15px;
-            border: 2px solid #cbd5e1;
+            border: 1px solid #cbd5e1;
             border-radius: 8px;
+            margin-top: 5px;
         }
 
-        .day-item { display: flex; align-items: center; font-family: Arial, sans-serif; cursor: pointer; }
-        .day-item input { width: 22px; height: 22px; margin-right: 10px; }
+        .day-item { display: flex; align-items: center; font-family: Arial, sans-serif; cursor: pointer; font-size: 14px; }
+        .day-item input { width: 18px; height: 18px; margin-right: 8px; }
 
-        /* 題目樣式 */
         .question-block {
             margin-bottom: 40px;
             padding: 20px;
-            border-left: 5px solid #e2e8f0;
-            background: #fcfcfc;
+            border-bottom: 2px solid #f1f5f9;
         }
 
-        .q-header { font-weight: bold; color: var(--exam-blue); font-family: Arial, sans-serif; margin-bottom: 15px; }
-        .sentence { font-size: 1.4em; margin-bottom: 20px; line-height: 1.6; }
-        .sentence u { text-decoration-thickness: 2px; text-underline-offset: 4px; }
+        .q-header { font-weight: bold; color: var(--exam-blue); font-family: Arial, sans-serif; margin-bottom: 15px; font-size: 1.1em; }
+        .sentence { font-size: 1.4em; margin-bottom: 25px; line-height: 1.6; }
+        .sentence u { font-weight: bold; text-decoration-thickness: 2px; }
 
         .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .opt-btn {
@@ -79,47 +75,52 @@
             border: 2px solid #cbd5e1;
             background: white;
             cursor: pointer;
-            font-size: 1.25em;
+            font-size: 1.2em;
             text-align: left;
             border-radius: 12px;
-            transition: all 0.2s;
+            transition: 0.2s;
         }
-        .opt-btn.selected { border-color: var(--exam-blue); background: #eff6ff; color: var(--exam-blue); font-weight: bold; box-shadow: inset 0 0 0 1px var(--exam-blue); }
+        .opt-btn:active { background: #f1f5f9; }
+        .opt-btn.selected { border-color: var(--exam-blue); background: #dbeafe; color: var(--exam-blue); font-weight: bold; }
 
-        .btn-start { background: var(--exam-blue); color: white; width: 100%; padding: 20px; border: none; border-radius: 12px; font-size: 1.4em; font-weight: bold; cursor: pointer; }
+        .btn-start { width: 100%; padding: 18px; background: var(--exam-blue); color: white; border: none; border-radius: 10px; font-size: 1.3em; font-weight: bold; cursor: pointer; }
         
         #overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); display: none; flex-direction: column;
+            background: rgba(0,0,0,0.8); display: none; flex-direction: column;
             justify-content: center; align-items: center; color: white; z-index: 9999;
         }
 
-        @media print { .no-print { display: none; } }
+        .error-msg { color: #ef4444; font-weight: bold; padding: 10px; border: 1px solid #ef4444; border-radius: 5px; background: #fef2f2; }
+
+        @media print { .no-print { display: none !important; } }
     </style>
 </head>
 <body>
 
 <div id="overlay">
-    <h2 id="statusText">正在上傳答案至雲端...</h2>
-    <div style="font-size: 1.2em;" id="progressText">0 / 0</div>
+    <h2 id="statusText">正在儲存答案...</h2>
+    <div id="progressText" style="font-size: 1.5em;">0 / 0</div>
 </div>
 
 <div class="container">
     <div class="no-print">
-        <h1>Kathryn 11+ VR Exam System</h1>
+        <h1>🚀 11+ VR Exam Simulator</h1>
         
         <div class="input-group">
             <label>👤 Student Name (學生姓名):</label>
-            <input type="text" id="studentName" class="input-field" placeholder="請輸入學生姓名 (如: Kathryn)">
+            <input type="text" id="studentName" class="input-field" placeholder="請輸入姓名">
         </div>
 
         <div class="input-group">
             <label>📅 Select Days (選取天數):</label>
-            <div style="margin-bottom: 10px;">
-                <button onclick="toggleAll(true)">全選</button>
-                <button onclick="toggleAll(false)">清除</button>
+            <div id="dayLoaderStatus">
+                <div style="margin-bottom: 10px;">
+                    <button onclick="toggleAll(true)">全選</button>
+                    <button onclick="toggleAll(false)">清除</button>
+                </div>
+                <div class="day-grid" id="daySelector">正在嘗試從 GitHub 讀取資料...</div>
             </div>
-            <div class="day-grid" id="daySelector">載入中...</div>
         </div>
 
         <div class="input-group">
@@ -127,74 +128,175 @@
             <select id="modeSelect" class="input-field">
                 <option value="syn">Synonyms (同意詞)</option>
                 <option value="ant">Antonyms (反意詞)</option>
-                <option value="both">Mixed (同意詞 & 反意詞)</option>
+                <option value="both">Mixed (混合測驗)</option>
             </select>
         </div>
 
-        <button class="btn-start" onclick="generateExam()">生成模擬試卷</button>
+        <button class="btn-start" id="generateBtn" onclick="generateExam()" disabled>等待資料載入中...</button>
     </div>
 
     <div id="examPaper"></div>
 </div>
 
 <script>
-    // 配置資訊
-    const CSV_URL = "csv/syn_ant.csv"; 
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNk4As8i9VDlQBoNijrSimSbO2j6Gf6zVv9dwwlU1XIGelKNNyJxdSDiouZU8j0BgiMg/exec";
+    // ==========================================
+    // 配置區域
+    // ==========================================
+    const CSV_URL = "csv/syn_ant.csv"; // 請確認 GitHub 上路徑是小寫 csv
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNk4As8i9VDlQBoNijrSimSbO2j6Gf6zVv9dwwlU1XIGelKNNyJxdSDiouZU8j0BgiMg/exec"; 
+    // ==========================================
 
     let rawData = [];
-    let currentQuestions = [];
+    let examData = [];
 
-    // 1. 讀取 CSV 並初始化 Day Checkboxes
     window.onload = function() {
+        console.log("嘗試載入 CSV: " + CSV_URL);
+        loadCSV();
+    };
+
+    function loadCSV() {
         Papa.parse(CSV_URL, {
             download: true,
             header: true,
             skipEmptyLines: true,
             complete: function(results) {
+                console.log("CSV 載入成功");
                 rawData = results.data;
-                const days = [...new Set(rawData.map(item => item.day))].sort((a,b) => parseInt(a) - parseInt(b));
-                const container = document.getElementById('daySelector');
-                container.innerHTML = "";
-                days.forEach(d => {
-                    if(!d) return;
-                    container.innerHTML += `
-                        <label class="day-item">
-                            <input type="checkbox" name="dayCheck" value="${d}"> Day ${d}
-                        </label>`;
-                });
+                
+                // 檢查是否有資料
+                if (rawData.length === 0) {
+                    showError("CSV 檔案內容為空。");
+                    return;
+                }
+
+                // 獲取所有天數
+                const days = [...new Set(rawData.map(item => item.day))].filter(d => d).sort((a,b) => parseInt(a) - parseInt(b));
+                
+                if (days.length === 0) {
+                    showError("找不到 'day' 欄位。請檢查 CSV 首行標題是否包含 day (細楷)。");
+                    return;
+                }
+
+                renderDaySelector(days);
+                document.getElementById('generateBtn').disabled = false;
+                document.getElementById('generateBtn').innerText = "生成模擬試卷";
             },
-            error: () => alert("找不到 CSV 檔案，請檢查 csv/syn_ant.csv 是否存在。")
+            error: function(err) {
+                console.error("PapaParse 錯誤:", err);
+                showError("無法開啟 CSV 檔案。原因：路徑錯誤或 GitHub 檔案不存在。<br>請檢查是否有名為 'csv' 的資料夾及 'syn_ant.csv' 檔案。");
+            }
         });
-    };
+    }
+
+    function showError(msg) {
+        document.getElementById('daySelector').innerHTML = `<div class="error-msg">${msg}</div>`;
+    }
+
+    function renderDaySelector(days) {
+        const container = document.getElementById('daySelector');
+        container.innerHTML = "";
+        days.forEach(d => {
+            container.innerHTML += `<label class="day-item"><input type="checkbox" name="dayCheck" value="${d}"> Day ${d}</label>`;
+        });
+    }
 
     function toggleAll(status) {
         document.querySelectorAll('input[name="dayCheck"]').forEach(cb => cb.checked = status);
     }
 
-    // 2. 生成測驗
     function generateExam() {
-        const name = document.getElementById('studentName').value.trim();
+        const student = document.getElementById('studentName').value.trim();
         const selectedDays = Array.from(document.querySelectorAll('input[name="dayCheck"]:checked')).map(cb => cb.value);
         const mode = document.getElementById('modeSelect').value;
 
-        if (!name) return alert("請先輸入學生姓名！");
-        if (selectedDays.length === 0) return alert("請至少選取一個天數！");
+        if (!student) return alert("請輸入學生姓名！");
+        if (selectedDays.length === 0) return alert("請至少選取一個 Day！");
 
         let filtered = rawData.filter(item => selectedDays.includes(item.day));
-        currentQuestions = [];
+        examData = [];
 
         filtered.forEach(item => {
-            if (mode === 'syn' || mode === 'both') currentQuestions.push({...item, type: 'Synonym'});
-            if (mode === 'ant' || mode === 'both') currentQuestions.push({...item, type: 'Antonym'});
+            if (mode === 'syn' || mode === 'both') examData.push({...item, quizType: 'Synonym'});
+            if (mode === 'ant' || mode === 'both') examData.push({...item, quizType: 'Antonym'});
         });
 
-        currentQuestions.sort(() => Math.random() - 0.5);
+        if (examData.length === 0) return alert("選取的範圍內沒有題目。");
+
+        examData.sort(() => Math.random() - 0.5);
         renderQuestions();
     }
 
     function renderQuestions() {
         const paper = document.getElementById('examPaper');
-        const name = document.getElementById('studentName').value;
-        paper.innerHTML = `<h2 style="text-align:center;">11+ Verbal Reasoning Mock Test</h2>
-                           <p>
+        const student = document.getElementById('studentName').value;
+        paper.innerHTML = `<h2 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;">11+ VR Mock Test</h2>
+                           <p><b>Candidate:</b> ${student} &nbsp;&nbsp;&nbsp; <b>Date:</b> ${new Date().toLocaleDateString()}</p>`;
+
+        examData.forEach((q, i) => {
+            const word = q['Hidden Word (獨立格)'] || "____";
+            const sentence = q.Sentence.replace('x', `<u>${word}</u>`);
+
+            paper.innerHTML += `
+                <div class="question-block" id="block-${i}">
+                    <div class="q-header">Question ${i+1}: Select the most appropriate <b>${q.quizType}</b></div>
+                    <div class="sentence">${sentence}</div>
+                    <div class="options-grid">
+                        <button class="opt-btn" onclick="setChoice(${i}, 'A', this)">A. ${q['Option A']}</button>
+                        <button class="opt-btn" onclick="setChoice(${i}, 'B', this)">B. ${q['Option B']}</button>
+                        <button class="opt-btn" onclick="setChoice(${i}, 'C', this)">C. ${q['Option C']}</button>
+                        <button class="opt-btn" onclick="setChoice(${i}, 'D', this)">D. ${q['Option D']}</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">提交結果 (Submit)</button>`;
+        window.scrollTo({ top: paper.offsetTop, behavior: 'smooth' });
+    }
+
+    function setChoice(idx, letter, btn) {
+        const parent = document.getElementById(`block-${idx}`);
+        parent.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        examData[idx].userChoice = letter;
+    }
+
+    async function submitExam() {
+        const student = document.getElementById('studentName').value;
+        const total = examData.length;
+        
+        document.getElementById('overlay').style.display = 'flex';
+        document.getElementById('progressText').innerText = `0 / ${total}`;
+
+        for (let i = 0; i < total; i++) {
+            const q = examData[i];
+            const isCorrect = q.userChoice === q['Correct Option'];
+            
+            const payload = {
+                student: student,
+                submitDate: new Date().toLocaleString(),
+                testType: q.quizType,
+                word: q['Hidden Word (獨立格)'],
+                userAnswer: q[`Option ${q.userChoice}`] || "N/A",
+                status: isCorrect ? "✅ Correct" : "❌ Incorrect"
+            };
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(payload)
+                });
+            } catch (err) { console.error("Upload error"); }
+            
+            document.getElementById('progressText').innerText = `${i+1} / ${total}`;
+        }
+
+        document.getElementById('overlay').style.display = 'none';
+        alert("測驗已提交成功！");
+        location.reload();
+    }
+</script>
+
+</body>
+</html>
