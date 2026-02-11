@@ -1,1 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11+ VR Exam Simulator - Synonyms & Antonyms</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        /* 11+ 模擬試卷風格：簡潔、專業、易讀 */
+        :root {
+            --exam-blue: #2c3e50;
+            --exam-gray: #f4f7f6;
+            --correct: #27ae60;
+            --wrong: #e74c3c;
+            --accent: #3498db;
+        }
 
+        body {
+            font-family: "Times New Roman", serif; /* 模擬試卷常用字體 */
+            background-color: #d1d8e0;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+
+        .no-print {
+            background: #fff;
+            padding: 20px;
+            border-bottom: 2px solid var(--exam-blue);
+            margin-bottom: 30px;
+        }
+
+        h1 { text-align: center; color: var(--exam-blue); text-transform: uppercase; letter-spacing: 2px; }
+        
+        /* 天數選擇區域 */
+        .day-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .day-item { font-family: Arial, sans-serif; font-size: 14px; }
+
+        /* 考卷題目樣式 */
+        .question-block {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px dashed #ccc;
+            position: relative;
+        }
+
+        .question-meta {
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .sentence {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .opt-btn {
+            padding: 15px;
+            border: 2px solid var(--exam-blue);
+            background: white;
+            cursor: pointer;
+            font-size: 1.1em;
+            text-align: left;
+            transition: 0.2s;
+            border-radius: 5px;
+        }
+
+        .opt-btn:active { background: #e0e0e0; }
+        .opt-btn.selected { background: var(--exam-blue); color: white; }
+        .opt-btn.disabled { pointer-events: none; opacity: 0.7; }
+
+        .submit-all-btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: var(--correct);
+            color: white;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+
+        #statusOverlay {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="no-print">
+        <h1>11+ VR Exam Simulator</h1>
+        
+        <div>
+            <strong>1. Select Days:</strong>
+            <button onclick="toggleAllDays(true)">All</button>
+            <button onclick="toggleAllDays(false)">None</button>
+            <div class="day-selector" id="daySelector"></div>
+        </div>
+
+        <div style="margin-top:20px;">
+            <strong>2. Test Type:</strong>
+            <select id="modeSelect" style="padding:10px;">
+                <option value="syn">Synonyms (同意詞)</option>
+                <option value="ant">Antonyms (反意詞)</option>
+                <option value="both">Mixed (兩者混合 - 同一單字考兩次)</option>
+            </select>
+        </div>
+
+        <button class="submit-all-btn" style="background:var(--accent);" onclick="startExam()">✍️ Start Exam</button>
+    </div>
+
+    <div id="examPaper">
+        </div>
+</div>
+
+<div id="statusOverlay">Saving results...</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxEvoOp6elsVsYby0oY6cU5GrghiTd7tsh_o07q-wgHxhr51xHCnsyCvYIYeN-YOCYpjw/exec"; // 請確保這是最新的部署網址
+    let allData = [];
+    let testQuestions = [];
+
+    // 初始化：加載 CSV 並生成 Day Checkboxes
+    window.onload = function() {
+        Papa.parse("syn_ant.csv", {
+            download: true,
+            header: true,
+            skipEmptyLines: true,
+            complete: function(results) {
+                allData = results.data;
+                const days = [...new Set(allData.map(item => item.day))].sort((a,b) => a-b);
+                const container = document.getElementById('daySelector');
+                days.forEach(d => {
+                    container.innerHTML += `
+                        <label class="day-item">
+                            <input type="checkbox" name="dayCheck" value="${d}"> Day ${d}
+                        </label>`;
+                });
+            }
+        });
+    };
+
+    function toggleAllDays(check) {
+        document.querySelectorAll('input[name="dayCheck"]').forEach(cb => cb.checked = check);
+    }
+
+    function startExam() {
+        const selectedDays = Array.from(document.querySelectorAll('input[name="dayCheck"]:checked')).map(cb => cb.value);
+        const mode = document.getElementById('modeSelect').value;
+
+        if (selectedDays.length === 0) {
+            alert("Please select at least one day!");
+            return;
+        }
+
+        // 過濾選定的天數
+        let filtered = allData.filter(item => selectedDays.includes(item.day));
+        
+        // 生成題目邏輯
+        testQuestions = [];
+        filtered.forEach(item => {
+            if (mode === 'syn' || mode === 'both') {
+                testQuestions.push({...item, currentTestType: 'Synonym'});
+            }
+            if (mode === 'ant' || mode === 'both') {
+                testQuestions.push({...item, currentTestType: 'Antonym'});
+            }
+        });
+
+        // 隨機排序
+        testQuestions.sort(() => 0.5 - Math.random());
+        renderExam();
+    }
+
+    function renderExam() {
+        const paper = document.getElementById('examPaper');
+        paper.innerHTML = `<h2>Exam Paper: ${new Date().toLocaleDateString()}</h2><hr>`;
+
+        testQuestions.forEach((q, index) => {
+            paper.innerHTML += `
+                <div class="question-block" id="q-block-${index}">
+                    <div class="question-meta">Question ${index + 1} - Find the ${q.currentTestType}</div>
+                    <div class="sentence">${q.Sentence.replace('x', `<u>${q['Hidden Word (獨立格)']}</u>`)}</div>
+                    <div class="options-grid">
+                        <button class="opt-btn" onclick="selectOption(${index}, 'A', this)">A. ${q['Option A']}</button>
+                        <button class="opt-btn" onclick="selectOption(${index}, 'B', this)">B. ${q['Option B']}</button>
+                        <button class="opt-btn" onclick="selectOption(${index}, 'C', this)">C. ${q['Option C']}</button>
+                        <button class="opt-btn" onclick="selectOption(${index}, 'D', this)">D. ${q['Option D']}</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        paper.innerHTML += `<button class="submit-all-btn" id="finalSubmit" onclick="submitAll()">✅ Finish and Submit Results</button>`;
+        window.scrollTo(0, document.getElementById('examPaper').offsetTop);
+    }
+
+    function selectOption(qIdx, letter, btn) {
+        // 同一題只能選一個
+        const block = document.getElementById(`q-block-${qIdx}`);
+        block.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        testQuestions[qIdx].userAnswer = letter;
+    }
+
+    async function submitAll() {
+        const btn = document.getElementById('finalSubmit');
+        btn.disabled = true;
+        btn.innerText = "Processing & Saving...";
+        document.getElementById('statusOverlay').style.display = 'block';
+
+        for (let i = 0; i < testQuestions.length; i++) {
+            const q = testQuestions[i];
+            const isCorrect = q.userAnswer === q['Correct Option'];
+            
+            const payload = {
+                student: "Kathryn", // 這裡可根據需要改成變數
+                testDate: new Date().toLocaleString(),
+                testType: q.currentTestType,
+                word: q['Hidden Word (獨立格)'],
+                userAnswer: q[`Option ${q.userAnswer}`] || "No Answer",
+                status: isCorrect ? "✅ Correct" : "❌ Incorrect"
+            };
+
+            // 每個題目發送一次 POST 或修改 Script 接受 Array
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(payload)
+                });
+            } catch (e) {
+                console.error("Save error:", e);
+            }
+            
+            // 顯示反饋
+            const block = document.getElementById(`q-block-${i}`);
+            block.style.border = isCorrect ? "2px solid var(--correct)" : "2px solid var(--wrong)";
+        }
+
+        document.getElementById('statusOverlay').innerText = "All Results Saved to Google Sheet!";
+        setTimeout(() => {
+            document.getElementById('statusOverlay').style.display = 'none';
+            alert("Exam submitted successfully!");
+        }, 2000);
+    }
+</script>
+
+</body>
+</html>
