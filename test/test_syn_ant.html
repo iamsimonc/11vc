@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>11+ VR Exam Simulator</title>
+    <title>11+ VR Exam: Synonyms & Antonyms</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         :root {
@@ -66,8 +66,8 @@
         }
 
         .q-header { font-weight: bold; color: var(--exam-blue); font-family: Arial, sans-serif; margin-bottom: 15px; font-size: 1.1em; }
-        .sentence { font-size: 1.4em; margin-bottom: 25px; line-height: 1.6; }
-        .sentence u { font-weight: bold; text-decoration-thickness: 2px; }
+        .target-word { font-size: 1.8em; font-weight: bold; text-decoration: underline; color: #000; display: block; margin-bottom: 15px; text-align: center; }
+        .instruction { font-size: 1.2em; font-style: italic; margin-bottom: 20px; color: #475569; }
 
         .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .opt-btn {
@@ -80,7 +80,6 @@
             border-radius: 12px;
             transition: 0.2s;
         }
-        .opt-btn:active { background: #f1f5f9; }
         .opt-btn.selected { border-color: var(--exam-blue); background: #dbeafe; color: var(--exam-blue); font-weight: bold; }
 
         .btn-start { width: 100%; padding: 18px; background: var(--exam-blue); color: white; border: none; border-radius: 10px; font-size: 1.3em; font-weight: bold; cursor: pointer; }
@@ -92,8 +91,6 @@
         }
 
         .error-msg { color: #ef4444; font-weight: bold; padding: 10px; border: 1px solid #ef4444; border-radius: 5px; background: #fef2f2; }
-
-        @media print { .no-print { display: none !important; } }
     </style>
 </head>
 <body>
@@ -119,7 +116,7 @@
                     <button onclick="toggleAll(true)">全選</button>
                     <button onclick="toggleAll(false)">清除</button>
                 </div>
-                <div class="day-grid" id="daySelector">正在嘗試從 GitHub 讀取資料...</div>
+                <div class="day-grid" id="daySelector">正在嘗試載入 CSV 數據...</div>
             </div>
         </div>
 
@@ -128,7 +125,7 @@
             <select id="modeSelect" class="input-field">
                 <option value="syn">Synonyms (同意詞)</option>
                 <option value="ant">Antonyms (反意詞)</option>
-                <option value="both">Mixed (混合測驗)</option>
+                <option value="both">Mixed (混合測驗：同個單字考兩題)</option>
             </select>
         </div>
 
@@ -142,17 +139,14 @@
     // ==========================================
     // 配置區域
     // ==========================================
-    const CSV_URL = "csv/syn_ant.csv"; // 請確認 GitHub 上路徑是小寫 csv
+    const CSV_URL = "csv/syn_ant.csv"; 
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyNk4As8i9VDlQBoNijrSimSbO2j6Gf6zVv9dwwlU1XIGelKNNyJxdSDiouZU8j0BgiMg/exec"; 
     // ==========================================
 
     let rawData = [];
     let examData = [];
 
-    window.onload = function() {
-        console.log("嘗試載入 CSV: " + CSV_URL);
-        loadCSV();
-    };
+    window.onload = function() { loadCSV(); };
 
     function loadCSV() {
         Papa.parse(CSV_URL, {
@@ -160,37 +154,21 @@
             header: true,
             skipEmptyLines: true,
             complete: function(results) {
-                console.log("CSV 載入成功");
                 rawData = results.data;
-                
-                // 檢查是否有資料
-                if (rawData.length === 0) {
-                    showError("CSV 檔案內容為空。");
-                    return;
-                }
-
-                // 獲取所有天數
                 const days = [...new Set(rawData.map(item => item.day))].filter(d => d).sort((a,b) => parseInt(a) - parseInt(b));
-                
                 if (days.length === 0) {
-                    showError("找不到 'day' 欄位。請檢查 CSV 首行標題是否包含 day (細楷)。");
+                    showError("找不到 'day' 欄位，請檢查 CSV 格式。");
                     return;
                 }
-
                 renderDaySelector(days);
                 document.getElementById('generateBtn').disabled = false;
                 document.getElementById('generateBtn').innerText = "生成模擬試卷";
             },
-            error: function(err) {
-                console.error("PapaParse 錯誤:", err);
-                showError("無法開啟 CSV 檔案。原因：路徑錯誤或 GitHub 檔案不存在。<br>請檢查是否有名為 'csv' 的資料夾及 'syn_ant.csv' 檔案。");
-            }
+            error: function() { showError("無法讀取 " + CSV_URL + "，請確保檔案路徑正確。"); }
         });
     }
 
-    function showError(msg) {
-        document.getElementById('daySelector').innerHTML = `<div class="error-msg">${msg}</div>`;
-    }
+    function showError(msg) { document.getElementById('daySelector').innerHTML = `<div class="error-msg">${msg}</div>`; }
 
     function renderDaySelector(days) {
         const container = document.getElementById('daySelector');
@@ -200,9 +178,7 @@
         });
     }
 
-    function toggleAll(status) {
-        document.querySelectorAll('input[name="dayCheck"]').forEach(cb => cb.checked = status);
-    }
+    function toggleAll(status) { document.querySelectorAll('input[name="dayCheck"]').forEach(cb => cb.checked = status); }
 
     function generateExam() {
         const student = document.getElementById('studentName').value.trim();
@@ -216,11 +192,25 @@
         examData = [];
 
         filtered.forEach(item => {
-            if (mode === 'syn' || mode === 'both') examData.push({...item, quizType: 'Synonym'});
-            if (mode === 'ant' || mode === 'both') examData.push({...item, quizType: 'Antonym'});
+            if (mode === 'syn' || mode === 'both') {
+                examData.push({
+                    word: item.Word,
+                    instruction: item['Synonym Question'],
+                    options: [item['Syn Option A'], item['Syn Option B'], item['Syn Option C'], item['Syn Option D']],
+                    correct: item['Syn Answer'],
+                    type: 'Synonym'
+                });
+            }
+            if (mode === 'ant' || mode === 'both') {
+                examData.push({
+                    word: item.Word,
+                    instruction: item['Antonym Question'],
+                    options: [item['Ant Option A'], item['Ant Option B'], item['Ant Option C'], item['Ant Option D']],
+                    correct: item['Ant Answer'],
+                    type: 'Antonym'
+                });
+            }
         });
-
-        if (examData.length === 0) return alert("選取的範圍內沒有題目。");
 
         examData.sort(() => Math.random() - 0.5);
         renderQuestions();
@@ -229,36 +219,35 @@
     function renderQuestions() {
         const paper = document.getElementById('examPaper');
         const student = document.getElementById('studentName').value;
-        paper.innerHTML = `<h2 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;">11+ VR Mock Test</h2>
+        paper.innerHTML = `<h2 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;">11+ VR Selection Test</h2>
                            <p><b>Candidate:</b> ${student} &nbsp;&nbsp;&nbsp; <b>Date:</b> ${new Date().toLocaleDateString()}</p>`;
 
         examData.forEach((q, i) => {
-            const word = q['Hidden Word (獨立格)'] || "____";
-            const sentence = q.Sentence.replace('x', `<u>${word}</u>`);
-
             paper.innerHTML += `
                 <div class="question-block" id="block-${i}">
-                    <div class="q-header">Question ${i+1}: Select the most appropriate <b>${q.quizType}</b></div>
-                    <div class="sentence">${sentence}</div>
+                    <div class="q-header">Question ${i+1}:</div>
+                    <span class="target-word">${q.word.toUpperCase()}</span>
+                    <div class="instruction">${q.instruction}</div>
                     <div class="options-grid">
-                        <button class="opt-btn" onclick="setChoice(${i}, 'A', this)">A. ${q['Option A']}</button>
-                        <button class="opt-btn" onclick="setChoice(${i}, 'B', this)">B. ${q['Option B']}</button>
-                        <button class="opt-btn" onclick="setChoice(${i}, 'C', this)">C. ${q['Option C']}</button>
-                        <button class="opt-btn" onclick="setChoice(${i}, 'D', this)">D. ${q['Option D']}</button>
+                        <button class="opt-btn" onclick="setChoice(${i}, 0, this)">A. ${q.options[0]}</button>
+                        <button class="opt-btn" onclick="setChoice(${i}, 1, this)">B. ${q.options[1]}</button>
+                        <button class="opt-btn" onclick="setChoice(${i}, 2, this)">C. ${q.options[2]}</button>
+                        <button class="opt-btn" onclick="setChoice(${i}, 3, this)">D. ${q.options[3]}</button>
                     </div>
                 </div>
             `;
         });
 
-        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">提交結果 (Submit)</button>`;
+        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">完成並提交 (Submit)</button>`;
         window.scrollTo({ top: paper.offsetTop, behavior: 'smooth' });
     }
 
-    function setChoice(idx, letter, btn) {
+    function setChoice(idx, optIdx, btn) {
         const parent = document.getElementById(`block-${idx}`);
         parent.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
-        examData[idx].userChoice = letter;
+        examData[idx].userChoiceIdx = optIdx;
+        examData[idx].userChoiceLetter = String.fromCharCode(65 + optIdx); // 0->A, 1->B...
     }
 
     async function submitExam() {
@@ -266,18 +255,17 @@
         const total = examData.length;
         
         document.getElementById('overlay').style.display = 'flex';
-        document.getElementById('progressText').innerText = `0 / ${total}`;
 
         for (let i = 0; i < total; i++) {
             const q = examData[i];
-            const isCorrect = q.userChoice === q['Correct Option'];
+            const isCorrect = q.userChoiceLetter === q.correct;
             
             const payload = {
                 student: student,
                 submitDate: new Date().toLocaleString(),
-                testType: q.quizType,
-                word: q['Hidden Word (獨立格)'],
-                userAnswer: q[`Option ${q.userChoice}`] || "N/A",
+                testType: q.type,
+                word: q.word,
+                userAnswer: q.options[q.userChoiceIdx] || "N/A",
                 status: isCorrect ? "✅ Correct" : "❌ Incorrect"
             };
 
