@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>11+ VR Exam: GL Assessment Mode</title>
+    <title>11+ VR Exam Simulator (GL Mode)</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         :root {
@@ -39,6 +39,23 @@
             border: 1px solid #e2e8f0;
         }
 
+        /* 計時器樣式 */
+        #timerDisplay {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ef4444;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            font-size: 1.2em;
+            display: none;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
         .section-header {
             background-color: var(--exam-blue);
             color: white;
@@ -47,7 +64,6 @@
             border-radius: 5px;
             font-family: Arial, sans-serif;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .input-group { margin-bottom: 20px; }
@@ -64,11 +80,10 @@
             padding: 15px;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
-            margin-top: 5px;
         }
 
-        .day-item { display: flex; align-items: center; font-family: Arial, sans-serif; cursor: pointer; font-size: 14px; }
-        .day-item input { width: 18px; height: 18px; margin-right: 8px; }
+        .day-item { display: flex; align-items: center; cursor: pointer; font-size: 14px; }
+        .day-item input { margin-right: 8px; }
 
         .question-block {
             margin-bottom: 40px;
@@ -76,10 +91,7 @@
             border-bottom: 2px solid #f1f5f9;
         }
 
-        .q-header { font-weight: bold; color: var(--exam-blue); font-family: Arial, sans-serif; margin-bottom: 15px; font-size: 1.1em; }
-        .target-word { font-size: 1.8em; font-weight: bold; text-decoration: underline; color: #000; display: block; margin-bottom: 15px; text-align: center; }
-        .instruction { font-size: 1.2em; font-style: italic; margin-bottom: 20px; color: #475569; }
-
+        .target-word { font-size: 1.8em; font-weight: bold; text-decoration: underline; display: block; margin-bottom: 15px; text-align: center; }
         .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .opt-btn {
             padding: 20px;
@@ -87,11 +99,10 @@
             background: white;
             cursor: pointer;
             font-size: 1.2em;
-            text-align: left;
             border-radius: 12px;
-            transition: 0.2s;
+            text-align: left;
         }
-        .opt-btn.selected { border-color: var(--exam-blue); background: #dbeafe; color: var(--exam-blue); font-weight: bold; }
+        .opt-btn.selected { border-color: var(--exam-blue); background: #dbeafe; font-weight: bold; }
 
         .btn-start { width: 100%; padding: 18px; background: var(--exam-blue); color: white; border: none; border-radius: 10px; font-size: 1.3em; font-weight: bold; cursor: pointer; }
         
@@ -100,47 +111,50 @@
             background: rgba(0,0,0,0.8); display: none; flex-direction: column;
             justify-content: center; align-items: center; color: white; z-index: 9999;
         }
-
-        .error-msg { color: #ef4444; font-weight: bold; padding: 10px; border: 1px solid #ef4444; border-radius: 5px; background: #fef2f2; }
     </style>
 </head>
 <body>
 
+<div id="timerDisplay">Time Left: <span id="time">00:00</span></div>
+
 <div id="overlay">
-    <h2 id="statusText">Saving your results...</h2>
+    <h2 id="statusText">Saving your answers...</h2>
     <div id="progressText" style="font-size: 1.5em;">0 / 0</div>
 </div>
 
 <div class="container">
-    <div class="no-print">
+    <div id="setupArea" class="no-print">
         <h1>🚀 11+ VR Exam Simulator</h1>
         
         <div class="input-group">
-            <label>👤 Student Name (學生姓名):</label>
-            <input type="text" id="studentName" class="input-field" placeholder="Enter name">
+            <label>👤 Student Name:</label>
+            <input type="text" id="studentName" class="input-field" placeholder="Enter student name">
         </div>
 
         <div class="input-group">
-            <label>📅 Select Days (選取天數):</label>
-            <div id="dayLoaderStatus">
-                <div style="margin-bottom: 10px;">
-                    <button onclick="toggleAll(true)">Select All</button>
-                    <button onclick="toggleAll(false)">Clear All</button>
-                </div>
-                <div class="day-grid" id="daySelector">Loading data...</div>
+            <label>📅 Select Days:</label>
+            <div style="margin-bottom: 10px;">
+                <button onclick="toggleAll(true)">Select All</button>
+                <button onclick="toggleAll(false)">Clear All</button>
             </div>
+            <div class="day-grid" id="daySelector">Loading CSV...</div>
         </div>
 
         <div class="input-group">
-            <label>📝 Test Mode (測驗模式):</label>
+            <label>⏱️ Exam Time (Minutes, leave empty for no limit):</label>
+            <input type="number" id="examTimeLimit" class="input-field" placeholder="e.g. 15">
+        </div>
+
+        <div class="input-group">
+            <label>📝 Test Mode:</label>
             <select id="modeSelect" class="input-field">
-                <option value="both">Mixed (GL Mode: SYN then ANT)</option>
+                <option value="both">Mixed (SYN then ANT)</option>
                 <option value="syn">Synonyms Only</option>
                 <option value="ant">Antonyms Only</option>
             </select>
         </div>
 
-        <button class="btn-start" id="generateBtn" onclick="generateExam()" disabled>Waiting for data...</button>
+        <button class="btn-start" id="generateBtn" onclick="prepareExam()" disabled>Waiting for data...</button>
     </div>
 
     <div id="examPaper"></div>
@@ -152,8 +166,9 @@
 
     let rawData = [];
     let examData = [];
+    let timerInterval;
 
-    window.onload = function() { loadCSV(); };
+    window.onload = loadCSV;
 
     function loadCSV() {
         Papa.parse(CSV_URL, {
@@ -163,166 +178,156 @@
             complete: function(results) {
                 rawData = results.data;
                 const days = [...new Set(rawData.map(item => item.day))].filter(d => d).sort((a,b) => parseInt(a) - parseInt(b));
-                if (days.length === 0) {
-                    showError("CSV error: day column not found.");
-                    return;
-                }
                 renderDaySelector(days);
                 document.getElementById('generateBtn').disabled = false;
-                document.getElementById('generateBtn').innerText = "Generate Mock Exam";
-            },
-            error: function() { showError("Failed to load CSV file."); }
+                document.getElementById('generateBtn').innerText = "Generate Exam";
+            }
         });
     }
 
-    function showError(msg) { document.getElementById('daySelector').innerHTML = `<div class="error-msg">${msg}</div>`; }
-
     function renderDaySelector(days) {
         const container = document.getElementById('daySelector');
-        container.innerHTML = "";
-        days.forEach(d => {
-            container.innerHTML += `<label class="day-item"><input type="checkbox" name="dayCheck" value="${d}"> Day ${d}</label>`;
-        });
+        container.innerHTML = days.map(d => `<label class="day-item"><input type="checkbox" name="dayCheck" value="${d}"> Day ${d}</label>`).join('');
     }
 
     function toggleAll(status) { document.querySelectorAll('input[name="dayCheck"]').forEach(cb => cb.checked = status); }
 
-    // 輔助檢查是否為空字串
-    function isEmpty(str) {
-        return (!str || str.trim().length === 0);
-    }
+    function isEmpty(str) { return (!str || str.trim().length === 0); }
 
-    function generateExam() {
+    // 準備階段：顯示確認頁面
+    function prepareExam() {
         const student = document.getElementById('studentName').value.trim();
         const selectedDays = Array.from(document.querySelectorAll('input[name="dayCheck"]:checked')).map(cb => cb.value);
-        const mode = document.getElementById('modeSelect').value;
+        const timeLimit = document.getElementById('examTimeLimit').value;
 
         if (!student) return alert("Please enter your name!");
         if (selectedDays.length === 0) return alert("Please select at least one day!");
 
+        const mode = document.getElementById('modeSelect').value;
         let filtered = rawData.filter(item => selectedDays.includes(item.day));
         
-        let synPart = [];
-        let antPart = [];
-
+        let synPart = [], antPart = [];
         filtered.forEach(item => {
-            // SYN 檢查：Word, Question, Answer 缺一不可
             if ((mode === 'syn' || mode === 'both') && !isEmpty(item.Word) && !isEmpty(item['Synonym Question']) && !isEmpty(item['Syn Answer'])) {
-                synPart.push({
-                    word: item.Word,
-                    instruction: item['Synonym Question'],
-                    options: [item['Syn Option A'], item['Syn Option B'], item['Syn Option C'], item['Syn Option D']],
-                    correctLetter: item['Syn Answer'].trim().toUpperCase(),
-                    correctText: item['Syn Option ' + item['Syn Answer'].trim().toUpperCase()],
-                    type: 'Synonym'
-                });
+                synPart.push({ word: item.Word, instruction: item['Synonym Question'], options: [item['Syn Option A'], item['Syn Option B'], item['Syn Option C'], item['Syn Option D']], correctLetter: item['Syn Answer'].trim().toUpperCase(), correctText: item['Syn Option ' + item['Syn Answer'].trim().toUpperCase()], type: 'Synonym' });
             }
-            // ANT 檢查：Word, Question, Answer 缺一不可
             if ((mode === 'ant' || mode === 'both') && !isEmpty(item.Word) && !isEmpty(item['Antonym Question']) && !isEmpty(item['Ant Answer'])) {
-                antPart.push({
-                    word: item.Word,
-                    instruction: item['Antonym Question'],
-                    options: [item['Ant Option A'], item['Ant Option B'], item['Ant Option C'], item['Ant Option D']],
-                    correctLetter: item['Ant Answer'].trim().toUpperCase(),
-                    correctText: item['Ant Option ' + item['Ant Answer'].trim().toUpperCase()],
-                    type: 'Antonym'
-                });
+                antPart.push({ word: item.Word, instruction: item['Antonym Question'], options: [item['Ant Option A'], item['Ant Option B'], item['Ant Option C'], item['Ant Option D']], correctLetter: item['Ant Answer'].trim().toUpperCase(), correctText: item['Ant Option ' + item['Ant Answer'].trim().toUpperCase()], type: 'Antonym' });
             }
         });
 
-        if (synPart.length === 0 && antPart.length === 0) {
-            return alert("No valid questions found for the selected days. (Answers might be missing in CSV)");
-        }
-
         synPart.sort(() => Math.random() - 0.5);
         antPart.sort(() => Math.random() - 0.5);
-
         examData = [...synPart, ...antPart];
-        renderQuestions(synPart.length, antPart.length);
+
+        if (examData.length === 0) return alert("No valid questions found.");
+
+        // 顯示開始頁面
+        const paper = document.getElementById('examPaper');
+        document.getElementById('setupArea').style.display = 'none';
+        
+        paper.innerHTML = `
+            <div style="text-align:center; padding: 50px 0;">
+                <h2>Ready to Start?</h2>
+                <p>Candidate: <b>${student}</b></p>
+                <p>Questions: <b>${examData.length}</b></p>
+                <p>Time Limit: <b>${timeLimit ? timeLimit + ' Minutes' : 'No Limit'}</b></p>
+                <button class="btn-start" onclick="startExam(${timeLimit})">START EXAM NOW</button>
+            </div>
+        `;
     }
 
-    function renderQuestions(synCount, antCount) {
+    function startExam(minutes) {
+        renderQuestions();
+        if (minutes > 0) {
+            startTimer(minutes * 60);
+        }
+    }
+
+    function startTimer(seconds) {
+        const display = document.getElementById('time');
+        const timerBar = document.getElementById('timerDisplay');
+        timerBar.style.display = 'block';
+
+        let timer = seconds, m, s;
+        timerInterval = setInterval(() => {
+            m = parseInt(timer / 60, 10);
+            s = parseInt(timer % 60, 10);
+            display.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+
+            if (--timer < 0) {
+                clearInterval(timerInterval);
+                alert("Time is up! Your exam will be submitted automatically.");
+                submitExam();
+            }
+        }, 1000);
+    }
+
+    function renderQuestions() {
         const paper = document.getElementById('examPaper');
-        const student = document.getElementById('studentName').value;
-        paper.innerHTML = `<h2 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;">11+ VR Mock Test (GL Assessment)</h2>
-                           <p><b>Student:</b> ${student} &nbsp;&nbsp;&nbsp; <b>Date:</b> ${new Date().toLocaleDateString()}</p>`;
+        paper.innerHTML = `<h2 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;">11+ VR Exam</h2>`;
 
         let currentType = "";
-        
         examData.forEach((q, i) => {
             if (q.type !== currentType) {
                 currentType = q.type;
-                const sectionTitle = q.type === 'Synonym' ? 'Section 1: Synonyms' : (synCount > 0 ? 'Section 2: Antonyms' : 'Section 1: Antonyms');
-                paper.innerHTML += `<div class="section-header">${sectionTitle}</div>`;
+                paper.innerHTML += `<div class="section-header">${q.type === 'Synonym' ? 'Section 1: Synonyms' : 'Section 2: Antonyms'}</div>`;
             }
-
             paper.innerHTML += `
                 <div class="question-block" id="block-${i}">
                     <div class="q-header">Question ${i + 1}:</div>
                     <span class="target-word">${q.word.toUpperCase()}</span>
                     <div class="instruction">${q.instruction}</div>
                     <div class="options-grid">
-                        <button class="opt-btn" onclick="setChoice(${i}, 0, this)">A. ${q.options[0]}</button>
-                        <button class="opt-btn" onclick="setChoice(${i}, 1, this)">B. ${q.options[1]}</button>
-                        <button class="opt-btn" onclick="setChoice(${i}, 2, this)">C. ${q.options[2]}</button>
-                        <button class="opt-btn" onclick="setChoice(${i}, 3, this)">D. ${q.options[3]}</button>
+                        ${[0,1,2,3].map(optIdx => `<button class="opt-btn" onclick="setChoice(${i}, ${optIdx}, this)">${String.fromCharCode(65+optIdx)}. ${q.options[optIdx]}</button>`).join('')}
                     </div>
                 </div>
             `;
         });
-
         paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">Finish and Submit</button>`;
-        window.scrollTo({ top: paper.offsetTop, behavior: 'smooth' });
     }
 
     function setChoice(idx, optIdx, btn) {
         const parent = document.getElementById(`block-${idx}`);
         parent.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
-        examData[idx].userChoiceIdx = optIdx;
         examData[idx].userChoiceLetter = String.fromCharCode(65 + optIdx);
         examData[idx].userChoiceText = examData[idx].options[optIdx];
     }
 
     async function submitExam() {
+        clearInterval(timerInterval);
+        document.getElementById('timerDisplay').style.display = 'none';
+        document.getElementById('overlay').style.display = 'flex';
+
         const student = document.getElementById('studentName').value;
         const total = examData.length;
-        
-        document.getElementById('overlay').style.display = 'flex';
 
         for (let i = 0; i < total; i++) {
             const q = examData[i];
             const isCorrect = q.userChoiceLetter === q.correctLetter;
-            
             const payload = {
                 student: student,
                 submitDate: new Date().toLocaleString(),
                 testType: q.type,
                 word: q.word,
-                userAnswer: q.userChoiceText || "N/A",
+                userAnswer: q.userChoiceText || "No Answer",
                 correctAnswer: q.correctText || "N/A",
                 status: isCorrect ? "✅ Correct" : "❌ Incorrect"
             };
 
             try {
-                await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    body: JSON.stringify(payload)
-                });
-            } catch (err) { console.error("Upload error"); }
-            
+                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+            } catch (err) {}
             document.getElementById('progressText').innerText = `${i+1} / ${total}`;
         }
 
         document.getElementById('overlay').style.display = 'none';
         
-        // 英文鼓勵語
-        const msg = "Well done! You have completed your test. Your hard work and practice will help you succeed in the real exam. Keep going!";
+        // 確保學生能看見鼓勵說話，點擊 OK 後才重整
+        const msg = "Excellent effort! You have successfully completed the test.\n\nYour hard work and persistent practice are the keys to success in the 11+ journey. Keep up the great work!";
         alert(msg);
-        
-        // 按下 OK 後回到測試頁
-        location.reload();
+        location.reload(); 
     }
 </script>
 
