@@ -107,17 +107,17 @@
 <body>
 
 <div id="overlay">
-    <h2 id="statusText">Uploading your answers...</h2>
+    <h2 id="statusText">Saving your results...</h2>
     <div id="progressText" style="font-size: 1.5em;">0 / 0</div>
 </div>
 
 <div class="container">
     <div class="no-print">
-        <h1>🚀 11+ VR Exam Simulator (GL Mode)</h1>
+        <h1>🚀 11+ VR Exam Simulator</h1>
         
         <div class="input-group">
             <label>👤 Student Name (學生姓名):</label>
-            <input type="text" id="studentName" class="input-field" placeholder="Enter student name">
+            <input type="text" id="studentName" class="input-field" placeholder="Enter name">
         </div>
 
         <div class="input-group">
@@ -127,20 +127,20 @@
                     <button onclick="toggleAll(true)">Select All</button>
                     <button onclick="toggleAll(false)">Clear All</button>
                 </div>
-                <div class="day-grid" id="daySelector">Loading CSV data...</div>
+                <div class="day-grid" id="daySelector">Loading data...</div>
             </div>
         </div>
 
         <div class="input-group">
             <label>📝 Test Mode (測驗模式):</label>
             <select id="modeSelect" class="input-field">
-                <option value="both">Mixed (GL Mode: SYN Section then ANT Section)</option>
+                <option value="both">Mixed (GL Mode: SYN then ANT)</option>
                 <option value="syn">Synonyms Only</option>
                 <option value="ant">Antonyms Only</option>
             </select>
         </div>
 
-        <button class="btn-start" id="generateBtn" onclick="generateExam()" disabled>Please Wait...</button>
+        <button class="btn-start" id="generateBtn" onclick="generateExam()" disabled>Waiting for data...</button>
     </div>
 
     <div id="examPaper"></div>
@@ -164,14 +164,14 @@
                 rawData = results.data;
                 const days = [...new Set(rawData.map(item => item.day))].filter(d => d).sort((a,b) => parseInt(a) - parseInt(b));
                 if (days.length === 0) {
-                    showError("No 'day' field found in CSV.");
+                    showError("CSV error: day column not found.");
                     return;
                 }
                 renderDaySelector(days);
                 document.getElementById('generateBtn').disabled = false;
-                document.getElementById('generateBtn').innerText = "Generate Exam";
+                document.getElementById('generateBtn').innerText = "Generate Mock Exam";
             },
-            error: function() { showError("Failed to read CSV at " + CSV_URL); }
+            error: function() { showError("Failed to load CSV file."); }
         });
     }
 
@@ -187,9 +187,9 @@
 
     function toggleAll(status) { document.querySelectorAll('input[name="dayCheck"]').forEach(cb => cb.checked = status); }
 
-    // 檢查欄位是否為空的輔助函數
-    function isFieldEmpty(val) {
-        return !val || val.trim() === "" || val.toLowerCase() === "null" || val.toLowerCase() === "undefined";
+    // 輔助檢查是否為空字串
+    function isEmpty(str) {
+        return (!str || str.trim().length === 0);
     }
 
     function generateExam() {
@@ -197,7 +197,7 @@
         const selectedDays = Array.from(document.querySelectorAll('input[name="dayCheck"]:checked')).map(cb => cb.value);
         const mode = document.getElementById('modeSelect').value;
 
-        if (!student) return alert("Please enter the student's name!");
+        if (!student) return alert("Please enter your name!");
         if (selectedDays.length === 0) return alert("Please select at least one day!");
 
         let filtered = rawData.filter(item => selectedDays.includes(item.day));
@@ -206,42 +206,32 @@
         let antPart = [];
 
         filtered.forEach(item => {
-            // SYNONYM 檢查：Word, Question, Options, Answer 缺一不可
-            if ((mode === 'syn' || mode === 'both') && 
-                !isFieldEmpty(item.Word) && 
-                !isFieldEmpty(item['Synonym Question']) && 
-                !isFieldEmpty(item['Syn Option A']) && 
-                !isFieldEmpty(item['Syn Answer'])) {
-                
+            // SYN 檢查：Word, Question, Answer 缺一不可
+            if ((mode === 'syn' || mode === 'both') && !isEmpty(item.Word) && !isEmpty(item['Synonym Question']) && !isEmpty(item['Syn Answer'])) {
                 synPart.push({
                     word: item.Word,
                     instruction: item['Synonym Question'],
                     options: [item['Syn Option A'], item['Syn Option B'], item['Syn Option C'], item['Syn Option D']],
-                    correctLetter: item['Syn Answer'],
-                    correctText: item['Syn Option ' + item['Syn Answer']],
+                    correctLetter: item['Syn Answer'].trim().toUpperCase(),
+                    correctText: item['Syn Option ' + item['Syn Answer'].trim().toUpperCase()],
                     type: 'Synonym'
                 });
             }
-            // ANTONYM 檢查
-            if ((mode === 'ant' || mode === 'both') && 
-                !isFieldEmpty(item.Word) && 
-                !isFieldEmpty(item['Antonym Question']) && 
-                !isFieldEmpty(item['Ant Option A']) && 
-                !isFieldEmpty(item['Ant Answer'])) {
-                
+            // ANT 檢查：Word, Question, Answer 缺一不可
+            if ((mode === 'ant' || mode === 'both') && !isEmpty(item.Word) && !isEmpty(item['Antonym Question']) && !isEmpty(item['Ant Answer'])) {
                 antPart.push({
                     word: item.Word,
                     instruction: item['Antonym Question'],
                     options: [item['Ant Option A'], item['Ant Option B'], item['Ant Option C'], item['Ant Option D']],
-                    correctLetter: item['Ant Answer'],
-                    correctText: item['Ant Option ' + item['Ant Answer']],
+                    correctLetter: item['Ant Answer'].trim().toUpperCase(),
+                    correctText: item['Ant Option ' + item['Ant Answer'].trim().toUpperCase()],
                     type: 'Antonym'
                 });
             }
         });
 
         if (synPart.length === 0 && antPart.length === 0) {
-            return alert("The selected days do not contain complete questions. Please select other days.");
+            return alert("No valid questions found for the selected days. (Answers might be missing in CSV)");
         }
 
         synPart.sort(() => Math.random() - 0.5);
@@ -254,8 +244,8 @@
     function renderQuestions(synCount, antCount) {
         const paper = document.getElementById('examPaper');
         const student = document.getElementById('studentName').value;
-        paper.innerHTML = `<h2 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;">11+ VR Selection Test (GL Assessment Style)</h2>
-                           <p><b>Candidate:</b> ${student} &nbsp;&nbsp;&nbsp; <b>Date:</b> ${new Date().toLocaleDateString()}</p>`;
+        paper.innerHTML = `<h2 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;">11+ VR Mock Test (GL Assessment)</h2>
+                           <p><b>Student:</b> ${student} &nbsp;&nbsp;&nbsp; <b>Date:</b> ${new Date().toLocaleDateString()}</p>`;
 
         let currentType = "";
         
@@ -281,7 +271,7 @@
             `;
         });
 
-        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">Submit My Answers</button>`;
+        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">Finish and Submit</button>`;
         window.scrollTo({ top: paper.offsetTop, behavior: 'smooth' });
     }
 
@@ -310,7 +300,7 @@
                 testType: q.type,
                 word: q.word,
                 userAnswer: q.userChoiceText || "N/A",
-                correctAnswer: q.correctText,
+                correctAnswer: q.correctText || "N/A",
                 status: isCorrect ? "✅ Correct" : "❌ Incorrect"
             };
 
@@ -327,10 +317,12 @@
 
         document.getElementById('overlay').style.display = 'none';
         
-        // 完成後的英文鼓勵語與彈窗邏輯
-        const encouragement = "Excellent work! You have successfully completed the test. Your focus and dedication will lead to great success. Click OK to continue.";
-        alert(encouragement); 
-        location.reload(); // 按下 OK 後回到初始頁面
+        // 英文鼓勵語
+        const msg = "Well done! You have completed your test. Your hard work and practice will help you succeed in the real exam. Keep going!";
+        alert(msg);
+        
+        // 按下 OK 後回到測試頁
+        location.reload();
     }
 </script>
 
