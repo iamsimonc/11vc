@@ -33,17 +33,16 @@
         
         /* 列印專用樣式 */
         @media print {
-            body { background: white; padding: 0; }
-            .container { box-shadow: none; width: 100%; max-width: 100%; }
-            .no-print-area, #timerDisplay, .letter-pool, .control-btns, .btn-start, #overlay { display: none !important; }
-            .question-block { border-bottom: 1px solid #ccc; padding: 15px 0; }
+            body { background: white !important; padding: 0 !important; }
+            .container { box-shadow: none !important; width: 100% !important; max-width: 100% !important; border:none !important; }
+            .no-print-area, #timerDisplay, .letter-pool, .control-btns, .btn-start, #overlay, .ipad-only { display: none !important; }
+            .question-block { border-bottom: 1px solid #000 !important; padding: 20px 0 !important; }
             .print-only-options { display: block !important; margin-top: 15px; font-size: 1.2em; }
-            .spelling-word { font-size: 2em; letter-spacing: 15px; }
-            h1 { font-size: 1.5em; text-align: center; }
+            .spelling-word { font-size: 2.2em !important; letter-spacing: 15px !important; margin: 30px 0 !important; }
+            h1 { font-size: 1.8em !important; text-align: center !important; }
         }
         
         .print-only-options { display: none; }
-        .option-box { display: inline-block; border: 1px solid #000; width: 25px; height: 25px; margin-left: 10px; vertical-align: middle; }
         #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 9999; }
     </style>
 </head>
@@ -71,8 +70,9 @@
             <input type="number" id="examTimeLimit" class="input-field" placeholder="Leave empty for unlimited">
         </div>
 
-        <button class="btn-start" id="generateBtn" onclick="prepareExam()" disabled>Please Wait...</button>
-        <button class="btn-start" style="background:#64748b;" onclick="window.print()">🖨️ Print Paper (PDF)</button>
+        <button class="btn-start" id="generateBtn" onclick="prepareExam('ipad')" disabled>Start iPad Challenge</button>
+        <button class="btn-start" style="background:#64748b;" onclick="prepareExam('print')">🖨️ Generate PDF Paper</button>
+        <p style="font-size: 0.8em; color: #666; text-align: center;">* 點擊 PDF 按鈕後，請在列印視窗選擇「另存為 PDF」。</p>
     </div>
 
     <div id="examPaper"></div>
@@ -98,7 +98,7 @@
                     return newRow;
                 });
                 const days = [...new Set(rawData.map(item => item.day))].filter(d => d).sort((a,b) => parseInt(a) - parseInt(b));
-                document.getElementById('daySelector').innerHTML = days.map(d => `<label style="display:flex;align-items:center;font-size:14px;"><input type="checkbox" name="dayCheck" value="${d}" style="margin-right:5px;"> Day ${d}</label>`).join('');
+                document.getElementById('daySelector').innerHTML = days.map(d => `<label style="display:flex;align-items:center;font-size:14px;cursor:pointer;"><input type="checkbox" name="dayCheck" value="${d}" style="margin-right:8px;width:18px;height:18px;"> Day ${d}</label>`).join('');
                 document.getElementById('generateBtn').disabled = false;
                 document.getElementById('generateBtn').innerText = "Start iPad Challenge";
             }
@@ -133,18 +133,30 @@
         return { original: cleanWord, display: displayArr, pool: pool, userEntry: [], blanksIdx: blanksIdx };
     }
 
-    function prepareExam() {
+    function prepareExam(mode) {
         const selectedDays = Array.from(document.querySelectorAll('input[name="dayCheck"]:checked')).map(cb => cb.value);
-        if (selectedDays.length === 0) return alert("Select days first!");
+        if (selectedDays.length === 0) return alert("Please select at least one Day!");
 
         let filtered = rawData.filter(item => selectedDays.includes(item.day));
         examData = filtered.map(item => createSpellingQuestion(item.word)).filter(q => q !== null);
+        
+        if (examData.length === 0) return alert("No valid words found in the selected days.");
+        
         examData.sort(() => Math.random() - 0.5);
 
         renderExam();
-        const mins = document.getElementById('examTimeLimit').value;
-        if (mins > 0) startTimer(mins * 60);
-        document.getElementById('setupArea').style.display = 'none';
+
+        if (mode === 'ipad') {
+            const mins = document.getElementById('examTimeLimit').value;
+            if (mins > 0) startTimer(mins * 60);
+            document.getElementById('setupArea').style.display = 'none';
+            window.scrollTo(0,0);
+        } else if (mode === 'print') {
+            // 給瀏覽器一點時間渲染 HTML 再呼叫列印
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
     }
 
     function startTimer(seconds) {
@@ -160,25 +172,26 @@
         const paper = document.getElementById('examPaper');
         const student = document.getElementById('studentName').value || "Candidate";
         paper.innerHTML = `<h1 style="text-align:center;">11+ Spelling Practice Paper</h1>
-                           <p style="text-align:center;">Candidate: __________________ &nbsp;&nbsp; Date: ${new Date().toLocaleDateString()}</p>`;
+                           <p style="text-align:center;"><b>Candidate:</b> __________________ &nbsp;&nbsp; <b>Date:</b> ${new Date().toLocaleDateString()}</p>`;
         
         examData.forEach((q, i) => {
             paper.innerHTML += `
                 <div class="question-block" id="block-${i}">
-                    <div style="font-weight:bold;">Question ${i+1}: Fill in the missing letters to complete the word.</div>
+                    <div style="font-weight:bold;">Question ${i+1}: Fill in the missing letters.</div>
                     <div class="spelling-word" id="word-${i}">${q.display.map(c => c === '_' ? `<span class="blank">&nbsp;</span>` : c).join('')}</div>
                     
-                    <div class="letter-pool" id="pool-${i}">
+                    <div class="letter-pool ipad-only" id="pool-${i}">
                         ${q.pool.map((l, li) => `<button class="letter-btn" onclick="addLetter(${i}, '${l}', ${li}, this)">${l}</button>`).join('')}
                     </div>
 
                     <div class="print-only-options">
                         Possible letters: <b>${q.pool.join(', ')}</b>
-                        <div style="margin-top:10px;">Answer: ____________________</div>
+                        <div style="margin-top:20px; border-bottom: 1px dashed #000; padding-bottom: 5px;">Answer: </div>
                     </div>
                 </div>`;
         });
-        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">Finish and Submit</button>`;
+        
+        paper.innerHTML += `<button class="btn-start ipad-only" style="background:#059669; margin-top:40px;" onclick="submitExam()">Finish and Submit</button>`;
     }
 
     function addLetter(qIdx, letter, poolIdx, btn) {
@@ -200,30 +213,23 @@
         clearInterval(timerInterval);
         document.getElementById('timerDisplay').style.display = 'none';
         document.getElementById('overlay').style.display = 'flex';
-        const student = document.getElementById('studentName').value || "Manual Student";
+        const student = document.getElementById('studentName').value || "Manual";
 
         for (let i = 0; i < examData.length; i++) {
             const q = examData[i];
             let finalArr = [...q.display];
             q.userEntry.forEach((entry, idx) => { finalArr[q.blanksIdx[idx]] = entry.letter; });
             const userStr = finalArr.join('');
-            const isCorrect = userStr === q.original;
-
             const payload = {
-                student: student,
-                submitDate: new Date().toLocaleString(),
-                testType: "Misspelled",
-                word: q.original,
-                userAnswer: userStr,
-                correctAnswer: q.original,
-                status: isCorrect ? "✅ Correct" : "❌ Incorrect"
+                student: student, submitDate: new Date().toLocaleString(), testType: "Misspelled",
+                word: q.original, userAnswer: userStr, correctAnswer: q.original,
+                status: (userStr === q.original) ? "✅ Correct" : "❌ Incorrect"
             };
-
             try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) }); } catch (e) {}
             document.getElementById('progressText').innerText = `${i+1} / ${examData.length}`;
         }
         document.getElementById('overlay').style.display = 'none';
-        alert("Completed! Excellent work.");
+        alert("Well done! Your answers have been saved.");
         location.reload();
     }
 </script>
