@@ -51,7 +51,7 @@
             font-family: Arial, sans-serif;
             font-weight: bold;
             font-size: 1.2em;
-            display: none;
+            display: none; /* 預設隱藏，由 JS 控制顯示 */
             z-index: 1000;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
@@ -82,8 +82,8 @@
             border-radius: 8px;
         }
 
-        .day-item { display: flex; align-items: center; cursor: pointer; font-size: 14px; }
-        .day-item input { margin-right: 8px; }
+        .day-item { display: flex; align-items: center; cursor: pointer; font-size: 14px; padding: 2px; }
+        .day-item input { margin-right: 8px; width: 18px; height: 18px; }
 
         .question-block {
             margin-bottom: 40px;
@@ -111,6 +111,10 @@
             background: rgba(0,0,0,0.8); display: none; flex-direction: column;
             justify-content: center; align-items: center; color: white; z-index: 9999;
         }
+
+        /* 勾選框組件樣式 */
+        .checkbox-group { display: flex; align-items: center; gap: 10px; font-family: Arial, sans-serif; cursor: pointer; }
+        .checkbox-group input { width: 20px; height: 20px; }
     </style>
 </head>
 <body>
@@ -141,8 +145,12 @@
         </div>
 
         <div class="input-group">
-            <label>⏱️ Exam Time (Minutes, leave empty for no limit):</label>
-            <input type="number" id="examTimeLimit" class="input-field" placeholder="e.g. 15">
+            <label>⏱️ Exam Timer Settings:</label>
+            <input type="number" id="examTimeLimit" class="input-field" placeholder="Minutes (leave empty for no limit)" style="margin-bottom: 10px;">
+            <label class="checkbox-group">
+                <input type="checkbox" id="showTimerCheck" checked> 
+                <span>Show visible timer on screen</span>
+            </label>
         </div>
 
         <div class="input-group">
@@ -194,11 +202,11 @@
 
     function isEmpty(str) { return (!str || str.trim().length === 0); }
 
-    // 準備階段：顯示確認頁面
     function prepareExam() {
         const student = document.getElementById('studentName').value.trim();
         const selectedDays = Array.from(document.querySelectorAll('input[name="dayCheck"]:checked')).map(cb => cb.value);
         const timeLimit = document.getElementById('examTimeLimit').value;
+        const showTimer = document.getElementById('showTimerCheck').checked;
 
         if (!student) return alert("Please enter your name!");
         if (selectedDays.length === 0) return alert("Please select at least one day!");
@@ -209,127 +217,4 @@
         let synPart = [], antPart = [];
         filtered.forEach(item => {
             if ((mode === 'syn' || mode === 'both') && !isEmpty(item.Word) && !isEmpty(item['Synonym Question']) && !isEmpty(item['Syn Answer'])) {
-                synPart.push({ word: item.Word, instruction: item['Synonym Question'], options: [item['Syn Option A'], item['Syn Option B'], item['Syn Option C'], item['Syn Option D']], correctLetter: item['Syn Answer'].trim().toUpperCase(), correctText: item['Syn Option ' + item['Syn Answer'].trim().toUpperCase()], type: 'Synonym' });
-            }
-            if ((mode === 'ant' || mode === 'both') && !isEmpty(item.Word) && !isEmpty(item['Antonym Question']) && !isEmpty(item['Ant Answer'])) {
-                antPart.push({ word: item.Word, instruction: item['Antonym Question'], options: [item['Ant Option A'], item['Ant Option B'], item['Ant Option C'], item['Ant Option D']], correctLetter: item['Ant Answer'].trim().toUpperCase(), correctText: item['Ant Option ' + item['Ant Answer'].trim().toUpperCase()], type: 'Antonym' });
-            }
-        });
-
-        synPart.sort(() => Math.random() - 0.5);
-        antPart.sort(() => Math.random() - 0.5);
-        examData = [...synPart, ...antPart];
-
-        if (examData.length === 0) return alert("No valid questions found.");
-
-        // 顯示開始頁面
-        const paper = document.getElementById('examPaper');
-        document.getElementById('setupArea').style.display = 'none';
-        
-        paper.innerHTML = `
-            <div style="text-align:center; padding: 50px 0;">
-                <h2>Ready to Start?</h2>
-                <p>Candidate: <b>${student}</b></p>
-                <p>Questions: <b>${examData.length}</b></p>
-                <p>Time Limit: <b>${timeLimit ? timeLimit + ' Minutes' : 'No Limit'}</b></p>
-                <button class="btn-start" onclick="startExam(${timeLimit})">START EXAM NOW</button>
-            </div>
-        `;
-    }
-
-    function startExam(minutes) {
-        renderQuestions();
-        if (minutes > 0) {
-            startTimer(minutes * 60);
-        }
-    }
-
-    function startTimer(seconds) {
-        const display = document.getElementById('time');
-        const timerBar = document.getElementById('timerDisplay');
-        timerBar.style.display = 'block';
-
-        let timer = seconds, m, s;
-        timerInterval = setInterval(() => {
-            m = parseInt(timer / 60, 10);
-            s = parseInt(timer % 60, 10);
-            display.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
-
-            if (--timer < 0) {
-                clearInterval(timerInterval);
-                alert("Time is up! Your exam will be submitted automatically.");
-                submitExam();
-            }
-        }, 1000);
-    }
-
-    function renderQuestions() {
-        const paper = document.getElementById('examPaper');
-        paper.innerHTML = `<h2 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;">11+ VR Exam</h2>`;
-
-        let currentType = "";
-        examData.forEach((q, i) => {
-            if (q.type !== currentType) {
-                currentType = q.type;
-                paper.innerHTML += `<div class="section-header">${q.type === 'Synonym' ? 'Section 1: Synonyms' : 'Section 2: Antonyms'}</div>`;
-            }
-            paper.innerHTML += `
-                <div class="question-block" id="block-${i}">
-                    <div class="q-header">Question ${i + 1}:</div>
-                    <span class="target-word">${q.word.toUpperCase()}</span>
-                    <div class="instruction">${q.instruction}</div>
-                    <div class="options-grid">
-                        ${[0,1,2,3].map(optIdx => `<button class="opt-btn" onclick="setChoice(${i}, ${optIdx}, this)">${String.fromCharCode(65+optIdx)}. ${q.options[optIdx]}</button>`).join('')}
-                    </div>
-                </div>
-            `;
-        });
-        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">Finish and Submit</button>`;
-    }
-
-    function setChoice(idx, optIdx, btn) {
-        const parent = document.getElementById(`block-${idx}`);
-        parent.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        examData[idx].userChoiceLetter = String.fromCharCode(65 + optIdx);
-        examData[idx].userChoiceText = examData[idx].options[optIdx];
-    }
-
-    async function submitExam() {
-        clearInterval(timerInterval);
-        document.getElementById('timerDisplay').style.display = 'none';
-        document.getElementById('overlay').style.display = 'flex';
-
-        const student = document.getElementById('studentName').value;
-        const total = examData.length;
-
-        for (let i = 0; i < total; i++) {
-            const q = examData[i];
-            const isCorrect = q.userChoiceLetter === q.correctLetter;
-            const payload = {
-                student: student,
-                submitDate: new Date().toLocaleString(),
-                testType: q.type,
-                word: q.word,
-                userAnswer: q.userChoiceText || "No Answer",
-                correctAnswer: q.correctText || "N/A",
-                status: isCorrect ? "✅ Correct" : "❌ Incorrect"
-            };
-
-            try {
-                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-            } catch (err) {}
-            document.getElementById('progressText').innerText = `${i+1} / ${total}`;
-        }
-
-        document.getElementById('overlay').style.display = 'none';
-        
-        // 確保學生能看見鼓勵說話，點擊 OK 後才重整
-        const msg = "Excellent effort! You have successfully completed the test.\n\nYour hard work and persistent practice are the keys to success in the 11+ journey. Keep up the great work!";
-        alert(msg);
-        location.reload(); 
-    }
-</script>
-
-</body>
-</html>
+                synPart.push({ word: item.Word, instruction: item['Synonym Question'], options: [item['Syn Option A'], item['Syn Option B'], item['Syn Option C'], item['Syn Option D']], correctLetter: item['Syn
