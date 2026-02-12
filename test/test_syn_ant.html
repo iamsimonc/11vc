@@ -107,7 +107,7 @@
 <body>
 
 <div id="overlay">
-    <h2 id="statusText">正在儲存答案...</h2>
+    <h2 id="statusText">Uploading your answers...</h2>
     <div id="progressText" style="font-size: 1.5em;">0 / 0</div>
 </div>
 
@@ -117,17 +117,17 @@
         
         <div class="input-group">
             <label>👤 Student Name (學生姓名):</label>
-            <input type="text" id="studentName" class="input-field" placeholder="請輸入姓名">
+            <input type="text" id="studentName" class="input-field" placeholder="Enter student name">
         </div>
 
         <div class="input-group">
             <label>📅 Select Days (選取天數):</label>
             <div id="dayLoaderStatus">
                 <div style="margin-bottom: 10px;">
-                    <button onclick="toggleAll(true)">全選</button>
-                    <button onclick="toggleAll(false)">清除</button>
+                    <button onclick="toggleAll(true)">Select All</button>
+                    <button onclick="toggleAll(false)">Clear All</button>
                 </div>
-                <div class="day-grid" id="daySelector">正在嘗試載入 CSV 數據...</div>
+                <div class="day-grid" id="daySelector">Loading CSV data...</div>
             </div>
         </div>
 
@@ -135,12 +135,12 @@
             <label>📝 Test Mode (測驗模式):</label>
             <select id="modeSelect" class="input-field">
                 <option value="both">Mixed (GL Mode: SYN Section then ANT Section)</option>
-                <option value="syn">Synonyms Only (僅限同意詞)</option>
-                <option value="ant">Antonyms Only (僅限反意詞)</option>
+                <option value="syn">Synonyms Only</option>
+                <option value="ant">Antonyms Only</option>
             </select>
         </div>
 
-        <button class="btn-start" id="generateBtn" onclick="generateExam()" disabled>等待資料載入中...</button>
+        <button class="btn-start" id="generateBtn" onclick="generateExam()" disabled>Please Wait...</button>
     </div>
 
     <div id="examPaper"></div>
@@ -164,14 +164,14 @@
                 rawData = results.data;
                 const days = [...new Set(rawData.map(item => item.day))].filter(d => d).sort((a,b) => parseInt(a) - parseInt(b));
                 if (days.length === 0) {
-                    showError("找不到 'day' 欄位，請檢查 CSV 格式。");
+                    showError("No 'day' field found in CSV.");
                     return;
                 }
                 renderDaySelector(days);
                 document.getElementById('generateBtn').disabled = false;
-                document.getElementById('generateBtn').innerText = "生成模擬試卷";
+                document.getElementById('generateBtn').innerText = "Generate Exam";
             },
-            error: function() { showError("無法讀取 " + CSV_URL + "，請確保檔案路徑正確。"); }
+            error: function() { showError("Failed to read CSV at " + CSV_URL); }
         });
     }
 
@@ -187,13 +187,18 @@
 
     function toggleAll(status) { document.querySelectorAll('input[name="dayCheck"]').forEach(cb => cb.checked = status); }
 
+    // 檢查欄位是否為空的輔助函數
+    function isFieldEmpty(val) {
+        return !val || val.trim() === "" || val.toLowerCase() === "null" || val.toLowerCase() === "undefined";
+    }
+
     function generateExam() {
         const student = document.getElementById('studentName').value.trim();
         const selectedDays = Array.from(document.querySelectorAll('input[name="dayCheck"]:checked')).map(cb => cb.value);
         const mode = document.getElementById('modeSelect').value;
 
-        if (!student) return alert("請輸入學生姓名！");
-        if (selectedDays.length === 0) return alert("請至少選取一個 Day！");
+        if (!student) return alert("Please enter the student's name!");
+        if (selectedDays.length === 0) return alert("Please select at least one day!");
 
         let filtered = rawData.filter(item => selectedDays.includes(item.day));
         
@@ -201,33 +206,47 @@
         let antPart = [];
 
         filtered.forEach(item => {
-            if (mode === 'syn' || mode === 'both') {
+            // SYNONYM 檢查：Word, Question, Options, Answer 缺一不可
+            if ((mode === 'syn' || mode === 'both') && 
+                !isFieldEmpty(item.Word) && 
+                !isFieldEmpty(item['Synonym Question']) && 
+                !isFieldEmpty(item['Syn Option A']) && 
+                !isFieldEmpty(item['Syn Answer'])) {
+                
                 synPart.push({
                     word: item.Word,
                     instruction: item['Synonym Question'],
                     options: [item['Syn Option A'], item['Syn Option B'], item['Syn Option C'], item['Syn Option D']],
                     correctLetter: item['Syn Answer'],
-                    correctText: item['Syn Option ' + item['Syn Answer']], // 儲存正確答案的文字內容
+                    correctText: item['Syn Option ' + item['Syn Answer']],
                     type: 'Synonym'
                 });
             }
-            if (mode === 'ant' || mode === 'both') {
+            // ANTONYM 檢查
+            if ((mode === 'ant' || mode === 'both') && 
+                !isFieldEmpty(item.Word) && 
+                !isFieldEmpty(item['Antonym Question']) && 
+                !isFieldEmpty(item['Ant Option A']) && 
+                !isFieldEmpty(item['Ant Answer'])) {
+                
                 antPart.push({
                     word: item.Word,
                     instruction: item['Antonym Question'],
                     options: [item['Ant Option A'], item['Ant Option B'], item['Ant Option C'], item['Ant Option D']],
                     correctLetter: item['Ant Answer'],
-                    correctText: item['Ant Option ' + item['Ant Answer']], // 儲存正確答案的文字內容
+                    correctText: item['Ant Option ' + item['Ant Answer']],
                     type: 'Antonym'
                 });
             }
         });
 
-        // GL Mode: 在每一組內隨機排序
+        if (synPart.length === 0 && antPart.length === 0) {
+            return alert("The selected days do not contain complete questions. Please select other days.");
+        }
+
         synPart.sort(() => Math.random() - 0.5);
         antPart.sort(() => Math.random() - 0.5);
 
-        // 合併結果：先 SYN 後 ANT
         examData = [...synPart, ...antPart];
         renderQuestions(synPart.length, antPart.length);
     }
@@ -241,7 +260,6 @@
         let currentType = "";
         
         examData.forEach((q, i) => {
-            // 插入 Section Header (GL Style)
             if (q.type !== currentType) {
                 currentType = q.type;
                 const sectionTitle = q.type === 'Synonym' ? 'Section 1: Synonyms' : (synCount > 0 ? 'Section 2: Antonyms' : 'Section 1: Antonyms');
@@ -263,7 +281,7 @@
             `;
         });
 
-        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">完成並提交 (Submit All Sections)</button>`;
+        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">Submit My Answers</button>`;
         window.scrollTo({ top: paper.offsetTop, behavior: 'smooth' });
     }
 
@@ -292,7 +310,7 @@
                 testType: q.type,
                 word: q.word,
                 userAnswer: q.userChoiceText || "N/A",
-                correctAnswer: q.correctText, // 加入正確答案內容
+                correctAnswer: q.correctText,
                 status: isCorrect ? "✅ Correct" : "❌ Incorrect"
             };
 
@@ -308,8 +326,11 @@
         }
 
         document.getElementById('overlay').style.display = 'none';
-        alert("測驗已提交成功！您的答案與正確答案已儲存。");
-        location.reload();
+        
+        // 完成後的英文鼓勵語與彈窗邏輯
+        const encouragement = "Excellent work! You have successfully completed the test. Your focus and dedication will lead to great success. Click OK to continue.";
+        alert(encouragement); 
+        location.reload(); // 按下 OK 後回到初始頁面
     }
 </script>
 
