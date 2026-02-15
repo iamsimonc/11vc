@@ -47,20 +47,20 @@
 
 <div class="container">
     <div class="no-print">
-        <h1>🚀 Lila 11+ Vocabulary 練習系統</h1>
+        <h1>🚀 Lila 11+ Vocabulary Practice system</h1>
         
         <div class="selection-box">
             <div style="margin-bottom: 10px;">
-                <label>選擇模式：</label>
+                <label>Select mode：</label>
                 <select id="modeSelect" onchange="toggleModeUI()" style="padding:5px; border-radius:5px;">
-                    <option value="single">單日模式 (Day X)</option>
-                    <option value="range">連選模式 (Day 1 到 Day X)</option>
-                    <option value="multi">多選模式 (自選日子)</option>
+                    <option value="single">Single Day (Day X)</option>
+                    <option value="range">Continuous mode (Day 1 to Day X)</option>
+                    <option value="multi">Multimode (select day)</option>
                 </select>
             </div>
 
             <div id="ui-single-range">
-                <label id="inputLabel">輸入天數: </label>
+                <label id="inputLabel">input day: </label>
                 <input type="number" id="weekInput" value="1" style="width:60px; padding:8px; border-radius:5px; border:1px solid #ccc;">
             </div>
 
@@ -70,8 +70,8 @@
             </div>
 
             <div style="margin-top: 15px;">
-                <button class="btn btn-gen" onclick="generateVocab()">🔄 生成生字清單</button>
-                <button class="btn" style="background:#27ae60; color:white;" onclick="window.print()">🖨️ 列印測驗卷</button>
+                <button class="btn btn-gen" onclick="generateVocab()">🔄 Start</button>
+                <button class="btn" style="background:#27ae60; color:white;" onclick="window.print()">🖨️ print paper</button>
             </div>
         </div>
     </div>
@@ -107,7 +107,7 @@
         const mode = document.getElementById('modeSelect').value;
         document.getElementById('ui-single-range').style.display = (mode === 'multi') ? 'none' : 'block';
         document.getElementById('ui-multi').style.display = (mode === 'multi') ? 'block' : 'none';
-        document.getElementById('inputLabel').innerText = (mode === 'range') ? "Day 1 到: " : "輸入天數: ";
+        document.getElementById('inputLabel').innerText = (mode === 'range') ? "Day 1 to: " : "input day: ";
     }
 
     function toggleCheckboxArea() {
@@ -293,7 +293,7 @@
                 mediaRecorder.start();
                 btn.innerText = "🛑 Stop";
                 btn.style.background = "#ff7675";
-            } catch (err) { alert("麥克風開啟失敗"); }
+            } catch (err) { alert("microphone malfunction"); }
         } else {
             mediaRecorder.stop();
             btn.innerText = "🎤";
