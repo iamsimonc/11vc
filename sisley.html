@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sisley 11+ VR Expert Mode</title>
+    <title>Sisley 11+ VR Vocabulary</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         :root { --primary: #6c5ce7; --core: #55efc4; --elite: #fd79a8; --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; }
@@ -12,34 +12,34 @@
         
         .no-print { background: var(--card-bg); padding: 20px; border-radius: 15px; margin-bottom: 30px; border: 1px solid #334155; }
         .btn { padding: 10px 18px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; margin-right: 5px; transition: 0.3s; }
-        .btn-audio { background: #4b5563; color: white; }
+        .btn-audio { background: #4b5563; color: white; padding: 5px 10px; font-size: 0.8em; }
         .btn-record { background: #e74c3c; color: white; }
         .btn-play-rec { background: #f1c40f; color: black; }
         .btn-gen { background: var(--primary); color: white; }
         
-        /* 拼字遊戲樣式 */
+        .selection-box { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; margin-top: 10px; }
+        #checkbox-container { display: none; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 5px; margin-top: 10px; max-height: 150px; overflow-y: auto; padding: 10px; background: #0f172a; border-radius: 8px; }
+        .day-check { display: flex; align-items: center; gap: 3px; font-size: 0.9em; }
+
         .spell-area { background: #0f172a; padding: 20px; border-radius: 12px; border: 2px solid #334155; margin-top: 15px; }
         .answer-display { font-size: 2em; min-height: 1.2em; border-bottom: 3px solid var(--primary); margin-bottom: 20px; letter-spacing: 5px; color: #fff; font-family: monospace; }
         .letter-pool { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
         .letter-btn { background: #334155; color: white; border: 2px solid #4b5563; padding: 10px 15px; font-size: 1.5em; border-radius: 8px; cursor: pointer; min-width: 45px; }
         .letter-btn:disabled { opacity: 0.3; cursor: default; }
-        .letter-btn:active { background: var(--primary); }
-        .control-btns { margin-top: 20px; display: flex; justify-content: center; gap: 10px; }
-        .btn-back { background: #e67e22; color: white; }
-        .btn-submit { background: #27ae60; color: white; }
-
+        
         .vocab-card { background: var(--card-bg); padding: 25px; border-radius: 15px; margin-bottom: 20px; border-left: 10px solid var(--primary); }
         .badge { padding: 4px 10px; border-radius: 5px; font-size: 0.8em; font-weight: bold; }
         .badge-core { background: var(--core); color: #000; }
         .badge-elite { background: var(--elite); color: #fff; }
 
-        .test-item { display: none; padding: 20px; border: 1px solid #000; margin-bottom: 25px; page-break-inside: avoid; }
-        
+        /* 定義文字樣式 */
+        .def-text { font-size: 0.9em; color: #cbd5e1; font-style: italic; margin-top: 4px; line-height: 1.4; }
+        .sub-def { font-size: 0.75em; color: #94a3b8; margin-top: 5px; line-height: 1.3; }
+
         @media print {
-            body { background: white !important; color: black !important; }
-            .container { max-width: 100%; width: 100%; margin: 0; padding: 0; }
-            .no-print, .btn, .web-interactive-area { display: none !important; }
-            .test-item { display: block !important; visibility: visible !important; }
+            .no-print, .btn, .web-interactive-area, .btn-audio { display: none !important; }
+            .vocab-card { border: 1px solid #000; color: black !important; background: white !important; }
+            .def-text, .sub-def { color: #333 !important; }
         }
     </style>
 </head>
@@ -47,160 +47,105 @@
 
 <div class="container">
     <div class="no-print">
-        <h1>🚀 Sisley 11+ VR 互動練習系統</h1>
-        <div style="margin-bottom: 15px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
-            <label>輸入 day: </label>
-            <input type="number" id="weekInput" value="1" style="width:50px; padding:8px;">
-            <button class="btn btn-gen" onclick="generateByWeek()">🔄 Generate 5 vocabulary for today (3:2)</button>
-            <button class="btn" style="background:#27ae60; color:white;" onclick="printTest('standard')">🖨️ 標準填空</button>
-            <button class="btn" style="background:#2980b9; color:white;" onclick="printTest('anagram')">🖨️ 字母重組</button>
+        <h1>🚀 Sisley 11+ Vocabulary 練習系統</h1>
+        
+        <div class="selection-box">
+            <div style="margin-bottom: 10px;">
+                <label>選擇模式：</label>
+                <select id="modeSelect" onchange="toggleModeUI()" style="padding:5px; border-radius:5px;">
+                    <option value="single">單日模式 (Day X)</option>
+                    <option value="range">連選模式 (Day 1 到 Day X)</option>
+                    <option value="multi">多選模式 (自選日子)</option>
+                </select>
+            </div>
+
+            <div id="ui-single-range">
+                <label id="inputLabel">輸入天數: </label>
+                <input type="number" id="weekInput" value="1" style="width:60px; padding:8px; border-radius:5px; border:1px solid #ccc;">
+            </div>
+
+            <div id="ui-multi" style="display:none;">
+                <button class="btn" style="background:#4b5563; font-size:0.8em;" onclick="toggleCheckboxArea()">📂 展開/收起日子選擇</button>
+                <div id="checkbox-container"></div>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <button class="btn btn-gen" onclick="generateVocab()">🔄 生成生字清單</button>
+                <button class="btn" style="background:#27ae60; color:white;" onclick="window.print()">🖨️ 列印測驗卷</button>
+            </div>
         </div>
-        <p style="font-size: 0.9em; color: #aaa;">* 點擊 "Start Challenge" 開啟 iPad 點擊拼字模式，結果會自動存檔。</p>
     </div>
 
     <div id="mainDisplay"></div>
 </div>
 
 <script>
-    // ==========================================
-    // 複製檔案後，手動修改這裡的名字即可
     const STUDENT_NAME = "Sisley"; 
-    // ==========================================
-
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxEvoOp6elsVsYby0oY6cU5GrghiTd7tsh_o07q-wgHxhr51xHCnsyCvYIYeN-YOCYpjw/exec"; 
     let allVocab = [];
     let currentWords = [];
     let mediaRecorder;
     let audioChunks = {};
-    let currentTestType = 'standard';
-    let userAnswers = {};// 紀錄每題點擊的答案
+    let userAnswers = {};
 
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxEvoOp6elsVsYby0oY6cU5GrghiTd7tsh_o07q-wgHxhr51xHCnsyCvYIYeN-YOCYpjw/exec";
-
-window.onload = function() {
-    Papa.parse("vocab.csv", {
-        download: true, 
-        header: true, 
-        skipEmptyLines: true,
-        complete: function(results) {
-            allVocab = results.data;
-            console.log("Data Loaded:", allVocab); // 檢查這行是否有資料
-            generateByWeek();
+    window.onload = function() {
+        const container = document.getElementById('checkbox-container');
+        for (let i = 1; i <= 150; i++) {
+            container.innerHTML += `<div class="day-check"><input type="checkbox" class="day-cb" value="${i}"> ${i}</div>`;
         }
-    });
-};
 
-function generateByWeek() {
-    // 1. 取得使用者輸入的天數
-    const targetDay = document.getElementById('weekInput').value.trim();
-
-    // 2. 進行過濾（加入 trim() 確保不會因為 CSV 多了空格而失敗）
-    currentWords = allVocab.filter(v => {
-        // 同時檢查 'day' 欄位（考慮大小寫或前後空格）
-        const dayValue = (v.day || v.DAY || "").toString().trim();
-        return dayValue === targetDay;
-    });
-
-    // 3. 簡單隨機排序
-    currentWords.sort(() => 0.5 - Math.random());
-
-    // 4. 除錯提示（如果還是找不到，顯示 CSV 到底讀到了什麼欄位）
-    if (currentWords.length === 0) {
-        console.log("CSV 第一行範例:", allVocab[0]); // 在 F12 控制台查看
-        const availableCols = allVocab.length > 0 ? Object.keys(allVocab[0]).join(", ") : "None";
-        
-        document.getElementById('mainDisplay').innerHTML = `
-            <div style="text-align:center; padding:50px; color:#ff7675; background: #1e293b; border-radius: 15px;">
-                <h3>⚠️ 找不到 Day ${targetDay} 的生字</h3>
-                <p>讀取到的 CSV 欄位名稱有：<br><code style="color:white;">${availableCols}</code></p>
-                <p style="font-size:0.8em; color:#aaa;">請確保 CSV 第一行是 word,memory,syn,ant,type,day</p>
-            </div>`;
-        return;
-    }
-
-    render();
-}
-
-    function playNative(word) {
-        const audio = new Audio(`audio/${word.toLowerCase()}.mp3`);
-        audio.play().catch(e => console.log("Audio not found"));
-    }
-
-    // 拼字互動邏輯
-    function addLetter(wordIdx, letter, btn) {
-        if(!userAnswers[wordIdx]) userAnswers[wordIdx] = "";
-        userAnswers[wordIdx] += letter;
-        btn.disabled = true;
-        updateSpellDisplay(wordIdx);
-    }
-
-    function backspace(wordIdx) {
-        if(!userAnswers[wordIdx] || userAnswers[wordIdx].length === 0) return;
-        const lastLetter = userAnswers[wordIdx].slice(-1);
-        userAnswers[wordIdx] = userAnswers[wordIdx].slice(0, -1);
-        
-        // 恢復按鈕可用狀態
-        const pool = document.getElementById(`pool-${wordIdx}`);
-        const btns = pool.getElementsByTagName('button');
-        for (let btn of btns) {
-            if (btn.innerText === lastLetter && btn.disabled) {
-                btn.disabled = false;
-                break;
+        Papa.parse("vocab.csv", {
+            download: true, header: true, skipEmptyLines: true,
+            complete: function(results) {
+                allVocab = results.data;
+                console.log("Data Loaded:", allVocab);
             }
+        });
+    };
+
+    function toggleModeUI() {
+        const mode = document.getElementById('modeSelect').value;
+        document.getElementById('ui-single-range').style.display = (mode === 'multi') ? 'none' : 'block';
+        document.getElementById('ui-multi').style.display = (mode === 'multi') ? 'block' : 'none';
+        document.getElementById('inputLabel').innerText = (mode === 'range') ? "Day 1 到: " : "輸入天數: ";
+    }
+
+    function toggleCheckboxArea() {
+        const container = document.getElementById('checkbox-container');
+        container.style.display = (container.style.display === 'grid') ? 'none' : 'grid';
+    }
+
+    function generateVocab() {
+        const mode = document.getElementById('modeSelect').value;
+        const targetVal = parseInt(document.getElementById('weekInput').value);
+        let selectedDays = [];
+
+        if (mode === 'single') {
+            selectedDays = [targetVal.toString()];
+        } else if (mode === 'range') {
+            for (let i = 1; i <= targetVal; i++) selectedDays.push(i.toString());
+        } else {
+            document.querySelectorAll('.day-cb:checked').forEach(cb => selectedDays.push(cb.value));
         }
-        updateSpellDisplay(wordIdx);
-    }
 
-    function updateSpellDisplay(wordIdx) {
-        document.getElementById(`ans-${wordIdx}`).innerText = userAnswers[wordIdx];
-    }
+        if (selectedDays.length === 0) {
+            alert("請至少選擇或輸入一個天數！");
+            return;
+        }
 
-    async function submitAnswer(wordIdx) {
-        const week = document.getElementById('weekInput').value;
-        const correctWord = currentWords[wordIdx].word.toUpperCase();
-        const userAnswer = userAnswers[wordIdx] || "";
-        const btn = document.getElementById(`submit-btn-${wordIdx}`);
-
-        if (userAnswer.length < correctWord.length) return; 
-
-        btn.innerText = "Saving...";
-        btn.disabled = true;
-
-        // 準備數據，這裡加入了 student: STUDENT_NAME
-        const payload = {
-            student: STUDENT_NAME, 
-            week: week,
-            correctWord: correctWord,
-            userAnswer: userAnswer,
-            status: (correctWord === userAnswer) ? "✅ Correct" : "❌ Incorrect"
-        };
-
-       try {
-        await fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors', 
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+        currentWords = allVocab.filter(v => {
+            const dayValue = (v.day || v.DAY || "").toString().trim();
+            return selectedDays.includes(dayValue);
         });
 
-        btn.innerText = "✅ Submitted & Locked";
-        btn.disabled = true;
-        btn.style.background = "#2d3436";
+        currentWords.sort(() => 0.5 - Math.random());
+        render();
+    }
 
-        // 選項：提交後在拼字區域顯示正確答案作為反饋
-        const ansDisplay = document.getElementById(`ans-${wordIdx}`);
-        ansDisplay.style.color = (payload.status === "✅ Correct") ? "#55efc4" : "#ff7675";
-        
-        // 鎖定退格鍵和字母按鈕，防止提交後再修改
-        document.querySelector(`#challenge-view-${wordIdx} .control-btns`).style.display = 'none';
-        document.getElementById(`pool-${wordIdx}`).style.pointerEvents = 'none';
-        document.getElementById(`pool-${wordIdx}`).style.opacity = '0.5';
-
-              
-        } catch (e) {
-            console.error("Submission error:", e);
-            btn.innerText = "❌ Error";
-            btn.disabled = false;
-        }
+    function playAudio(word) {
+        if (!word || word === '-' || word.toLowerCase() === 'n/a') return;
+        const audio = new Audio(`audio/${word.trim().toLowerCase()}.mp3`);
+        audio.play().catch(e => console.log("Audio not found: " + word));
     }
 
     function render() {
@@ -208,39 +153,50 @@ function generateByWeek() {
         display.innerHTML = '';
         userAnswers = {};
 
+        if (currentWords.length === 0) {
+            display.innerHTML = `<p style="text-align:center; color:#ff7675;">⚠️ 找不到生字，請確認 CSV 欄位名稱是否包含 word, syn, ant, def, syn_def, ant_def, day</p>`;
+            return;
+        }
+
         currentWords.forEach((item, i) => {
             const typeClass = item.type.toLowerCase() === 'core' ? 'badge-core' : 'badge-elite';
-            const word = item.word.toUpperCase();
-            const letters = word.split('').sort(() => 0.5 - Math.random());
+            const wordUpper = item.word.toUpperCase();
+            const letters = wordUpper.split('').sort(() => 0.5 - Math.random());
 
             const card = document.createElement('div');
             card.innerHTML = `
                 <div class="vocab-card web-interactive-area">
                     <div id="learn-view-${i}">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <span class="badge ${typeClass}">${item.type}</span>
+                            <span class="badge ${typeClass}">${item.type} (Day ${item.day})</span>
                             <div>
-                                <button class="btn btn-audio" onclick="playNative('${item.word}')">🔊 Voice</button>
+                                <button class="btn btn-audio" onclick="playAudio('${item.word}')">🔊 Word</button>
                                 <button class="btn btn-record" id="rec-${i}" onclick="toggleRecord(${i})">🎤</button>
                                 <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️</button>
                             </div>
                         </div>
                         
-                        <h2 style="color:var(--core); margin: 15px 0; font-size: 2em;">${i+1}. ${item.word}</h2>
-                        
-                        <p style="margin-bottom: 20px;">
-                            <strong style="color: #f1c40f;">💡 Mnemonic:</strong><br>
-                            <span style="font-size: 1.1em;">${item.memory || ''}</span>
-                        </p>
+                        <h2 style="color:var(--core); margin: 10px 0 5px 0; font-size: 2em;">${i+1}. ${item.word}</h2>
+                        <div class="def-text">📖 ${item.def || ''}</div>
 
-                        <div style="display: flex; background: rgba(15, 23, 42, 0.5); border-radius: 8px; padding: 15px; margin-bottom: 20px; border: 1px solid #334155;">
+                        <p style="margin: 15px 0;"><strong style="color: #f1c40f;">💡 Mnemonic:</strong><br>${item.memory || ''}</p>
+
+                        <div style="display: flex; background: rgba(15, 23, 42, 0.5); border-radius: 8px; padding: 15px; margin-top: 15px; border: 1px solid #334155;">
                             <div style="flex: 1; border-right: 1px solid #4b5563; padding-right: 15px;">
-                                <div style="color: var(--core); font-weight: bold; font-size: 0.9em; margin-bottom: 5px;">🟢 SYNONYM</div>
-                                <div style="font-size: 1.2em;">${item.syn || '-'}</div>
+                                <div style="color: var(--core); font-weight: bold; font-size: 0.8em;">🟢 SYNONYM</div>
+                                <div style="font-size: 1.1em; display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
+                                    ${item.syn || '-'} 
+                                    ${(item.syn && item.syn !== '-' && item.syn.toLowerCase() !== 'n/a') ? `<button class="btn-audio" style="border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center;" onclick="playAudio('${item.syn}')">🔊</button>` : ''}
+                                </div>
+                                <div class="sub-def">${item.syn_def || ''}</div>
                             </div>
                             <div style="flex: 1; padding-left: 15px;">
-                                <div style="color: var(--elite); font-weight: bold; font-size: 0.9em; margin-bottom: 5px;">🔴 ANTONYM</div>
-                                <div style="font-size: 1.2em;">${item.ant || '-'}</div>
+                                <div style="color: var(--elite); font-weight: bold; font-size: 0.8em;">🔴 ANTONYM</div>
+                                <div style="font-size: 1.1em; display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
+                                    ${item.ant || '-'}
+                                    ${(item.ant && item.ant !== '-' && item.ant.toLowerCase() !== 'n/a') ? `<button class="btn-audio" style="border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center;" onclick="playAudio('${item.ant}')">🔊</button>` : ''}
+                                </div>
+                                <div class="sub-def">${item.ant_def || ''}</div>
                             </div>
                         </div>
                     </div>
@@ -251,95 +207,99 @@ function generateByWeek() {
                             <div class="letter-pool" id="pool-${i}">
                                 ${letters.map(l => `<button class="letter-btn" onclick="addLetter(${i}, '${l}', this)">${l}</button>`).join('')}
                             </div>
-                            <div class="control-btns">
-                                <button class="btn btn-back" onclick="backspace(${i})">⬅️ Back</button>
-                                <button class="btn btn-submit" id="submit-btn-${i}" onclick="submitAnswer(${i})">🚀 Submit</button>
+                            <div class="control-btns" style="margin-top:20px; text-align:center;">
+                                <button class="btn" style="background:#e67e22; color:white;" onclick="backspace(${i})">⬅️ Back</button>
+                                <button class="btn" style="background:#27ae60; color:white;" id="submit-btn-${i}" onclick="submitAnswer(${i})">🚀 Submit</button>
                             </div>
                         </div>
                     </div>
 
-                <button class="btn" id="btn-toggle-${i}" onclick="toggleChallenge(${i})" style="width: 100%; margin-top: 20px; background: var(--primary); color: white;">
-                    🎯 Start Challenge (Hide Word & Lock)
-                </button>
+                    <button class="btn" id="btn-toggle-${i}" onclick="toggleChallenge(${i})" style="width: 100%; margin-top: 20px; background: var(--primary); color: white;">
+                        🎯 Start Challenge (Lock)
+                    </button>
                 </div>
             `;
             display.appendChild(card);
         });
     }
 
-function toggleChallenge(i) {
-        const lv = document.getElementById(`learn-view-${i}`);
-        const cv = document.getElementById(`challenge-view-${i}`);
-        const btn = document.getElementById(`btn-toggle-${i}`);
-
-        // 隱藏學習區域（單字、助記詞、同反義詞）
-        lv.style.display = 'none'; 
-        // 顯示拼字挑戰區域
-        cv.style.display = 'block';
-        
-        // 徹底隱藏「Start Challenge」按鈕，讓用家無法再點選 Show Word
-        btn.style.display = 'none'; 
+    function toggleChallenge(i) {
+        document.getElementById(`learn-view-${i}`).style.display = 'none';
+        document.getElementById(`challenge-view-${i}`).style.display = 'block';
+        document.getElementById(`btn-toggle-${i}`).style.display = 'none';
     }
 
-    // 錄音功能保持不變 (省略部分重複代碼以保持簡潔)
-async function toggleRecord(id) {
+    function addLetter(wordIdx, letter, btn) {
+        if(!userAnswers[wordIdx]) userAnswers[wordIdx] = "";
+        userAnswers[wordIdx] += letter;
+        btn.disabled = true;
+        document.getElementById(`ans-${wordIdx}`).innerText = userAnswers[wordIdx];
+    }
+
+    function backspace(wordIdx) {
+        if(!userAnswers[wordIdx] || userAnswers[wordIdx].length === 0) return;
+        const lastLetter = userAnswers[wordIdx].slice(-1);
+        userAnswers[wordIdx] = userAnswers[wordIdx].slice(0, -1);
+        const pool = document.getElementById(`pool-${wordIdx}`);
+        const btns = pool.getElementsByTagName('button');
+        for (let btn of btns) {
+            if (btn.innerText === lastLetter && btn.disabled) {
+                btn.disabled = false;
+                break;
+            }
+        }
+        document.getElementById(`ans-${wordIdx}`).innerText = userAnswers[wordIdx];
+    }
+
+    async function submitAnswer(wordIdx) {
+        const correctWord = currentWords[wordIdx].word.toUpperCase();
+        const userAnswer = userAnswers[wordIdx] || "";
+        const btn = document.getElementById(`submit-btn-${wordIdx}`);
+        if (userAnswer.length < correctWord.length) return;
+        btn.innerText = "Saving...";
+        btn.disabled = true;
+
+        const payload = {
+            student: STUDENT_NAME, 
+            week: currentWords[wordIdx].day,
+            correctWord: correctWord,
+            userAnswer: userAnswer,
+            status: (correctWord === userAnswer) ? "✅ Correct" : "❌ Incorrect"
+        };
+
+        try {
+            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            btn.innerText = "✅ Submitted";
+            document.getElementById(`ans-${wordIdx}`).style.color = (payload.status === "✅ Correct") ? "#55efc4" : "#ff7675";
+        } catch (e) { btn.innerText = "❌ Error"; btn.disabled = false; }
+    }
+
+    async function toggleRecord(id) {
         const btn = document.getElementById(`rec-${id}`);
         const playBtn = document.getElementById(`play-${id}`);
-
         if (!mediaRecorder || mediaRecorder.state === "inactive") {
             try {
-                // 1. 取得權限
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                
-                // 2. 針對 iOS 選擇支援的 MIME 類型
-                const mimeType = MediaRecorder.isTypeSupported('audio/mp4') 
-                                 ? 'audio/mp4' 
-                                 : 'audio/webm';
-                
+                const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
                 mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
                 audioChunks[id] = [];
-
-                mediaRecorder.ondataavailable = e => {
-                    if (e.data.size > 0) audioChunks[id].push(e.data);
-                };
-
+                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks[id].push(e.data); };
                 mediaRecorder.onstop = () => {
-                    // 3. 生成 Blob 時指定正確的類型
                     const blob = new Blob(audioChunks[id], { type: mimeType });
                     const url = URL.createObjectURL(blob);
-                    
                     playBtn.style.display = 'inline-block';
-                    playBtn.onclick = () => {
-                        const audio = new Audio();
-                        audio.src = url;
-                        // iOS 強制要求在 User Interaction 下載入
-                        audio.load();
-                        audio.play().catch(err => {
-                            console.log("iPad 播放失敗:", err);
-                            // 備案：如果還是播不到，試著將其直接賦予到一個隱藏的 <audio> 標籤
-                        });
-                    };
+                    playBtn.onclick = () => { const audio = new Audio(url); audio.play(); };
                 };
-
                 mediaRecorder.start();
                 btn.innerText = "🛑 Stop";
                 btn.style.background = "#ff7675";
-            } catch (err) {
-                alert("iPad 麥克風開啟失敗，請檢查設定中的 Safari 權限。");
-            }
+            } catch (err) { alert("麥克風開啟失敗"); }
         } else {
             mediaRecorder.stop();
             btn.innerText = "🎤";
             btn.style.background = "#e74c3c";
-            // 停止所有麥克風軌道，否則 iPad 頂部會一直顯示紅點
             mediaRecorder.stream.getTracks().forEach(t => t.stop());
         }
-    }
-
-    // 補充 printTest 函數，確保按鈕點擊有反應
-    function printTest(type) {
-        currentTestType = type;
-        window.print();
     }
 </script>
 
