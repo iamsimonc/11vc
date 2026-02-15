@@ -1,616 +1,616 @@
-﻿word,memory,syn,ant,type,day
-Ample,充足的,Plentiful,Meagre,Core,1
-Sober,清醒的/嚴肅的,Serious,Drunk,Core,1
-Amateur,結尾-eur。業餘愛好者,Novice,Professional,Elite,1
-Profession,職業。一F雙S,Career,Hobby,Core,1
-Chaos,混亂。Ch發k音,Disorder,Order,Elite,1
-Obsequious,諂媚,Fawning,Proud,Elite,2
-Vanished,消失的,Disappeared,Seen,Core,2
-Colossal,巨大的。一L雙S,Huge,Tiny,Elite,2
-Evaluation,評估,Assessment,N/A,Core,2
-Appeal,呼籲/吸引力,Request,Repel,Core,2
-Devote,奉獻/致力於,Dedicate,Ignore,Core,3
-Advantage,結尾-age。長輩更有優勢,Benefit,Obstacle,Core,3
-Garment,衣服/外衣,Clothing,N/A,Core,3
-Brusque,唐突的/無禮的,Abrupt,Polite,Elite,3
-Fertile,肥沃的。與植物生長有關,Productive,Barren,Elite,3
-Rhyme,韻律。注意-hy-拼寫,Verse,Prose,Core,4
-Gregarious,社交的,Social,Lonely,Elite,4
-Tempestuous,狂暴的/劇烈的,Stormy,Calm,Elite,4
-Ambition,抱負/野心,Aspiration,Laziness,Core,4
-Enormous,巨大的,Huge,Tiny,Core,4
-Suggest,建議。雙G,Propose,Refuse,Core,5
-Flee,逃跑。雙E,Escape,Stay,Core,5
-Dictionary,字典。-ary,Lexicon,N/A,Core,5
-Virtuous,正直的/有道德的,Moral,Evil,Elite,5
-Hereditary,遺傳,Genetic,Acquired,Elite,5
-Declare,宣佈/聲明,Announce,Hide,Core,6
-Inquisitive,好奇,Curious,Bored,Core,6
-Elect,選舉/選擇,Choose,Reject,Core,6
-Integrity,正直,Honesty,Deceit,Elite,6
-Avowed,公開聲明的,Declared,Secret,Elite,6
-Develop,發展。末尾無-e,Grow,Stagnate,Core,7
-Weary,疲憊的。注意不是 Wary,Tired,Fresh,Core,7
-Probably,大概/或許,Likely,Unlikely,Core,7
-Tyrant,暴君/專制者,Dictator,Leader,Elite,7
-Meagre,貧乏的/不足的,Scant,Ample,Elite,7
-Union,聯盟/聯合,Alliance,Separation,Core,8
-Refuse,拒絕/垃圾,Reject,Accept,Core,8
-Fatal,致命的。Fati (命運) 決定死亡,Deadly,Harmless,Core,8
-Torment,折磨/痛苦,Agony,Comfort,Elite,8
-Despise,輕視/厭惡,Hate,Admire,Elite,8
-Complex,複雜的,Intricate,Simple,Core,9
-Expectation,期待,Hope,N/A,Core,9
-Colour,顏色。英式拼寫有 u,Hue,N/A,Core,9
-Advantageous,有利。注意中間有-e-,Helpful,Hurtful,Elite,9
-Accumulate,累積。雙C,Collect,Scatter,Elite,9
-Neat,整潔的,Tidy,Messy,Core,10
-Annual,雙N。Ann的生日是每年的,Yearly,Occasional,Core,10
-Muscle,肌肉。注意-sc-拼寫,Strength,Weakness,Core,10
-Ascend,上升。-sc-拼寫,Climb,Descend,Elite,10
-Perilous,危險的,Dangerous,Safe,Elite,10
-Ally,盟友。雙L,Partner,Enemy,Core,11
-Attempt,嘗試/企圖,Try,Give up,Core,11
-Liberal,自由的/慷慨的,Open,Narrow,Core,11
-Architecture,建築學。注意-ch-音,Design,Destruction,Elite,11
-Inference,推斷,Deduction,Fact,Elite,11
-Employ,僱用/使用,Hire,Fire,Core,12
-Absence,缺席。注意-sc-拼寫,Lack,Presence,Core,12
-Foe,敵人/仇敵,Enemy,Ally,Core,12
-Condemn,譴責/宣判。末尾有 n,Criticise,Praise,Elite,12
-Relevant,相關。注意字尾-ant,Related,Useless,Elite,12
-Assistance,幫助。雙S -ance,Help,Hinder,Core,13
-Cultivate,耕種/培養,Grow,Destroy,Core,13
-Slope,斜坡,Incline,Flat,Core,13
-Orthodontist,牙齒矯正醫師,Dentist,N/A,Elite,13
-Adversity,逆境,Hardship,Fortune,Elite,13
-Interrupt,打斷。雙R,Disrupt,Continue,Core,14
-Library,圖書館。注意有兩個-r-,N/A,N/A,Core,14
-Apparent,看似明顯但注意字尾-ent,Obvious,Hidden,Core,14
-Conceited,自負的/驕傲的,Vain,Humble,Elite,14
-Sacrifice,犧牲。注意-cri-拼寫,Offer,Keep,Elite,14
-Thrust,猛推/刺,Push,Pull,Core,15
-Stoop,彎腰/屈尊,Bend,Rise,Core,15
-Accomplish,完成。雙C雙L,Achieve,Fail,Core,15
-Vehicle,交通工具。注意-h-不發音,Transport,Pedestrian,Elite,15
-Twelfth,第十二。注意中間有-f-,Numeric,Last,Elite,15
-Convenience,方便。-ience,Comfort,Difficulty,Core,16
-Mysterious,神秘的。注意-y-拼寫,Strange,Plain,Core,16
-Argument,爭論。注意中間沒有 e,Dispute,Agreement,Core,16
-Artful,狡猾的/巧妙的,Cunning,Simple,Elite,16
-Perceive,察覺。e在i前,Notice,Ignore,Elite,16
-Leisure,休閒。注意-ei-拼寫,Relax,Work,Core,17
-Attached,附帶的/依戀的,Connected,Detached,Core,17
-Equipped,裝備。雙P,Fitted,Unprepared,Core,17
-Equanimity,平靜,Calm,Agitation,Elite,17
-Turbulent,動盪的/混亂的,Stormy,Calm,Elite,17
-Accustom,習慣於。雙C拼寫,Adapt,Unused,Core,18
-Gratitude,感激。Grateful的名詞,Thanks,Ingratitude,Core,18
-Vessel,船隻/容器。雙S,Ship,N/A,Core,18
-Prejudice,偏見。注意-dice字尾,Bias,Fairness,Elite,18
-Debrief,盤問/彙報,Question,Ignore,Elite,18
-Fragment,碎片/片段,Piece,Whole,Core,19
-Origin,起源/出身,Source,End,Core,19
-Prosperous,繁榮的,Wealthy,Poor,Core,19
-Embarrass,尷尬。雙R雙S,Abash,Comfort,Elite,19
-Authentic,真實的,Real,FALSE,Elite,19
-Lodge,存放/小屋/旅館,Stay,Leave,Core,20
-Distress,痛苦/危難,Suffering,Comfort,Core,20
-Matte,無光的/啞色的,Dull,Shiny,Core,20
-Benevolent,仁慈的。Ben=好,Kind,Malevolent,Elite,20
-Repent,後悔/懺悔,Regret,Celebrate,Elite,20
-Because,因為。拼寫容易錯,Since,N/A,Core,21
-Stomach,胃。ch 發 k 音,Belly,N/A,Core,21
-Across,橫過。只有一個 C,Crosswise,Along,Core,21
-Deprive,剝奪,Take,Give,Elite,21
-Apprehensive,憂慮的/恐懼的,Anxious,Confident,Elite,21
-Adopt,領養/採納,Take in,Reject,Core,22
-Score,得分/二十個,Result,N/A,Core,22
-Roam,漫遊/閒逛,Wander,Stay,Core,22
-Subterfuge,藉口/託辭,Trickery,Honesty,Elite,22
-Rogue,惡棍/流氓,Villain,Hero,Elite,22
-Reprimand,訓斥/斥責,Scold,Praise,Elite,23
-Permit,允許,Allow,Forbid,Core,23
-Shrink,收縮/縮水,Contract,Expand,Core,23
-Efficient,有效率。雙F,Effective,Lazy,Core,23
-Nauseous,噁心的。注意-se-ous,Sick,Healthy,Elite,23
-Quench,解渴/熄滅,Satisfy,N/A,Core,24
-Peak,頂峰。與Peek(偷看)同音,Summit,Bottom,Core,24
-Demolished,拆除/毀壞,Destroyed,Built,Core,24
-Quell,鎮壓/平息。雙L,Quiet,Stir,Elite,24
-Casualty,傷亡,Victim,Survivor,Elite,24
-Contest,比賽/爭論,Competition,Agreement,Core,25
-Seldom,很少/不常,Rarely,Often,Core,25
-Beautiful,美麗的。注意 -eau- 拼寫,Lovely,Ugly,Core,25
-Fallacy,謬誤,Error,Truth,Elite,25
-Curt,簡短而失禮的,Abrupt,Polite,Elite,25
-Extended,延伸的/長期的,Long,Short,Core,26
-Receive,收到。e在i前,Get,Send,Core,26
-Grave,嚴重的/墳墓,Serious,Trivial,Core,26
-Scanty,缺乏的/不足的,Meagre,Ample,Elite,26
-Unsurpassed,卓越的/無比的,Best,Worst,Elite,26
-Rank,等級/繁茂的,Level,N/A,Core,27
-Empire,帝國,Kingdom,N/A,Core,27
-Pledge,保證/誓言,Promise,N/A,Core,27
-Conventional,傳統的/常規的,Traditional,Unusual,Elite,27
-Plausible,合理,Likely,Absurd,Elite,27
-Despair,絕望,Hopelessness,Hope,Core,28
-Avoid,避免,Shun,Face,Core,28
-Competition,競爭。注意中間的 e,Contest,N/A,Core,28
-Harass,一R雙S。騷擾,Annoy,Assist,Elite,28
-Inaugural,就職的/開幕的,Opening,Final,Elite,28
-Estimate,估計/估價,Guess,N/A,Core,29
-Bruise,瘀青。-ui-拼寫,Contusion,Heal,Core,29
-Convict,囚犯/宣判有罪,Prisoner,Acquit,Core,29
-Tranquil,平靜的/安寧的,Peaceful,Noisy,Elite,29
-Robust,強壯的/結實的,Strong,Weak,Elite,29
-Dose,劑量/一劑,Amount,N/A,Core,30
-Sermon,佈道/說教,Speech,N/A,Core,30
-Foreign,外國。注意-e-在-i-前,Alien,Native,Core,30
-Devastate,破壞,Destroy,Build,Elite,30
-Aspiration,抱負,Ambition,Apathy,Elite,30
-Release,釋放/發布,Free,Hold,Core,31
-Perish,腐爛/死亡,Die,Survive,Core,31
-Prompt,迅速的/提醒,Quick,Slow,Core,31
-Cemetery,墓地。全是-e-的土地,Graveyard,Cradle,Elite,31
-Nimble,敏捷的/伶俐的,Agile,Clumsy,Elite,31
-Liberty,自由,Freedom,Slavery,Core,32
-Bargain,gain (得到) 了便宜貨,Deal,Overprice,Core,32
-Doubt,懷疑。b不發音,Uncertainty,Trust,Core,32
-Camouflage,偽裝。-ou-拼寫,Disguise,Reveal,Elite,32
-Caulking,填縫,Sealing,Opening,Elite,32
-Separate,分開。中間是 a-r-a,Split,Join,Core,33
-Burden,負擔,Load,Relief,Core,33
-Uniform,制服/一致的,Consistent,Varied,Core,33
-Incision,切口/切開。-sion字尾,Cut,N/A,Elite,33
-Accommodate,2隻貓(CC)2隻鼠(MM)同住,Lodge,Reject,Elite,33
-Ornate,華麗,Fancy,Plain,Elite,34
-Decline,下降/拒絕,Decrease,Accept,Core,34
-Forbid,禁止/不許,Prohibit,Allow,Core,34
-Affectionate,深情的/慈愛的,Loving,Cold,Core,34
-Elusive,難以捉摸,Hidden,Clear,Elite,34
-Admission,准許進入。雙S,Entry,Exclusion,Core,35
-Approve,雙P。兩隻拇指贊成,Support,Deny,Core,35
-Oppose,反對。雙P,Resist,Support,Core,35
-Zealous,熱衷。注意-ea-拼寫,Eager,Indifferent,Elite,35
-Enigma,謎團,Mystery,Fact,Elite,35
-Drought,乾旱。-ought,Dry,Flood,Core,36
-Temperature,溫度。注意中間有-er-,Heat,Cold,Core,36
-Amount,數量/總額,Quantity,N/A,Core,36
-Perpetual,永久,Eternal,Brief,Elite,36
-Vicarious,間接體驗的,Indirect,Direct,Elite,36
-Conscience,Science前有Con。良心,Morals,Immorality,Elite,37
-Eager,渴望,Keen,Reluctant,Core,37
-Debate,辯論/爭論,Argue,Agreement,Core,37
-Contract,合約/收縮,Agreement,Expand,Core,37
-Complacent,自滿,Smug,Humble,Elite,37
-Unnecessary,不必要的。1C 2S,Extra,Essential,Core,38
-Benefit,利益/好處,Advantage,Harm,Core,38
-Wasteful,浪費的,Extravagant,Thrifty,Core,38
-Aristocracy,貴族,Nobility,Peasantry,Elite,38
-Weird,怪異的。注意它是例外 e 在 i 前,Strange,Normal,Elite,38
-Cease,停止,Stop,Start,Core,39
-Recommend,一C雙M。推薦,Suggest,Reject,Core,39
-Reveal,透露/顯露,Show,Hide,Core,39
-Subterranean,地下的,Underground,Surface,Elite,39
-Melancholy,憂鬱,Sad,Happy,Elite,39
-Reserve,預訂/保留,Keep,Release,Core,40
-Distinguished,卓越的/著名的,Famous,Unknown,Core,40
-Ancient,注意 c-i-e。古老的文物,Antique,Modern,Core,40
-Lament,哀悼/悲嘆,Mourn,Celebrate,Elite,40
-Deceit,欺騙(名詞)。e在i前,Deception,Honesty,Elite,40
-Invalid,無效的/病弱者,Weak,Valid,Core,41
-Astonish,使驚訝,Amaze,Bore,Core,41
-Stress,壓力/強調,Pressure,Peace,Core,41
-Abundant,數量很多。-ant結尾,Plentiful,Scarce,Elite,41
-Bewilder,使困惑,Confuse,Enlighten,Elite,41
-Government,政府。注意中間有-n-,Authority,Anarchy,Core,42
-Aid,幫助/援助,Assistance,Hinder,Core,42
-Character,性格。Ch發k音,Nature,N/A,Core,42
-Anxiety,焦慮。注意-x-拼寫,Worry,Calm,Elite,42
-Interfere,干涉。中間全是-e-,Meddle,Assist,Elite,42
-Mercy,仁慈/寬恕,Clemency,Cruelty,Core,43
-Superior,優越的/上級的,Better,Inferior,Core,43
-Restore,恢復/修復,Repair,Damage,Core,43
-Coax,哄騙/勸誘,Persuade,Force,Elite,43
-Irascible,易怒,Angry,Calm,Elite,43
-Grate,磨碎/壁爐。與Great同音,Shred,N/A,Core,44
-Frequently,頻繁。注意-que-音,Often,Seldom,Core,44
-Embrace,擁抱/包含,Hug,Exclude,Core,44
-Antiquity,古老/古代,Ancient,Modern,Elite,44
-Painstaking,辛苦的/勤勉的,Thorough,Lazy,Elite,44
-Digest,消化/文摘,Absorb,Eject,Core,45
-Dwelling,住處,Home,N/A,Core,45
-Trivial,微不足道的,Minor,Major,Core,45
-Inaugurate,舉行就職典禮,Begin,End,Elite,45
-Covert,秘密的/隱密的。像Cover,Secret,Open,Elite,45
-Monotonous,單調,Boring,Varied,Core,46
-Unite,團結/聯合,Join,Divide,Core,46
-Secure,安全的/穩固的,Safe,Loose,Core,46
-Idiosyncrasy,癖好,Habit,Norm,Elite,46
-Calamity,災難/不幸,Disaster,Blessing,Elite,46
-Correct,正確的/糾正,Accurate,Wrong,Core,47
-Retreat,撤退/退後,Withdraw,Advance,Core,47
-Marvellous,奇妙。雙L。-ous結尾,Wonderful,Awful,Core,47
-Judicious,明智,Wise,Foolish,Elite,47
-Seize,抓住。e 在 i 前,Grab,Release,Elite,47
-Nurseryman,苗圃人員/園丁,Gardener,N/A,Core,48
-Wholesome,健康的,Healthy,Unhealthy,Core,48
-Halt,停止/中止,Stop,Start,Core,48
-Dilapidated,破舊的/倒塌的,Run-down,New,Elite,48
-Adjacent,鄰近。注意-dj-拼寫,Near,Remote,Elite,48
-Resort,求助/渡假勝地,Turn to,N/A,Core,49
-Quiver,抖動/顫抖,Tremble,Steady,Core,49
-Opportunity,機會。雙P,Chance,Obstacle,Core,49
-Affable,和藹可親的,Friendly,Hostile,Elite,49
-Audacious,大膽,Bold,Timid,Elite,49
-Recite,背誦/朗誦,Repeat,N/A,Core,50
-Comrade,同志/夥伴,Friend,Enemy,Core,50
-Diluted,稀釋的,Weakened,Strong,Core,50
-Superfluous,多餘的/過剩的,Extra,Necessary,Elite,50
-Innate,天生。雙N,Natural,Learned,Elite,50
-Restaurant,餐廳。注意-au-拼寫,Eatery,Home,Core,51
-Moderate,適度的/中等的,Average,Extreme,Core,51
-Extremely,極端地。注意字尾-ly,Very,Mildly,Core,51
-Adolescent,青少年。-sc-拼寫,Teen,Adult,Elite,51
-Nuisance,討厭的人。-ui-拼寫,Annoyance,Pleasure,Elite,51
-Profit,利潤/好處,Gain,Loss,Core,52
-Peculiar,奇怪的/特有的,Odd,Normal,Core,52
-Company,公司/陪伴,Firm,Solitude,Core,52
-Frivolous,輕浮,Silly,Serious,Elite,52
-Ominous,不祥,Threatening,Lucky,Elite,52
-Physical,身體。注意-ph-與-y-,Bodily,Mental,Core,53
-Reside,居住。與 Residence 相關,Live,Depart,Core,53
-Meant,意思(Mean的過去式),N/A,N/A,Core,53
-Dismal,憂鬱的/淒涼的,Gloomy,Bright,Elite,53
-Volatile,不穩定的/易變的,Unstable,Steady,Elite,53
-Vegetable,蔬菜。注意中間有-e-,Plant,Meat,Core,54
-Pioneer,先驅/拓荒者,Leader,Follower,Core,54
-Ambitious,有野心的,Eager,Lazy,Core,54
-Discrepancy,差異,Difference,Match,Elite,54
-Deficiency,缺乏,Lack,Surplus,Elite,54
-Description,描述。注意是-scrip-,Account,N/A,Core,55
-Conclude,結論/結束,Finish,Start,Core,55
-Communicate,溝通。雙M,Convey,Silence,Core,55
-Haphazard,隨意,Random,Planned,Elite,55
-Enthusiastic,熱衷,Eager,Apathetic,Elite,55
-Succumb,屈服/病死。b 不發音,Yield,Survive,Elite,56
-Punctual,準時的,On time,Late,Core,56
-Summit,山頂/峰會。雙M,Peak,Bottom,Core,56
-Environment,環境。中間有-n-,Surroundings,N/A,Core,56
-Emancipate,解放,Free,Enslave,Elite,56
-Excitement,激動/興奮。注意中間有-e-,Thrill,Boredom,Core,57
-Parallel,平行的。兩條L就是平行的,Even,Crooked,Core,57
-Queue,排隊。全是元音,Line,Disperse,Core,57
-Mischievous,頑皮。注意-ous前無-i,Naughty,Good,Elite,57
-Destitute,赤貧的/窮困落魄,Poor,Wealthy,Elite,57
-Candidate,候選人。-idate,Applicant,N/A,Core,58
-Symbol,符號。注意-y-拼寫,Sign,Reality,Core,58
-Category,類別。注意中間是-e-,Class,Individual,Core,58
-Shrine,神龕/聖地,Holy place,N/A,Elite,58
-Parliament,議會。注意中間有-ia-,Council,Anarchy,Elite,58
-Merchant,商人。Merc-與貿易有關,Trader,N/A,Core,59
-Hasty,倉促的/草率的,Quick,Slow,Core,59
-Wholly,完全地。注意雙L,Totally,Partly,Core,59
-Contagious,傳染性,Catching,Safe,Elite,59
-Deteriorate,惡化,Worsen,Improve,Elite,59
-Interested,感興趣的,Keen,Bored,Core,60
-Variety,多樣性。注意-ie-拼寫,Diversity,Sameness,Core,60
-Accuse,指控。雙C拼寫,Blame,Pardon,Core,60
-Omen,預兆/前兆,Sign,N/A,Elite,60
-Perplexed,困惑的,Puzzled,Clear,Elite,60
-Traitor,叛徒/賣國賊,Betrayer,Loyalist,Core,61
-Anxious,焦慮的。注意 -x-,Worried,Calm,Core,61
-Oblige,被迫/必須/幫忙,Force,Free,Core,61
-Awkward,w-k-w。左右為難很尷尬,Clumsy,Graceful,Elite,61
-Brerevity,簡潔,Shortness,Length,Elite,61
-Diminish,減少,Reduce,Increase,Core,62
-Exhausted,筋疲力竭,Tired,Fresh,Core,62
-Puncture,刺穿/小洞,Hole,N/A,Core,62
-Nostalgia,懷舊,Longing,Future,Elite,62
-Candour,坦率,Honesty,Deceit,Elite,62
-Neighbour,鄰居。注意-eigh-音,Friend,Stranger,Core,63
-Programme,程序/節目。雙M,Schedule,N/A,Core,63
-Special,特別的,Unique,Common,Core,63
-Obdurate,頑固,Stubborn,Flexible,Elite,63
-Contemporary,當代的。Con-temp,Modern,Old,Elite,63
-Proportion,比例/部分,Ratio,N/A,Core,64
-Worthy,值得的/尊敬的,Valuable,Useless,Core,64
-Wound,傷口/創傷,Injury,Heal,Core,64
-Impudent,無理的/魯莽的,Rude,Polite,Elite,64
-Indevour,努力(Endeavour),Effort,Lazy,Elite,64
-Equipment,裝備(名詞),Gear,N/A,Core,65
-Option,選擇,Choice,N/A,Core,65
-Limit,限制/限度,Border,Endless,Core,65
-Magnanimous,寬宏大量,Noble,Mean,Elite,65
-Subdued,被壓制的/柔和的,Quiet,Loud,Elite,65
-Arouse,喚醒/激起,Waken,Lull,Core,66
-In front,在前面。兩個字,Ahead,Behind,Core,66
-Vast,巨大的,Huge,Tiny,Core,66
-Counterfeit,偽造。-ei-拼寫,Fake,Genuine,Elite,66
-Chronological,按時間順序,Timed,Random,Elite,66
-Confine,限制/禁閉,Limit,Free,Core,67
-Justice,正義/司法,Fairness,Injustice,Core,67
-Poultry,家禽,Birds,N/A,Core,67
-Belligerent,好鬥的/挑釁的,Hostile,Peaceful,Elite,67
-Unorthodox,非正統的,Unusual,Standard,Elite,67
-Ventilation,通風/空氣流通,Airflow,N/A,Core,68
-Familiar,熟悉。-liar結尾,Known,Strange,Core,68
-Curiosity,好奇心。無中間-u-,Inquiry,Indifference,Core,68
-Thorough,徹底。注意-ough拼寫,Complete,Partial,Elite,68
-Exaggerate,誇張。雙G,Overstate,Understate,Elite,68
-Assemble,集合。雙S,Gather,Scatter,Core,69
-Suspend,暫停/懸掛,Hang,Continue,Core,69
-Supposed,假設的/應當的,Assumed,N/A,Core,69
-Acknowledge,承認。有Know在裡面,Admit,Deny,Elite,69
-Illegible,字跡模糊。雙L,Unreadable,Clear,Elite,69
-In fact,事實上。兩個字,Actually,Possibly,Core,70
-Loyal,忠誠的,Faithful,Treacherous,Core,70
-Companion,同伴/伴侶,Partner,Stranger,Core,70
-Covet,貪圖/渴望,Desire,Dislike,Elite,70
-Callous,冷酷,Heartless,Kind,Elite,70
-Pigment,顏料/色素,Colour,N/A,Core,71
-Sturdy,強健的/堅固的,Strong,Weak,Core,71
-College,學院。注意字尾 -ege,School,N/A,Core,71
-Scripture,經文/聖典,Text,N/A,Elite,71
-Unfathomable,深不可測的,Mysterious,Clear,Elite,71
-Wither,枯萎,Fade,Bloom,Core,72
-Stubborn,頑固的,Obstinate,Flexible,Core,72
-Rural,農村的/田園的,Country,Urban,Core,72
-Precarious,危險,Unsafe,Secure,Elite,72
-Ostentatious,炫耀的/賣弄的,Showy,Modest,Elite,72
-Desperate,絕望。中間是e,Hopeless,Confident,Core,73
-Individual,個人/獨特的。注意-uid-,Single,Group,Core,73
-Occur,雙C。發生,Happen,Cease,Core,73
-Captivate,著迷,Charm,Repel,Elite,73
-Disastrous,災難性。無中間-e-,Terrible,Lucky,Elite,73
-Compete,競爭,Contest,Surrender,Core,74
-All right,沒問題。注意是兩個字,Fine,Wrong,Core,74
-Passive,被動的,Inactive,Active,Core,74
-Privilege,特權。兩個I兩個E,Right,Disadvantage,Elite,74
-Prominent,著名的/顯眼的,Famous,Obscure,Elite,74
-Diligent,勤奮,Hardworking,Lazy,Core,75
-Believe,相信。i 在 e 前,Trust,Doubt,Core,75
-Resolve,解決/下定決心,Settle,Hesitate,Core,75
-Clemency,仁慈/寬厚,Mercy,Severity,Elite,75
-Disperse,分散/散開,Scatter,Gather,Elite,75
-Abode,住處。與 Abide (居住) 相關,Dwelling,Office,Core,76
-Composition,作文/結構,Creation,N/A,Core,76
-Altitude,高度。Alti (高),Height,Depth,Core,76
-Aggressive,兩個G兩個S都很兇,Hostile,Gentle,Elite,76
-Coincide,巧合,Match,Differ,Elite,76
-Interior,內部的,Inner,Exterior,Core,77
-Satin,緞子。形容平滑,Silky,Rough,Core,77
-Sincere,真誠的,Honest,Fake,Core,77
-Oath,誓言/宣誓,Pledge,N/A,Elite,77
-Indispensable,不可或缺,Vital,Extra,Elite,77
-Address,地址/演講。雙D雙S,Speech,N/A,Core,78
-Alert,警覺的,Watchful,Asleep,Core,78
-Concentrated,集中的/濃縮的,Focused,Diluted,Core,78
-Din,嘈雜聲,Noise,Silence,Elite,78
-Plunder,搶劫/掠奪,Loot,Gift,Elite,78
-Convince,說服,Persuade,Dissuade,Core,79
-Pasture,牧場/草地,Meadow,N/A,Core,79
-Prohibit,禁止,Forbid,Allow,Core,79
-Interrogate,審問/質問。雙R,Question,Ignore,Elite,79
-Veil,面紗/遮掩。e 在 i 前,Cover,Reveal,Elite,79
-Plume,羽毛/羽飾,Feather,N/A,Core,80
-Exciting,令人興奮的,Thrilling,Dull,Core,80
-Sanitary,衛生的/清潔的,Hygienic,Dirty,Core,80
-Curb,控制/路邊。抑制情緒,Restrain,Release,Elite,80
-Careering,猛衝/疾馳,Racing,Stopping,Elite,80
-Oppress,壓迫/折磨。雙P雙S,Tyrannize,Free,Elite,81
-Present,禮物/現在/出席,Gift,Absent,Core,81
-Majestic,雄偉的/莊嚴的,Grand,Modest,Core,81
-Maximum,最大值的,Most,Minimum,Core,81
-Restrain,抑制/克制,Control,Release,Elite,81
-Moral,道德的/寓意,Ethical,Immoral,Core,82
-Linger,逗留/緩緩流逝,Stay,Leave,Core,82
-Especially,尤其。注意是-espe-,Particularly,N/A,Core,82
-Acquainted,相識的。注意 -cq- 拼寫,Familiar,Stranger,Elite,82
-Conferred,授予/商討。雙R,Granted,Taken,Elite,82
-Definite,明確。注意中間是-i-,Certain,Vague,Core,83
-Clumsy,笨拙的,Awkward,Graceful,Core,83
-Margin,邊緣/餘裕,Edge,Center,Core,83
-Bemused,困惑的,Confused,Clear,Elite,83
-Convey,傳達/運送,Transport,Receive,Elite,83
-Dispute,爭論/爭執,Argument,Agreement,Core,84
-System,系統。注意-y-拼寫,Method,Chaos,Core,84
-Available,可得到的,Ready,Busy,Core,84
-Yacht,遊艇。注意-cht-拼寫,Boat,Car,Elite,84
-Arduous,艱鉅的/費力的,Tough,Easy,Elite,84
-Accompany,陪伴。雙C,Escort,Leave,Core,85
-Temptation,誘惑,Lure,N/A,Core,85
-Accurate,雙C。看準紅心才準確,Precise,Wrong,Core,85
-Quaint,古雅的/奇特有趣的,Charming,Modern,Elite,85
-Disclose,透露/揭發,Reveal,Hide,Elite,85
-Brief,簡短。i在e前,Short,Long,Core,86
-Compulsory,強制,Required,Optional,Core,86
-Intense,劇烈的/強烈的,Extreme,Mild,Core,86
-Gullible,易受騙。雙L,Naive,Wise,Elite,86
-Grieve,悲傷/哀悼。i在e前,Mourn,Rejoice,Elite,86
-Flawless,完美的/無瑕的,Perfect,Faulty,Core,87
-Frequent,頻繁的。注意-que-,Often,Rare,Core,87
-Submit,提交/服從。雙M過去式,Yield,Resist,Core,87
-Wretched,可憐的/惡劣的,Miserable,Happy,Elite,87
-Futility,徒勞,Useless,Success,Elite,87
-Contribute,貢獻。注意-ute字尾,Donate,Take,Core,88
-Bicycle,自行車。注意中間是 y,Cycle,N/A,Core,88
-Surprise,驚訝。注意第一個 r,Astonish,Expected,Core,88
-Facade,正面/假象,Front,Back,Elite,88
-Derelict,荒廢的/被棄置的,Abandoned,Maintained,Elite,88
-Sly,狡猾的,Cunning,Honest,Core,89
-Consume,消耗/吃喝,Eat,Produce,Core,89
-Rowdy,吵鬧的/粗魯的,Noisy,Quiet,Core,89
-Ordeal,嚴峻考驗/磨難,Trial,Comfort,Elite,89
-Expel,驅逐/開除。只有一個L,Banish,Welcome,Elite,89
-Depot,倉庫/站。t不發音,Storehouse,N/A,Core,90
-Custom,習俗/海關,Tradition,Habit,Core,90
-Stout,肥胖的/壯實的,Fat,Thin,Core,90
-Persuade,說服。注意-ua-拼寫,Convince,Dissuade,Elite,90
-Boisterous,喧鬧,Noisy,Quiet,Elite,90
-Proclaim,宣佈/公告,Declare,Hide,Core,91
-Column,柱子。末尾有-n,Pillar,N/A,Core,91
-Language,語言。注意-uage結尾,Speech,Silence,Core,91
-Lenient,寬大的/仁慈的,Mercy,Severe,Elite,91
-Existence,存在。全是-e-。注意字尾-ence,Living,Death,Elite,91
-Ridiculous,荒謬的,Absurd,Sensible,Core,92
-Provoke,激怒/挑釁,Annoy,Soothe,Core,92
-Apprentice,學徒。雙P,Learner,Master,Core,92
-Capricious,反覆無常,Fickle,Steady,Elite,92
-Choreographer,編舞者,Dancemaker,N/A,Elite,92
-Reluctant,不情願,Unwilling,Eager,Core,93
-Promote,晉升/推廣,Advance,Demote,Core,93
-Successful,成功的。雙C雙S,Victorious,Failing,Core,93
-Loquacious,多話,Talkative,Silent,Elite,93
-Endeavour,努力(英式拼寫-our),Effort,Laziness,Elite,93
-Absurd,荒謬的。Ab-surd (不合理的),Ridiculous,Sensible,Core,94
-Advance,前進/進步,Progress,Retreat,Core,94
-Completely,完全地,Totally,Partly,Core,94
-Peril,危險,Danger,Safety,Elite,94
-Incorrigible,無可救藥,Hopeless,Fixed,Elite,94
-No one,沒有人。兩個字,Nobody,Everyone,Core,95
-Paid,已付錢。Pay的過去式,N/A,N/A,Core,95
-Sow,播種。與 Sew(縫) 同音,Plant,Harvest,Core,95
-Acquire,獲得。注意 -cq-,Obtain,Lose,Elite,95
-Trifle,瑣事/少量,Trivia,Important,Elite,95
-Bewildered,困惑的,Puzzled,Aware,Core,96
-Coarse,粗糙的。不是 Course,Rough,Smooth,Core,96
-Latter,後者的。雙T,Second,Former,Core,96
-Divine,神聖的/非凡的,Holy,Earthly,Elite,96
-Compel,強迫,Force,Allow,Elite,96
-Deposit,存款/堆積物,Place,Withdraw,Core,97
-Immediate,立即。雙M。-ate字尾,Instant,Delayed,Core,97
-Retain,保留/保持,Keep,Lose,Core,97
-Pronunciation,發音。中間沒有-o-,Diction,N/A,Elite,97
-Submissive,服從的/順從的,Obedient,Defiant,Elite,97
-Imminent,逼近。雙M,Approaching,Distant,Elite,98
-Revive,使蘇醒/恢復,Recover,Die,Core,98
-Stretched,拉長的,Extended,Short,Core,98
-Favourite,最喜愛的。英式拼寫有-u-,Preferred,Hated,Core,98
-Adhere,堅持/黏附。如同膠水,Stick,Detach,Elite,98
-Shoulder,肩膀。注意-oul-音,Joint,Foot,Core,99
-Appearance,外表。注意 -ance,Look,Reality,Core,99
-Interpret,口譯/解釋,Translate,Confuse,Core,99
-Cynical,憤世嫉俗,Skeptical,Trusting,Elite,99
-Polarity,極性,Difference,N/A,Elite,99
-Deny,否認/拒絕,Reject,Admit,Core,100
-Banish,驅逐出境,Expel,Welcome,Core,100
-Trivia,瑣事,Trifles,Facts,Core,100
-Temperate,溫和的/適度的,Mild,Extreme,Elite,100
-Palaeontologist,古生物學家,N/A,N/A,Elite,100
-Entirely,完全地,Totally,Partly,Core,101
-Lightning,閃電。沒有中間的-e-,Flash,Darkness,Core,101
-Caution,小心/警告,Warning,Carelessness,Core,101
-Chivalrous,有騎士風度的,Gallant,Rude,Elite,101
-Boycott,抵制。雙T,Reject,Accept,Elite,101
-Sane,神智正常的,Rational,Insane,Core,102
-Convert,轉換/改變,Change,Keep,Core,102
-Occupied,被佔用的。y變i,Busy,Free,Core,102
-Ambiguous,模棱兩可,Vague,Clear,Elite,102
-Disarray,混亂/不整潔,Disorder,Order,Elite,102
-Purpose,目的/意圖,Intention,Accident,Core,103
-Rare,稀有的,Uncommon,Common,Core,103
-Twilight,黃昏/黎明,Dusk,Dawn,Core,103
-Lucrative,賺錢的,Profitable,Loss,Elite,103
-Sufficient,足夠。雙F。-ient字尾,Enough,Lacking,Elite,103
-Recognise,認出。注意中間有-g-,Identify,Ignore,Core,104
-Endurance,忍耐,Stamina,Weakness,Core,104
-Odour,氣味。英式-our,Scent,N/A,Core,104
-Mariner,水手/船員,Sailor,N/A,Elite,104
-Cavalry,騎兵。注意不要拼成Calvary,Horsemen,Infantry,Elite,104
-Stern,嚴厲的/船尾,Severe,Kind,Core,105
-Fleet,艦隊/快速的,Group,Slow,Core,105
-Credible,可信,Believable,FALSE,Core,105
-Yield,產出/屈服。i 在 e 前,Produce,Resist,Elite,105
-Besieged,被圍困的,Surrounded,Free,Elite,105
-Community,社區。雙M,Society,Solitude,Core,106
-Appreciate,感激/欣賞,Value,Ignore,Core,106
-Minimum,最小值的,Least,Maximum,Core,106
-Asunder,分離地/化為碎片,Apart,Together,Elite,106
-Venerable,受人尊敬的,Respected,Infamous,Elite,106
-Alteration,改變,Change,Fix,Core,107
-Vacant,空的。注意字尾 -ant,Empty,Full,Core,107
-Earnest,認真的/真誠的,Serious,Frivolous,Core,107
-Committee,2M 2T 2E。委員會,Council,Individual,Elite,107
-Contempt,輕視/蔑視,Scorn,Respect,Elite,107
-Conclusion,結論。注意 -sion,End,Beginning,Core,108
-Average,平均。中間有-e-,Normal,Extreme,Core,108
-Intention,意圖/目的,Purpose,Accident,Core,108
-Assiduous,勤勉的。雙S,Diligent,Lazy,Elite,108
-Obstinate,頑固的。11+極常考,Stubborn,Flexible,Elite,108
-Rigid,硬的/嚴格的,Stiff,Flexible,Core,109
-Comparison,比較,Contrast,N/A,Core,109
-Consent,同意/贊成,Agreement,Refusal,Core,109
-Inconspicuous,不顯眼的。-sc-拼寫,Hidden,Obvious,Elite,109
-Impediment,障礙,Hurdle,Help,Elite,109
-Criticise,批評。-cise,Condemn,Praise,Core,110
-Abandon,A-Band (樂隊) 離開了,Desert,Keep,Core,110
-Sacred,神聖的,Holy,Cursed,Core,110
-Antagonise,對抗。-ise結尾,Provoke,Soothe,Elite,110
-Commemorate,雙M。紀念,Honour,Forget,Elite,110
-Erect,垂直的/豎立,Upright,Flat,Core,111
-Jovial,愉快的,Happy,Sad,Core,111
-Objection,反對/異議,Challenge,Approval,Core,111
-Malleable,可塑的。雙L,Flexible,Rigid,Elite,111
-Meticulous,一絲不苟,Precise,Careless,Elite,111
-Vapour,水汽/蒸氣。英式 -our,Steam,N/A,Core,112
-Ramble,漫步/閒逛,Wander,Stay,Core,112
-Labour,勞動/勞工。英式-our,Work,Leisure,Core,112
-Rhythm,節奏。注意只有Y一個元音,Beat,Silence,Elite,112
-Bizarre,雙R。奇異的怪胎,Strange,Ordinary,Elite,112
-Artificial,人造的。注意-ci-,Fake,Natural,Core,113
-Loneliness,孤獨。注意y變i,Solitude,Company,Core,113
-Enterprise,企業/進取心,Business,N/A,Core,113
-Inevitable,不可避免,Sure,Unlikely,Elite,113
-Comprehend,理解,Understand,Confuse,Elite,113
-Combination,結合/組合,Mixture,Single,Core,114
-Offend,冒犯/進攻,Insult,Please,Core,114
-Endure,忍受,Last,Quit,Core,114
-Fatigue,疲勞。注意-u-不發音,Tiredness,Energy,Elite,114
-Courteous,有禮貌。注意-ou-,Polite,Rude,Elite,114
-Necessary,1隻貓2隻襪子(1C 2S),Essential,Optional,Core,115
-Betray,背叛,Deceive,Loyal,Core,115
-Plunge,跳入/驟降,Dive,Rise,Core,115
-Incentive,動力,Motivation,Deterrent,Elite,115
-Raiment,衣服/服裝,Clothing,N/A,Elite,115
-Occupy,雙C。佔領,Inhabit,Vacate,Core,116
-Modest,謙虛的,Humble,Vain,Core,116
-Article,文章/物品,Item,N/A,Core,116
-Procure,獲得/取得,Obtain,Lose,Elite,116
-Commence,開始。雙M,Begin,Finish,Elite,116
-Domestic,家庭的/國內的,Home,Foreign,Core,117
-Suspect,懷疑/嫌疑犯,Doubt,Trust,Core,117
-Secretary,秘書。Secret+ary,Assistant,Boss,Core,117
-Catastrophe,大災難,Disaster,Blessing,Elite,117
-Lethargic,懶散,Lazy,Active,Elite,117
-Boundary,邊界。注意-ary,Border,Center,Core,118
-Brutal,殘忍的,Cruel,Kind,Core,118
-Imitate,模仿/仿效,Copy,Lead,Core,118
-Inaudible,聽不見的,Silent,Loud,Elite,118
-Scarcity,缺乏,Shortage,Plenty,Elite,118
-Sleek,光滑的/苗條的,Smooth,Rough,Core,119
-Mortal,會死的/凡人的,Deadly,Immortal,Core,119
-Abundance,豐富。注意字尾 -ance,Plenty,Scarcity,Core,119
-Malady,疾病/弊端,Illness,Health,Elite,119
-Pompous,自大的/浮誇的,Arrogant,Humble,Elite,119
-Charred,燒焦的,Burnt,Fresh,Core,120
-Public,公眾的,Social,Private,Core,120
-Business,生意/事務。Busy 的名詞,Trade,N/A,Core,120
-Fragrant,芬芳的。注意字尾-ant,Scented,Smelly,Elite,120
-Beck,召喚/小河,Signal,N/A,Elite,120
-Lean,傾斜/瘦的,Thin,Fat,Core,121
-Handkerchief,手帕。D不發音，像Hand-Ker-Chief,Tissue,N/A,Core,121
-Barren,荒蕪的。雙R,Infertile,Fertile,Elite,121
-Coy,羞怯的,Shy,Bold,Elite,121
-Oblivious,遺忘,Unaware,Mindful,Elite,121
-Content,滿意的/內容,Satisfied,Unhappy,Core,122
-Soldier,士兵。注意中間有-i-,Warrior,Civilian,Core,122
-Placid,平靜的/溫和的,Calm,Stormy,Elite,122
-Physiotherapy,物理治療,Treatment,N/A,Elite,122
-Intricate,複雜,Complex,Simple,Elite,122
-Discern,辨別。-sc-拼寫,Notice,Miss,Elite,123
-Exclaim,大聲呼喊,Shout,Whisper,Core,123
-Imperative,極重要,Vital,Trivial,Elite,123
-Obscure,模糊的/難解的,Vague,Clear,Elite,123
-Feasible,可行的,Possible,Impossible,Elite,123
+word,memory,syn,ant,type,day,def,syn_def,ant_def
+Ample,充足的,Plentiful,Meagre,Core,1,"Large; great in size, extent, capacity, or bulk; for example spacious, roomy or widely extended.",Existing in large number or ample amount.,"Argyrosomus regius, an edible fish of the family Sciaenidae."
+Sober,清醒的/嚴肅的,Serious,Drunk,Core,1,(often with up) To make or become sober.,Without humor or expression of happiness; grave in manner or disposition,To consume (a liquid) through the mouth.
+Amateur,結尾-eur。業餘愛好者,Novice,Professional,Elite,1,A lover of something.,A beginner; one who is not very familiar or experienced in a particular subject.,A person who belongs to a profession
+Profession,職業。一F雙S,Career,Hobby,Core,1,"A declaration of belief, faith or one's opinion, whether genuine or pretended.",One's calling in life; a person's occupation; one's profession.,An activity that one enjoys doing in one's spare time.
+Chaos,混亂。Ch發k音,Disorder,Order,Elite,1,The unordered state of matter in classical accounts of cosmogony.,Absence of order; state of not being arranged in an orderly manner.,"Arrangement, disposition, or sequence."
+Obsequious,諂媚,Fawning,Proud,Elite,2,Obedient; compliant with someone else's orders or wishes.,To give birth to a fawn.,Feeling honoured (by something); feeling happy or satisfied about an event or fact; gratified.
+Vanished,消失的,Disappeared,Seen,Core,2,To become invisible or to move out of view unnoticed.,To vanish.,"(stative) To perceive or detect with the eyes, or as if by sight."
+Colossal,巨大的。一L雙S,Huge,Tiny,Elite,2,Extremely large or on a great scale.,Very large.,A small child; an infant.
+Evaluation,評估,Assessment,,Core,2,"An assessment, such as an annual personnel performance review used as the basis for a salary increase or bonus, or a summary of a particular situation.","The act of assessing or an amount (of tax, levy or duty etc) assessed.",
+Appeal,呼籲/吸引力,Request,Repel,Core,2,An application for the removal of a cause or suit from an inferior to a superior judge or court for re-examination or review.,"Act of requesting (with the adposition at in the presence of possessives, and on in their absence).","To turn (someone) away from a privilege, right, job, etc."
+Devote,奉獻/致力於,Dedicate,Ignore,Core,3,"To give one's time, focus one's efforts, commit oneself, etc. entirely for, on, or to a certain matter",To set apart for a deity or for religious purposes; consecrate.,To deliberately not listen or pay attention to.
+Advantage,結尾-age。長輩更有優勢,Benefit,Obstacle,Core,3,"Any condition, circumstance, opportunity or means, particularly favorable to success, or to any desired end.",An advantage; help or aid from something.,"Something that impedes, stands in the way of, or holds up progress"
+Garment,衣服/外衣,Clothing,,Core,3,A single item of clothing.,To adorn or cover with clothing; to dress; to supply clothes or clothing.,
+Brusque,唐突的/無禮的,Abrupt,Polite,Elite,3,"Rudely abrupt, unfriendly.",Something which is abrupt; an abyss.,To polish; to refine; to render polite.
+Fertile,肥沃的。與植物生長有關,Productive,Barren,Elite,3,(of land etc) capable of growing abundant crops; productive,"Capable of producing something, especially in abundance; fertile.","An area of low fertility and habitation, a desolate place."
+Rhyme,韻律。注意-hy-拼寫,Verse,Prose,Core,4,Rhyming verse (poetic form),A poetic form with regular meter and a fixed rhyme scheme.,"Language, particularly written language, not intended as poetry."
+Gregarious,社交的,Social,Lonely,Elite,4,(of a person) Describing one who enjoys being in crowds and socializing.,A festive gathering to foster introductions.,Unhappy because of feeling isolated from contact with other people.
+Tempestuous,狂暴的/劇烈的,Stormy,Calm,Elite,4,"Of, or resembling a tempest; stormy, tumultuous.",Of or pertaining to storms.,"(in a person) The state of being calm; peacefulness; absence of worry, anger, fear or other strong negative emotion."
+Ambition,抱負/野心,Aspiration,Laziness,Core,4,"Eager or inordinate desire for some object that confers distinction, as preferment, honor, superiority, political power, or literary fame; desire to distinguish one's self from other people.","The act of aspiring or ardently desiring; an ardent wish or desire, chiefly after what is elevated or spiritual (with common adjunct adpositions being to and of).",The quality of being lazy
+Enormous,巨大的,Huge,Tiny,Core,4,"Deviating from the norm; unusual, extraordinary.",Very large.,A small child; an infant.
+Suggest,建議。雙G,Propose,Refuse,Core,5,To imply but stop short of saying explicitly.,An objective or aim.,"Collectively, items or material that have been discarded; rubbish, garbage."
+Flee,逃跑。雙E,Escape,Stay,Core,5,To run away; to escape.,The act of leaving a dangerous or unpleasant situation.,Continuance or a period of time spent in a place; abode for an indefinite time; sojourn.
+Dictionary,字典。-ary,Lexicon,,Core,5,"A reference work with a list of words from one or more languages, normally ordered alphabetically, explaining each word's meaning, and sometimes containing information on its etymology, pronunciation, usage, translations, and other data.",The vocabulary of a language.,
+Virtuous,正直的/有道德的,Moral,Evil,Elite,5,"Full of virtue, having excellent moral character.",(of a narrative) The ethical significance or practical lesson.,Moral badness; wickedness; malevolence; the forces or behaviors that are the opposite or enemy of good.
+Hereditary,遺傳,Genetic,Acquired,Elite,5,A hereditary ruler; a hereditary peer in the House of Lords.,Relating to genetics or genes.,To get.
+Declare,宣佈/聲明,Announce,Hide,Core,6,"To make clear, explain, interpret.","To give public notice, especially for the first time; to make known",To put (something) in a place where it will be harder to discover or out of sight.
+Inquisitive,好奇,Curious,Bored,Core,6,Eager to acquire knowledge.,"Tending to ask questions, or to want to explore or investigate; inquisitive; (with a negative connotation) nosy, prying.",To inspire boredom in somebody.
+Elect,選舉/選擇,Choose,Reject,Core,6,One chosen or set apart.,To pick; to make the choice of; to select.,Something that is rejected.
+Integrity,正直,Honesty,Deceit,Elite,6,Steadfast adherence to a strict moral or ethical code.,"The act, quality, or condition of being honest.",An act or practice intended to deceive; a trick.
+Avowed,公開聲明的,Declared,Secret,Elite,6,"To declare openly and boldly, as something believed to be right; to own, acknowledge or confess frankly.","To make clear, explain, interpret.",A piece of knowledge that is hidden and intended to be kept hidden.
+Develop,發展。末尾無-e,Grow,Stagnate,Core,7,"To change with a specific direction, progress.","To become larger, to increase in magnitude.","To cease motion, activity, or progress:"
+Weary,疲憊的。注意不是 Wary,Tired,Fresh,Core,7,To make or to become weary.,To become sleepy or weary.,"A rush of water, along a river or onto the land; a flood."
+Probably,大概/或許,Likely,Unlikely,Core,7,In all likelihood.,Something or somebody considered likely.,Something or somebody considered unlikely.
+Tyrant,暴君/專制者,Dictator,Leader,Elite,7,"A usurper; one who gains power and rules extralegally, distinguished from kings elevated by election or succession.","A totalitarian leader of a country, nation, or government.",Any person that leads or directs
+Meagre,貧乏的/不足的,Scant,Ample,Elite,7,"Argyrosomus regius, an edible fish of the family Sciaenidae.","Very little, very few.","Large; great in size, extent, capacity, or bulk; for example spacious, roomy or widely extended."
+Union,聯盟/聯合,Alliance,Separation,Core,8,The act of uniting or joining two or more things into one.,The state of being allied.,"The act of disuniting two or more things, or the condition of being separated."
+Refuse,拒絕/垃圾,Reject,Accept,Core,8,"Collectively, items or material that have been discarded; rubbish, garbage.",Something that is rejected.,"To receive, especially with a consent, with favour, or with approval."
+Fatal,致命的。Fati (命運) 決定死亡,Deadly,Harmless,Core,8,A fatality; an event that leads to death.,Subject to death; mortal.,Incapable of causing harm or danger; safe.
+Torment,折磨/痛苦,Agony,Comfort,Elite,8,A catapult or other kind of war-engine.,Extreme pain.,"Contentment, ease."
+Despise,輕視/厭惡,Hate,Admire,Elite,8,To regard with contempt or scorn.,An object of hatred.,To be amazed at; to view with surprise; to marvel at.
+Complex,複雜的,Intricate,Simple,Core,9,A network of interconnected systems.,Having a great deal of fine detail or complexity.,"A herbal preparation made from one plant, as opposed to something made from more than one plant."
+Expectation,期待,Hope,,Core,9,The act or state of expecting or looking forward to an event as about to happen.,"To want something to happen, with a sense of expectation that it might.",
+Colour,顏色。英式拼寫有 u,Hue,,Core,9,The spectral composition of visible light,"A color, or shade of color; tint; dye.",
+Advantageous,有利。注意中間有-e-,Helpful,Hurtful,Elite,9,"Being of advantage, beneficial.",Furnishing help; giving aid; useful.,Tending to impair or damage; injurious; occasioning loss or injury.
+Accumulate,累積。雙C,Collect,Scatter,Elite,9,To heap up in a mass; to pile up; to collect or bring together (either literally or figuratively),To gather together; amass.,The act of scattering or dispersing.
+Neat,整潔的,Tidy,Messy,Core,10,"An artificial intelligence researcher who believes that solutions should be elegant, clear and provably correct. Compare scruffy.",A tabletop container for pens and stationery.,"(of a place, situation, person, etc) In a disorderly state; chaotic; disorderly."
+Annual,雙N。Ann的生日是每年的,Yearly,Occasional,Core,10,"An annual publication; a book, periodical, journal, report, comic book, yearbook, etc., which is published serially once a year, which may or may not be in addition to regular weekly or monthly publication.",Something that is published once a year.,A person who does something only occasionally.
+Muscle,肌肉。注意-sc-拼寫,Strength,Weakness,Core,10,A contractile form of tissue which animals use to effect movement.,The quality or degree of being strong.,The condition of being weak.
+Ascend,上升。-sc-拼寫,Climb,Descend,Elite,10,"To move upward, to fly, to soar.",An act of climbing.,"To pass from a higher to a lower place; to move downwards; to come or go down in any way, for example by falling, flowing, walking, climbing etc."
+Perilous,危險的,Dangerous,Safe,Elite,10,"Dangerous, full of peril.",Full of danger.,"A box, usually made of metal, in which valuables can be locked for safekeeping."
+Ally,盟友。雙L,Partner,Enemy,Core,11,"A person, group, or state (etc) which is associated with another for a common cause; one united to another by treaty or common purpose; a confederate.",Someone who is associated with another in a common activity or interest.,"Someone who is hostile to, feels hatred towards, opposes the interests of, or intends injury to someone else."
+Attempt,嘗試/企圖,Try,Give up,Core,11,The action of trying at something.,An attempt.,To surrender (someone or something)
+Liberal,自由的/慷慨的,Open,Narrow,Core,11,"One with liberal views, supporting individual liberty (see Wikipedia's article on Liberalism).",Not closed,"(chiefly in the plural) A narrow passage, especially a contracted part of a stream, lake, or sea; a strait connecting two bodies of water."
+Architecture,建築學。注意-ch-音,Design,Destruction,Elite,11,"The art and science of designing and managing the construction of buildings and other structures, particularly if they are well proportioned and decorated.","A specification of an object or process, referring to requirements to be satisfied and thus conditions to be met for them to solve a problem.",The act of destroying.
+Inference,推斷,Deduction,Fact,Elite,11,The act or process of inferring by deduction or induction.,That which is deducted; that which is subtracted or removed,Something actual as opposed to invented.
+Employ,僱用/使用,Hire,Fire,Core,12,The state of being an employee; employment.,Payment for the temporary use of something.,"A (usually self-sustaining) chemical reaction involving the bonding of oxygen with carbon or other fuel, with the production of heat and the presence of flame or smouldering."
+Absence,缺席。注意-sc-拼寫,Lack,Presence,Core,12,A state of being away or withdrawn from a place or from companionship; the period of being away.,A defect or failing; moral or spiritual degeneracy.,"The fact or condition of being present, or of being within sight or call, or at hand."
+Foe,敵人/仇敵,Enemy,Ally,Core,12,An enemy.,"Someone who is hostile to, feels hatred towards, opposes the interests of, or intends injury to someone else.","A person, group, or state (etc) which is associated with another for a common cause; one united to another by treaty or common purpose; a confederate."
+Condemn,譴責/宣判。末尾有 n,Criticise,Praise,Elite,12,To strongly criticise or denounce; to excoriate the perpetrators of.,To find fault (with something).,Commendation; favourable representation in words
+Relevant,相關。注意字尾-ant,Related,Useless,Elite,12,"Directly related, connected, or pertinent to a topic.",To tell in a descriptive way.,Without use or possibility to be used.
+Assistance,幫助。雙S -ance,Help,Hinder,Core,13,Aid; help; the act or result of assisting.,Action given to provide assistance; aid.,To make difficult to accomplish; to act as an obstacle; to frustrate.
+Cultivate,耕種/培養,Grow,Destroy,Core,13,"To grow plants, notably crops","To become larger, to increase in magnitude.",To damage beyond use or repair.
+Slope,斜坡,Incline,Flat,Core,13,An area of ground that tends evenly upward or downward.,A slope.,An area of level ground.
+Orthodontist,牙齒矯正醫師,Dentist,,Elite,13,An orthodontic dentist,A medical doctor who specializes in dentistry.,
+Adversity,逆境,Hardship,Fortune,Elite,13,The state of adverse conditions; state of misfortune or calamity.,Difficulty or trouble; hard times.,"Destiny, especially favorable."
+Interrupt,打斷。雙R,Disrupt,Continue,Core,14,An event that causes a computer or other device to temporarily cease what it was doing and attend to a condition.,To throw into confusion or disorder.,"An option allowing a gamer to resume play after game over, when all lives have been lost."
+Library,圖書館。注意有兩個-r-,,,Core,14,"An institution which holds books and/or other forms of media for use by the public or qualified people often lending them out, as well as providing various other services for its users.",,
+Apparent,看似明顯但注意字尾-ent,Obvious,Hidden,Core,14,"Capable of being seen, or easily seen; open to view; visible to the eye, eyely; within sight or view.","Easily discovered, seen, or understood; self-explanatory.",Located or positioned out of sight; not visually apparent.
+Conceited,自負的/驕傲的,Vain,Humble,Elite,14,"Having an excessively favorable opinion of one's abilities, appearance, etc.; vain and egotistical.","Overly proud of oneself, especially concerning appearance; having a high opinion of one's own accomplishments with slight reason.",(Baltimore) An arrest based on weak evidence intended to demean or punish the subject.
+Sacrifice,犧牲。注意-cri-拼寫,Offer,Keep,Elite,14,The offering of anything to a god; a consecratory rite.,A proposal that has been made.,"The main tower of a castle or fortress, located within the castle walls."
+Thrust,猛推/刺,Push,Pull,Core,15,An attack made by moving the sword parallel to its length and landing with the point.,"A short, directed application of force; an act of pushing.",An act of pulling (applying force)
+Stoop,彎腰/屈尊,Bend,Rise,Core,15,The staircase and landing or porch leading to the entrance of a residence.,A curve.,"To move, or appear to move, physically upwards relative to the ground."
+Accomplish,完成。雙C雙L,Achieve,Fail,Core,15,To finish successfully.,"To succeed in something, now especially in academic performance.",Poor quality; substandard workmanship.
+Vehicle,交通工具。注意-h-不發音,Transport,Pedestrian,Elite,15,"A conveyance; a device for carrying or transporting substances, objects or individuals.",An act of transporting; conveyance.,"A walker; one who walks or goes on foot, especially as opposed to one who uses a vehicle."
+Twelfth,第十二。注意中間有-f-,Numeric,Last,Elite,15,One of twelve equal parts of a whole.,"Any number, proper or improper fraction, or incommensurable ratio.","Final, ultimate, coming after all others of its kind."
+Convenience,方便。-ience,Comfort,Difficulty,Core,16,The quality of being convenient.,"Contentment, ease.","The state of being difficult, or hard to do."
+Mysterious,神秘的。注意-y-拼寫,Strange,Plain,Core,16,Of unknown origin.,Vagina,"Flat, level."
+Argument,爭論。注意中間沒有 e,Dispute,Agreement,Core,16,A fact or statement used to support a proposition; a reason.,"An argument or disagreement, a failure to agree.",An understanding between entities to follow a specific course of conduct.
+Artful,狡猾的/巧妙的,Cunning,Simple,Elite,16,Cunning; tending toward indirect dealings; crafty.,Sly; crafty; clever in surreptitious behaviour.,"A herbal preparation made from one plant, as opposed to something made from more than one plant."
+Perceive,察覺。e在i前,Notice,Ignore,Elite,16,"To become aware of, through the physical senses or by thinking; to see; to understand.",The act of observing; perception.,To deliberately not listen or pay attention to.
+Leisure,休閒。注意-ei-拼寫,Relax,Work,Core,17,Freedom provided by the cessation of activities.,To calm down.,(heading) Employment.
+Attached,附帶的/依戀的,Connected,Detached,Core,17,"To fasten, to join to (literally and figuratively).","(of an object) To join (to another object): to attach, or to be intended to attach or capable of attaching, to another object.",To take apart from; to take off.
+Equipped,裝備。雙P,Fitted,Unprepared,Core,17,"To supply with something necessary in order to carry out a specific action or task; to provide with (e.g. weapons, provisions, munitions, rigging)",To be suitable for.,A black mark given to a pupil who arrives at a lesson without the necessary items or preparation.
+Equanimity,平靜,Calm,Agitation,Elite,17,"The state of being calm, stable and composed, especially under stress.","(in a person) The state of being calm; peacefulness; absence of worry, anger, fear or other strong negative emotion.","The act of agitating, or the state of being agitated; the state of being moved with violence, or with irregular action; commotion."
+Turbulent,動盪的/混亂的,Stormy,Calm,Elite,17,"Violently disturbed or agitated; tempestuous, tumultuous",Of or pertaining to storms.,"(in a person) The state of being calm; peacefulness; absence of worry, anger, fear or other strong negative emotion."
+Accustom,習慣於。雙C拼寫,Adapt,Unused,Core,18,make psychologically or physically used (to something),To make suitable; to make to correspond; to fit or suit,Not used.
+Gratitude,感激。Grateful的名詞,Thanks,Ingratitude,Core,18,The state of being grateful.,An expression of appreciation; a thought.,A lack or absence of gratitude; thanklessness.
+Vessel,船隻/容器。雙S,Ship,,Core,18,"Any craft designed for transportation on water, such as a ship or boat.",A water-borne vessel generally larger than a boat.,
+Prejudice,偏見。注意-dice字尾,Bias,Fairness,Elite,18,An adverse judgment or opinion formed beforehand or without knowledge of the facts.,"Inclination towards something; predisposition, partiality, prejudice, preference, predilection.",The property of being fair or equitable.
+Debrief,盤問/彙報,Question,Ignore,Elite,18,To question someone after a military mission in order to obtain intelligence.,"A sentence, phrase or word which asks for information, reply or response; an interrogative.",To deliberately not listen or pay attention to.
+Fragment,碎片/片段,Piece,Whole,Core,19,"A part broken off; a small, detached portion; an imperfect part, either physically or not","A part of a larger whole, usually in such a form that it is able to be separated from other parts.","Something complete, without any parts missing."
+Origin,起源/出身,Source,End,Core,19,The beginning of something.,"The person, place or thing from which something (information, goods, etc.) comes or is acquired.",The terminal point of something in space or time.
+Prosperous,繁榮的,Wealthy,Poor,Core,19,Characterized by success,A rich person.,"(with ""the"") Those who have little or no possessions or money, taken as a group."
+Embarrass,尷尬。雙R雙S,Abash,Comfort,Elite,19,To humiliate; to disrupt somebody's composure or comfort with acting publicly or freely; to disconcert; to abash,"To make ashamed; to embarrass; to destroy the self-possession of, as by exciting suddenly a consciousness of guilt, mistake, or inferiority; to disconcert; to discomfit.","Contentment, ease."
+Authentic,真實的,Real,FALSE,Elite,19,Of the same origin as claimed; genuine.,A commodity; see realty.,One of two options on a true-or-false test.
+Lodge,存放/小屋/旅館,Stay,Leave,Core,20,A building for recreational use such as a hunting lodge or a summer cabin.,Continuance or a period of time spent in a place; abode for an indefinite time; sojourn.,To have a consequence or remnant.
+Distress,痛苦/危難,Suffering,Comfort,Core,20,(Cause of) discomfort.,To undergo hardship.,"Contentment, ease."
+Matte,無光的/啞色的,Dull,Shiny,Core,20,A decorative border around a picture used to inset and center the contents of a frame.,To render dull; to remove or blunt an edge or something that was sharp.,Anything shiny; a trinket.
+Benevolent,仁慈的。Ben=好,Kind,Malevolent,Elite,20,Having a disposition to do good.,"A type, race or category; a group of entities that have common characteristics such that they may be grouped together.",Having or displaying ill will; wishing harm on others
+Repent,後悔/懺悔,Regret,Celebrate,Elite,20,"To feel pain, sorrow, or regret for what one has done or omitted to do; the cause for repenting may be indicated with ""of"".","Emotional pain on account of something done or experienced in the past, with a wish that it had been different; a looking back with dissatisfaction or with longing.",To extol or honour in a solemn manner.
+Because,因為。拼寫容易錯,Since,,Core,21,For the reason (that).,From a specified time in the past.,
+Stomach,胃。ch 發 k 音,Belly,,Core,21,An organ in animals that stores food in the process of digestion.,"The abdomen, especially a fat one.",
+Across,橫過。只有一個 C,Crosswise,Along,Core,21,"(crosswords, often in combination) A word that runs horizontally in the completed puzzle grid or its associated clue.",Crossing; lying across,In company; together.
+Deprive,剝奪,Take,Give,Elite,21,To take something away from (someone) and keep it away; to deny someone something.,The or an act of taking.,The amount of bending that something undergoes when a force is applied to it; a tendency to yield under pressure; resilence.
+Apprehensive,憂慮的/恐懼的,Anxious,Confident,Elite,21,Anticipating something with anxiety or fear.,Nervous and worried.,A person in whom one can confide or share one's secrets: a friend.
+Adopt,領養/採納,Take in,Reject,Core,22,"To take by choice into relationship (a child, heir, friend, citizen, etc.)",To absorb or comprehend.,Something that is rejected.
+Score,得分/二十個,Result,,Core,22,"The total number of goals, points, runs, etc. earned by a participant in a game.","That which results; the conclusion or end to which any course or condition of things leads, or which is obtained by any process or operation; consequence or effect.",
+Roam,漫遊/閒逛,Wander,Stay,Core,22,To wander or travel freely and with no specific destination.,The act or instance of wandering.,Continuance or a period of time spent in a place; abode for an indefinite time; sojourn.
+Subterfuge,藉口/託辭,Trickery,Honesty,Elite,22,An indirect or deceptive device or stratagem; a blind. Refers especially to war and diplomatics.,Deception or underhanded behavior.,"The act, quality, or condition of being honest."
+Rogue,惡棍/流氓,Villain,Hero,Elite,22,"A scoundrel, rascal or unprincipled, deceitful, and unreliable person.","A vile, wicked person.",Somebody who possesses great bravery and carries out extraordinary or noble deeds.
+Reprimand,訓斥/斥責,Scold,Praise,Elite,23,"A severe, formal or official reproof; reprehension, rebuke, private or public.",To burn with hot liquid.,Commendation; favourable representation in words
+Permit,允許,Allow,Forbid,Core,23,An artifact or document rendering something allowed or legal.,"To grant, give, admit, accord, afford, or yield; to let one have.",To disallow; to proscribe.
+Shrink,收縮/縮水,Contract,Expand,Core,23,Shrinkage; contraction; recoil.,"An agreement between two or more parties, to perform a specific job or work order, often temporary or of fixed duration and usually governed by a written agreement.",To change (something) from a smaller form and/or size to a larger one; to spread out or lay open.
+Efficient,有效率。雙F,Effective,Lazy,Core,23,A cause; something that causes an effect,A soldier fit for duty,A lazy person.
+Nauseous,噁心的。注意-se-ous,Sick,Healthy,Elite,23,Causing nausea; sickening or disgusting.,Sick people in general as a group.,"Enjoying health and vigor of body, mind, or spirit: well."
+Quench,解渴/熄滅,Satisfy,,Core,24,"The abnormal termination of operation of a superconducting magnet, occurring when part of the superconducting coil enters the normal (resistive) state.",To do enough for; to meet the needs of; to fulfill the wishes or requirements of.,
+Peak,頂峰。與Peek(偷看)同音,Summit,Bottom,Core,24,"A point; the sharp end or top of anything that terminates in a point; as, the peak, or front, of a cap.","A peak; the topmost point or surface, as of a mountain.",The lowest part of anything.
+Demolished,拆除/毀壞,Destroyed,Built,Core,24,To destroy.,To damage beyond use or repair.,To form (something) by combining materials or parts.
+Quell,鎮壓/平息。雙L,Quiet,Stir,Elite,24,A subduing.,The absence of sound; quietness.,The act or result of stirring (moving around the particles of a liquid etc.)
+Casualty,傷亡,Victim,Survivor,Elite,24,"Something that happens by chance, especially an unfortunate event; an accident, a disaster.","One that is harmed—killed, injured, subjected to oppression, deceived, or otherwise adversely affected—by someone or something, especially another person or event, force, or condition; in particular:","One who survives, especially one who survives a traumatic experience."
+Contest,比賽/爭論,Competition,Agreement,Core,25,Controversy; debate.,The action of competing.,An understanding between entities to follow a specific course of conduct.
+Seldom,很少/不常,Rarely,Often,Core,25,Rare; infrequent.,Not occurring at a regular interval; seldom; not often.,Frequent.
+Beautiful,美麗的。注意 -eau- 拼寫,Lovely,Ugly,Core,25,Someone who is beautiful. Can be used as a term of address.,"An attractive, lovely person, especially a (professional) beauty.",Ugliness.
+Fallacy,謬誤,Error,Truth,Elite,25,Deceptive or false appearance; that which misleads the eye or the mind.,"The state, quality, or condition of being wrong.","True facts, genuine depiction or statements of reality."
+Curt,簡短而失禮的,Abrupt,Polite,Elite,25,"To cut, cut short, shorten.",Something which is abrupt; an abyss.,To polish; to refine; to render polite.
+Extended,延伸的/長期的,Long,Short,Core,26,To increase in extent.,A long vowel.,A short circuit.
+Receive,收到。e在i前,Get,Send,Core,26,An operation in which data is received.,Offspring.,"The rising motion of water as a wave passes; a surge; the upward angular displacement of a vessel, opposed to pitch, the correlative downward movement."
+Grave,嚴重的/墳墓,Serious,Trivial,Core,26,An excavation in the earth as a place of burial,Without humor or expression of happiness; grave in manner or disposition,Any of the three liberal arts forming the trivium.
+Scanty,缺乏的/不足的,Meagre,Ample,Elite,26,Somewhat less than is needed in amplitude or extent.,"Argyrosomus regius, an edible fish of the family Sciaenidae.","Large; great in size, extent, capacity, or bulk; for example spacious, roomy or widely extended."
+Unsurpassed,卓越的/無比的,Best,Worst,Elite,26,Surpassing all others in some way,"The supreme effort one can make, or has made.",Unfavorable; negative; not good.
+Rank,等級/繁茂的,Level,,Core,27,Strong of its kind or in character; unmitigated; virulent; thorough; utter (used of negative things).,"A tool for finding whether a surface is level, or for creating a horizontal or vertical line of reference.",
+Empire,帝國,Kingdom,,Core,27,(furniture) Following or imitating a style popular during the First French Empire (1804–1814).,A realm having a king and/or queen as its actual or nominal sovereign.,
+Pledge,保證/誓言,Promise,,Core,27,A solemn promise to do something.,An oath or affirmation; a vow,
+Conventional,傳統的/常規的,Traditional,Unusual,Elite,27,"A conventional gilt-edged security, a kind of bond paying the holder a fixed cash payment (or coupon) every six months until maturity, at which point the holder receives the final payment and the return of the principal.",A person with traditional beliefs.,Something that is unusual; an anomaly.
+Plausible,合理,Likely,Absurd,Elite,27,"Seemingly or apparently valid, likely, or acceptable; conceivably true or likely",Something or somebody considered likely.,An absurdity.
+Despair,絕望,Hopelessness,Hope,Core,28,Loss of hope; utter hopelessness; complete despondency.,The lack of hope; despair,"To want something to happen, with a sense of expectation that it might."
+Avoid,避免,Shun,Face,Core,28,To try not to meet or communicate with (a person); to shun,"To avoid, especially persistently.","The front part of the head of a human or other animal, featuring the eyes, nose and mouth, and the surrounding area."
+Competition,競爭。注意中間的 e,Contest,,Core,28,The action of competing.,Controversy; debate.,
+Harass,一R雙S。騷擾,Annoy,Assist,Elite,28,Devastation; waste,A feeling of discomfort or vexation caused by what one dislikes.,A helpful action or an act of giving.
+Inaugural,就職的/開幕的,Opening,Final,Elite,28,An inauguration; a formal beginning.,To make something accessible or allow for passage by moving from a shut position.,A final examination; a test or examination given at the end of a term or class; the test that concludes a class.
+Estimate,估計/估價,Guess,,Core,29,"A rough calculation or assessment of the value, size, or cost of something.",To reach a partly (or totally) unqualified conclusion.,
+Bruise,瘀青。-ui-拼寫,Contusion,Heal,Core,29,A purplish mark on the skin due to leakage of blood from capillaries under the surface that have been damaged by a blow.,"A wound, such as a bruise, in which the skin is not broken, often having broken blood vessels and discolouration.",A spell or ability that restores hit points or removes a status ailment.
+Convict,囚犯/宣判有罪,Prisoner,Acquit,Core,29,A person convicted of a crime by a judicial body.,"A person incarcerated in a prison, while on trial or serving a sentence.",To declare or find innocent or not guilty.
+Tranquil,平靜的/安寧的,Peaceful,Noisy,Elite,29,Free from emotional or mental disturbance.,Not at war or disturbed by strife or turmoil.,"Making a noise, especially a loud unpleasant sound"
+Robust,強壯的/結實的,Strong,Weak,Elite,29,Evincing strength and health; strong.,Capable of producing great physical force.,Lacking in force (usually strength) or ability.
+Dose,劑量/一劑,Amount,,Core,30,a measured portion of medicine taken at any one time,"The total, aggregate or sum of material (not applicable to discrete numbers or units or items in standard English).",
+Sermon,佈道/說教,Speech,,Core,30,Religious discourse; a written or spoken address on a religious or moral matter.,The faculty of uttering articulate sounds or words; the ability to speak or to use vocalizations to communicate.,
+Foreign,外國。注意-e-在-i-前,Alien,Native,Core,30,"A foreign person, particularly:",Any life form of extraterrestrial or extradimensional origin.,An aboriginal inhabitant of a region colonized by English-speaking people; in particular:
+Devastate,破壞,Destroy,Build,Elite,30,"To ruin many or all things over a large area, such as most or all buildings of a city, or cities of a region, or trees of a forest.",To damage beyond use or repair.,The physique of a human body; constitution or structure of a human body.
+Aspiration,抱負,Ambition,Apathy,Elite,30,"The act of aspiring or ardently desiring; an ardent wish or desire, chiefly after what is elevated or spiritual (with common adjunct adpositions being to and of).","Eager or inordinate desire for some object that confers distinction, as preferment, honor, superiority, political power, or literary fame; desire to distinguish one's self from other people.",Lack of emotion or motivation; lack of interest or enthusiasm towards something; disinterest (in something).
+Release,釋放/發布,Free,Hold,Core,31,"The event of setting (someone or something) free (e.g. hostages, slaves, prisoners, caged animals, hooked or stuck mechanisms).",Free transfer,A grasp or grip.
+Perish,腐爛/死亡,Die,Survive,Core,31,To decay and disappear; to waste away to nothing.,To stop living; to become dead; to undergo death.,"Of a person, to continue to live; to remain alive."
+Prompt,迅速的/提醒,Quick,Slow,Core,31,A reminder or cue.,"Raw or sensitive flesh, especially that underneath finger and toe nails.",Someone who is slow; a sluggard.
+Cemetery,墓地。全是-e-的土地,Graveyard,Cradle,Elite,31,A place where the dead are buried; a graveyard or memorial park.,A tract of land in which the dead are buried.,"A bed or cot for a baby, oscillating on rockers or swinging on pivots."
+Nimble,敏捷的/伶俐的,Agile,Clumsy,Elite,31,Adept at taking or grasping,Having the faculty of quick motion in the limbs; apt or ready to move,A clumsy person.
+Liberty,自由,Freedom,Slavery,Core,32,The condition of being free from control or restrictions.,"The state of being free, of not being imprisoned or enslaved.","An institution or social practice of owning human beings as property, especially for use as forced laborers."
+Bargain,gain (得到) 了便宜貨,Deal,Overprice,Core,32,"An agreement between parties concerning the sale of property; or a contract by which one party binds himself to transfer the right to some property for a consideration, and the other party binds himself to receive the property and pay the consideration.","A division, a portion, a share.",To give a commodity an excessive price.
+Doubt,懷疑。b不發音,Uncertainty,Trust,Core,32,Disbelief or uncertainty (about something); a particular instance of such disbelief or uncertainty.,Doubt; the condition of being uncertain or without conviction.,Confidence in or reliance on some person or quality.
+Camouflage,偽裝。-ou-拼寫,Disguise,Reveal,Elite,32,A disguise or covering up.,"Material (such as clothing, makeup, a wig) used to alter one’s visual appearance in order to hide one's identity or assume another.",The outer side of a window or door frame; the jamb.
+Caulking,填縫,Sealing,Opening,Elite,32,To drive oakum into the seams of a ship's wooden deck or hull to make it watertight.,To hunt seals.,To make something accessible or allow for passage by moving from a shut position.
+Separate,分開。中間是 a-r-a,Split,Join,Core,33,"(usually in the plural) Anything that is sold by itself, especially an article of clothing.",A crack or longitudinal fissure.,An intersection of piping or wiring; an interconnect.
+Burden,負擔,Load,Relief,Core,33,A heavy load.,A burden; a weight to be carried.,The removal of stress or discomfort.
+Uniform,制服/一致的,Consistent,Varied,Core,33,A distinctive outfit that serves to identify members of a group.,"(in the plural) Objects or facts that are coexistent, or in agreement with one another.",Diverse or miscellaneous
+Incision,切口/切開。-sion字尾,Cut,,Elite,33,"A cut, especially one made by a scalpel or similar medical tool in the context of surgical operation; the scar resulting from such a cut.",The act of cutting.,
+Accommodate,2隻貓(CC)2隻鼠(MM)同住,Lodge,Reject,Elite,33,"To render fit, suitable, or correspondent; to adapt.",A building for recreational use such as a hunting lodge or a summer cabin.,Something that is rejected.
+Ornate,華麗,Fancy,Plain,Elite,34,To adorn; to honour.,The imagination.,"Flat, level."
+Decline,下降/拒絕,Decrease,Accept,Core,34,"Downward movement, fall.",An amount by which a quantity is decreased.,"To receive, especially with a consent, with favour, or with approval."
+Forbid,禁止/不許,Prohibit,Allow,Core,34,To disallow; to proscribe.,"To forbid, disallow, or proscribe officially; to make illegal or illicit.","To grant, give, admit, accord, afford, or yield; to let one have."
+Affectionate,深情的/慈愛的,Loving,Cold,Core,34,(of a person) Having affection or warm regard; loving; fond.,"(usually transitive, sometimes intransitive, stative) To have a strong affection for (someone or something).",(of a thing) Having a low temperature.
+Elusive,難以捉摸,Hidden,Clear,Elite,34,"Evading capture, comprehension or remembrance.",Located or positioned out of sight; not visually apparent.,"Full extent; distance between extreme limits; especially; the distance between the nearest surfaces of two bodies, or the space between walls."
+Admission,准許進入。雙S,Entry,Exclusion,Core,35,The act or practice of admitting.,The act of entering.,The act of excluding or shutting out; removal from consideration or taking part.
+Approve,雙P。兩隻拇指贊成,Support,Deny,Core,35,To sanction officially; to ratify; to confirm; to set as satisfactory.,(sometimes attributive) Something which supports.,To disallow or reject.
+Oppose,反對。雙P,Resist,Support,Core,35,"To attempt to stop the progression of; to resist or antagonize by physical means, or by arguments, etc.; to contend against.",A protective coating or covering.,(sometimes attributive) Something which supports.
+Zealous,熱衷。注意-ea-拼寫,Eager,Indifferent,Elite,35,"Full of zeal; ardent, fervent; exhibiting enthusiasm or strong passion.",Sharp; sour; acid.,A person who is indifferent or apathetic.
+Enigma,謎團,Mystery,Fact,Elite,35,"Something or someone puzzling, mysterious or inexplicable.",Something secret or unexplainable; an unknown.,Something actual as opposed to invented.
+Drought,乾旱。-ought,Dry,Flood,Core,36,"A period of unusually low rainfall, longer and more severe than a dry spell.",The process by which something is dried.,A (usually disastrous) overflow of water from a lake or other body of water due to excessive rainfall or other input of water.
+Temperature,溫度。注意中間有-er-,Heat,Cold,Core,36,"A measure of cold or heat, often measurable with a thermometer.",Thermal energy.,(of a thing) Having a low temperature.
+Amount,數量/總額,Quantity,,Core,36,"The total, aggregate or sum of material (not applicable to discrete numbers or units or items in standard English).","A fundamental, generic term used when referring to the measurement (count, amount) of a scalar, vector, number of items or to some other way of denominating the value of a collection or group of items.",
+Perpetual,永久,Eternal,Brief,Elite,36,"Lasting forever, or for an indefinitely long time",One who lives forever; an immortal.,A writ summoning one to answer to any action.
+Vicarious,間接體驗的,Indirect,Direct,Elite,36,Delegated.,An indirect cost.,"To manage, control, steer."
+Conscience,Science前有Con。良心,Morals,Immorality,Elite,37,"The moral sense of right and wrong, chiefly as it affects one's own behaviour.",(of a narrative) The ethical significance or practical lesson.,The state or quality of being immoral; vice.
+Eager,渴望,Keen,Reluctant,Core,37,Sharp; sour; acid.,"To make cold, to sharpen.",Opposing; offering resistance (to).
+Debate,辯論/爭論,Argue,Agreement,Core,37,"An argument, or discussion, usually in an ordered or formal setting, often with more than two people, generally ending with a vote or other decision.","To show grounds for concluding (that); to indicate, imply.",An understanding between entities to follow a specific course of conduct.
+Contract,合約/收縮,Agreement,Expand,Core,37,"An agreement between two or more parties, to perform a specific job or work order, often temporary or of fixed duration and usually governed by a written agreement.",An understanding between entities to follow a specific course of conduct.,To change (something) from a smaller form and/or size to a larger one; to spread out or lay open.
+Complacent,自滿,Smug,Humble,Elite,37,Uncritically satisfied with oneself or one's achievements; smug.,"To make smug, or spruce.",(Baltimore) An arrest based on weak evidence intended to demean or punish the subject.
+Unnecessary,不必要的。1C 2S,Extra,Essential,Core,38,Not needed or necessary.,"Something additional, such as an item above and beyond the ordinary school curriculum, or added to the usual charge on a bill.",A necessary ingredient.
+Benefit,利益/好處,Advantage,Harm,Core,38,An advantage; help or aid from something.,"Any condition, circumstance, opportunity or means, particularly favorable to success, or to any desired end.",Physical injury; hurt; damage
+Wasteful,浪費的,Extravagant,Thrifty,Core,38,Inclined to waste or squander money or resources.,"Exceeding the bounds of something; roving; hence, foreign.",Evincing thrift; characterized by economy and good management of property; frugal.
+Aristocracy,貴族,Nobility,Peasantry,Elite,38,"The nobility, or the hereditary ruling class.","A noble or privileged social class, historically accompanied by a hereditary title; aristocracy.","Impoverished rural farm workers, either as serfs, small freeholders or hired hands."
+Weird,怪異的。注意它是例外 e 在 i 前,Strange,Normal,Elite,38,Fate; destiny; luck.,Vagina,"A line or vector that is perpendicular to another line, surface, or plane."
+Cease,停止,Stop,Start,Core,39,Cessation; extinction (see without cease).,"A (usually marked) place where buses, trams or trains halt to let passengers get on and off, usually smaller than a station.",The beginning of an activity.
+Recommend,一C雙M。推薦,Suggest,Reject,Core,39,"To bestow commendation on; to represent favourably; to suggest, endorse or encourage as an appropriate choice.",To imply but stop short of saying explicitly.,Something that is rejected.
+Reveal,透露/顯露,Show,Hide,Core,39,The outer side of a window or door frame; the jamb.,"A play, dance, or other entertainment.",To put (something) in a place where it will be harder to discover or out of sight.
+Subterranean,地下的,Underground,Surface,Elite,39,"Below ground, under the earth, underground","An underground railway, especially for mass transit of people in urban areas.","The overside or up-side of a flat object such as a table, or of a liquid."
+Melancholy,憂鬱,Sad,Happy,Elite,39,"Black bile, formerly thought to be one of the four ""cardinal humours"" of animal bodies.",To make melancholy; to sadden or grieve (someone).,"A happy event, thing, person, etc."
+Reserve,預訂/保留,Keep,Release,Core,40,(behaviour) Restriction.,"The main tower of a castle or fortress, located within the castle walls.","The event of setting (someone or something) free (e.g. hostages, slaves, prisoners, caged animals, hooked or stuck mechanisms)."
+Distinguished,卓越的/著名的,Famous,Unknown,Core,40,To recognize someone or something as different from others based on its characteristics.,To make famous; to bring renown to.,"To undo the process of knowing, to lose knowledge of something."
+Ancient,注意 c-i-e。古老的文物,Antique,Modern,Core,40,A person who is very old.,A grotesque representation of a figure; a gargoyle.,Someone who lives in modern times.
+Lament,哀悼/悲嘆,Mourn,Celebrate,Elite,40,"An expression of grief, suffering, sadness or regret.","Sorrow, grief.",To extol or honour in a solemn manner.
+Deceit,欺騙(名詞)。e在i前,Deception,Honesty,Elite,40,An act or practice intended to deceive; a trick.,An instance of actions and/or schemes fabricated to mislead someone into believing a lie or inaccuracy.,"The act, quality, or condition of being honest."
+Invalid,無效的/病弱者,Weak,Valid,Core,41,"Not valid; not true, correct, acceptable or appropriate.",Lacking in force (usually strength) or ability.,"Well grounded or justifiable, pertinent."
+Astonish,使驚訝,Amaze,Bore,Core,41,To surprise greatly.,"Amazement, astonishment.","A hole drilled or milled through something, or (by extension) its diameter."
+Stress,壓力/強調,Pressure,Peace,Core,41,(Cause of) discomfort.,A pressing; a force applied to a surface.,"A state of tranquility, quiet, and harmony; absence of violence. For instance, a state free from civil disturbance."
+Abundant,數量很多。-ant結尾,Plentiful,Scarce,Elite,41,Fully sufficient; found in copious supply; in great quantity; overflowing.,Existing in large number or ample amount.,"Uncommon, rare; difficult to find; insufficient to meet a demand."
+Bewilder,使困惑,Confuse,Enlighten,Elite,41,"To confuse, disorientate, or puzzle someone, especially with many different choices.","To puzzle, perplex, baffle, bewilder (somebody).",To supply with light.
+Government,政府。注意中間有-n-,Authority,Anarchy,Core,42,"The body with the power to make and/or enforce laws to control a country, land area, people or organization.",The power to enforce rules or give orders.,The state of a society being without authorities or an authoritative governing body.
+Aid,幫助/援助,Assistance,Hinder,Core,42,"Help; assistance; succor, relief.",Aid; help; the act or result of assisting.,To make difficult to accomplish; to act as an obstacle; to frustrate.
+Character,性格。Ch發k音,Nature,,Core,42,A being involved in the action of a story.,"The natural world; that which consists of all things unaffected by or predating human technology, production, and design. (Compare ecosystem.)",
+Anxiety,焦慮。注意-x-拼寫,Worry,Calm,Elite,42,"An unpleasant state of mental uneasiness, nervousness, apprehension and obsession or concern about some uncertain event.",A strong feeling of anxiety.,"(in a person) The state of being calm; peacefulness; absence of worry, anger, fear or other strong negative emotion."
+Interfere,干涉。中間全是-e-,Meddle,Assist,Elite,42,"To get involved or involve oneself, causing disturbance.",To interfere in or with; to concern oneself with unduly.,A helpful action or an act of giving.
+Mercy,仁慈/寬恕,Clemency,Cruelty,Core,43,Relenting; forbearance to cause or allow harm to another.,"The gentle or kind exercise of power; leniency, mercy; compassion in judging or punishing.",An indifference to suffering or pleasure in inflicting suffering.
+Superior,優越的/上級的,Better,Inferior,Core,43,A person of higher rank or quality.,"An entity, usually animate, deemed superior to another; one who has a claim to precedence; a superior.",A person of lower stature to another
+Restore,恢復/修復,Repair,Damage,Core,43,The act of recovering data or a system from a backup.,The act of repairing something.,Injury or harm; the condition or measure of something not being intact.
+Coax,哄騙/勸誘,Persuade,Force,Elite,43,A simpleton; a dupe.,"To successfully convince (someone) to agree to, accept, or do something, usually through reasoning and verbal influence.",Strength or energy of body or mind; active power; vigour; might; capacity of exercising an influence or producing an effect.
+Irascible,易怒,Angry,Calm,Elite,43,Easily provoked to outbursts of anger; irritable.,Displaying or feeling anger.,"(in a person) The state of being calm; peacefulness; absence of worry, anger, fear or other strong negative emotion."
+Grate,磨碎/壁爐。與Great同音,Shred,,Core,44,"A horizontal metal grill through which water, ash, or small objects can fall, while larger objects cannot","A long, narrow piece cut or torn off; a strip.",
+Frequently,頻繁。注意-que-音,Often,Seldom,Core,44,At frequent intervals.,Frequent.,Rare; infrequent.
+Embrace,擁抱/包含,Hug,Exclude,Core,44,An act of putting arms around someone and bringing the person close to the chest; a hug.,"A close embrace, especially when charged with such an emotion as represented by: affection, joy, relief, lust, anger, agression, compassion, and the like, as opposed to being characterized by formality, equivocation or ambivalence (a half-embrace or ""little hug"").",To bar (someone) from entering; to keep out.
+Antiquity,古老/古代,Ancient,Modern,Elite,44,Ancient times; faraway history; former ages,A person who is very old.,Someone who lives in modern times.
+Painstaking,辛苦的/勤勉的,Thorough,Lazy,Elite,44,The application of careful and attentive effort.,"A furrow between two ridges, to drain off the surface water.",A lazy person.
+Digest,消化/文摘,Absorb,Eject,Core,45,To distribute or arrange methodically; to work over and classify; to reduce to portions for ready use or application.,To include so that it no longer has separate existence; to overwhelm; to cause to disappear as if by swallowing up; to incorporate; to assimilate; to take in and use up.,To compel (a person or persons) to leave.
+Dwelling,住處,Home,,Core,45,"A house or place in which a person lives; a habitation, a home.",A dwelling.,
+Trivial,微不足道的,Minor,Major,Core,45,Any of the three liberal arts forming the trivium.,"A person who is below the age of majority, consent, criminal responsibility or other adult responsibilities and accountabilities.",A military rank between captain and lieutenant colonel.
+Inaugurate,舉行就職典禮,Begin,End,Elite,45,To induct into office with a formal ceremony.,Beginning; start.,The terminal point of something in space or time.
+Covert,秘密的/隱密的。像Cover,Secret,Open,Elite,45,A covering.,A piece of knowledge that is hidden and intended to be kept hidden.,Not closed
+Monotonous,單調,Boring,Varied,Core,46,Having an unvarying tone or pitch.,To inspire boredom in somebody.,Diverse or miscellaneous
+Unite,團結/聯合,Join,Divide,Core,46,"A British gold coin worth 20 shillings, first produced during the reign of King James I, and bearing a legend indicating the king's intention of uniting the kingdoms of England and Scotland.",An intersection of piping or wiring; an interconnect.,A thing that divides.
+Secure,安全的/穩固的,Safe,Loose,Core,46,"To make safe; to relieve from apprehensions of, or exposure to, danger; to guard; to protect.","A box, usually made of metal, in which valuables can be locked for safekeeping.",The release of an arrow.
+Idiosyncrasy,癖好,Habit,Norm,Elite,46,A behavior or way of thinking that is characteristic of a person.,An action performed on a regular basis.,That which is normal or typical.
+Calamity,災難/不幸,Disaster,Blessing,Elite,46,An event resulting in great loss.,"An unexpected natural or man-made catastrophe of substantial extent causing significant physical damage or destruction, loss of life or sometimes permanent change to the natural environment.","To make something holy by religious rite, sanctify."
+Correct,正確的/糾正,Accurate,Wrong,Core,47,Free from error; true; accurate.,Telling the truth or giving a true result; exact; not defective or faulty,Something that is immoral or not good.
+Retreat,撤退/退後,Withdraw,Advance,Core,47,"The act of pulling back or withdrawing, as from something dangerous, or unpleasant.","To pull (something) back, aside, or away.",A forward move; improvement or progression.
+Marvellous,奇妙。雙L。-ous結尾,Wonderful,Awful,Core,47,Exciting wonder or surprise; astonishing; wonderful.,"Tending to excite wonder; surprising, extraordinary.",Very bad.
+Judicious,明智,Wise,Foolish,Elite,47,"Having, characterized by, or done with good judgment or sound thinking.",To become wise.,"(of a person, an action, etc.) Lacking good sense or judgement; unwise."
+Seize,抓住。e 在 i 前,Grab,Release,Elite,47,To deliberately take hold of; to grab or capture.,A sudden snatch at something.,"The event of setting (someone or something) free (e.g. hostages, slaves, prisoners, caged animals, hooked or stuck mechanisms)."
+Nurseryman,苗圃人員/園丁,Gardener,,Core,48,A person who rears and sells plants in a nursery.,One who gardens; one who grows plants or cultivates a garden.,
+Wholesome,健康的,Healthy,Unhealthy,Core,48,Promoting good physical health and well-being.,"Enjoying health and vigor of body, mind, or spirit: well.","Characterized by, or conducive to poor health"
+Halt,停止/中止,Stop,Start,Core,48,To limp; move with a limping gait.,"A (usually marked) place where buses, trams or trains halt to let passengers get on and off, usually smaller than a station.",The beginning of an activity.
+Dilapidated,破舊的/倒塌的,Run-down,New,Elite,48,To fall into ruin or disuse.,(of a person) Tired and exhausted.,Things that are new.
+Adjacent,鄰近。注意-dj-拼寫,Near,Remote,Elite,48,"Something that lies next to something else, especially the side of a right triangle that is neither the hypotenuse nor the opposite.",The left side of a horse or of a team of horses pulling a carriage etc.,An element of broadcast programming originating away from the station's or show's control room.
+Resort,求助/渡假勝地,Turn to,,Core,49,"A place where people go for recreation, especially one with facilities such as lodgings, entertainment, and a relaxing environment.","(said of objects) To become, to degenerate into.",
+Quiver,抖動/顫抖,Tremble,Steady,Core,49,"A container for arrows, crossbow bolts or darts, such as those fired from a bow, crossbow or blowgun.","A shake, quiver, or vibration.","A rest or support, as for the hand, a tool, or a piece of work."
+Opportunity,機會。雙P,Chance,Obstacle,Core,49,"A chance for advancement, progress or profit.",An opportunity or possibility.,"Something that impedes, stands in the way of, or holds up progress"
+Affable,和藹可親的,Friendly,Hostile,Elite,49,"Receiving others kindly and conversing with them in a free and friendly manner; friendly, courteous, sociable.","A game which is of no consequence in terms of ranking, betting etc.",(chiefly in the plural) An enemy.
+Audacious,大膽,Bold,Timid,Elite,49,Showing willingness to take bold risks; recklessly daring.,A dwelling; habitation; building.,Lacking in courage or confidence.
+Recite,背誦/朗誦,Repeat,,Core,50,"To repeat aloud (some passage, poem or other text previously memorized, or in front of one's eyes), often before an audience.",An iteration; a repetition.,
+Comrade,同志/夥伴,Friend,Enemy,Core,50,"A mate, companion, or associate.","A person other than a family member, spouse or lover whose company one enjoys and towards whom one feels affection.","Someone who is hostile to, feels hatred towards, opposes the interests of, or intends injury to someone else."
+Diluted,稀釋的,Weakened,Strong,Core,50,"To make thinner by adding solvent to a solution, especially by adding water.",To make weaker or less strong.,Capable of producing great physical force.
+Superfluous,多餘的/過剩的,Extra,Necessary,Elite,50,In excess of what is required or sufficient.,"Something additional, such as an item above and beyond the ordinary school curriculum, or added to the usual charge on a bill.","(usually with the definite article) A place to do the ""necessary"" business of urination and defecation: an outhouse or lavatory."
+Innate,天生。雙N,Natural,Learned,Elite,50,To cause to exist; to call into being.,"A native inhabitant of a place, country etc.","Having much learning, knowledgeable, erudite; highly educated."
+Restaurant,餐廳。注意-au-拼寫,Eatery,Home,Core,51,"An eating establishment in which diners are served food, usually by waiters at their tables but sometimes (as in a fast food restaurant) at a counter.",A restaurant or café; a place to purchase and eat food.,A dwelling.
+Moderate,適度的/中等的,Average,Extreme,Core,51,"One who holds an intermediate position between extremes, as in politics.",The arithmetic mean.,"The greatest or utmost point, degree or condition."
+Extremely,極端地。注意字尾-ly,Very,Mildly,Core,51,(degree) To an extreme degree.,"True, real, actual.",In a mild manner.
+Adolescent,青少年。-sc-拼寫,Teen,Adult,Elite,51,A person who is in adolescence; someone who has reached puberty but is not yet an adult.,A teenager.,A fully grown human or animal.
+Nuisance,討厭的人。-ui-拼寫,Annoyance,Pleasure,Elite,51,A minor annoyance or inconvenience.,That which annoys.,A state of being pleased or contented; gratification.
+Profit,利潤/好處,Gain,Loss,Core,52,Total income or cash flow minus expenditures. The money or other benefit a non-governmental organization or individual receives in exchange for products and services sold at an advertised price.,The act of gaining; acquisition.,"The result of no longer possessing an object, a function, or a characteristic due to external causes or misplacement."
+Peculiar,奇怪的/特有的,Odd,Normal,Core,52,That which is peculiar; a sole or exclusive property; a prerogative; a characteristic.,(diminutive) An odd number.,"A line or vector that is perpendicular to another line, surface, or plane."
+Company,公司/陪伴,Firm,Solitude,Core,52,A team; a group of people who work together professionally.,A business partnership; the name under which it trades.,"Aloneness; state of being alone or solitary, by oneself."
+Frivolous,輕浮,Silly,Serious,Elite,52,"Silly, especially at an inappropriate time or in an inappropriate manner.",A silly person.,Without humor or expression of happiness; grave in manner or disposition
+Ominous,不祥,Threatening,Lucky,Elite,52,Of or pertaining to an omen or to omens; being or exhibiting an omen; significant.,To make a threat against someone; to use threats.,(of people) Favoured by luck; fortunate; having good success or good fortune
+Physical,身體。注意-ph-與-y-,Bodily,Mental,Core,53,Physical examination.,"Of, relating to, or concerning the body.",Of or relating to the mind or an intellectual process.
+Reside,居住。與 Residence 相關,Live,Depart,Core,53,To dwell permanently or for a considerable time; to have a settled abode for a time; to remain for a long time.,To be alive; to have life.,"Division; separation, as of compound substances."
+Meant,意思(Mean的過去式),,,Core,53,To intend.,,
+Dismal,憂鬱的/淒涼的,Gloomy,Bright,Elite,53,Disappointingly inadequate.,"Not very illuminated; dim because of darkness, especially when appearing depressing or frightening.","An artist's brush used in oil and acrylic painting with a long ferrule and a flat, somewhat tapering bristle head."
+Volatile,不穩定的/易變的,Unstable,Steady,Elite,53,A chemical or compound that changes into a gas easily.,To release (an animal) from a stable.,"A rest or support, as for the hand, a tool, or a piece of work."
+Vegetable,蔬菜。注意中間有-e-,Plant,Meat,Core,54,Any plant.,"An organism that is not an animal, especially an organism capable of photosynthesis. Typically a small or herbaceous organism of this kind, rather than a tree.",The flesh (muscle tissue) of an animal used as food.
+Pioneer,先驅/拓荒者,Leader,Follower,Core,54,"One who goes before, as into the wilderness, preparing the way for others to follow.",Any person that leads or directs,"One who follows, comes after another."
+Ambitious,有野心的,Eager,Lazy,Core,54,"(of a person or their character) Having or showing ambition; wanting a lot of power, honor, respect, superiority, or other distinction.",Sharp; sour; acid.,A lazy person.
+Discrepancy,差異,Difference,Match,Elite,54,An inconsistency between facts or sentiments.,The quality of being different.,"A competitive sporting event such as a boxing meet, a baseball game, or a cricket match."
+Deficiency,缺乏,Lack,Surplus,Elite,54,Inadequacy or incompleteness.,A defect or failing; moral or spiritual degeneracy.,"That which remains when use or need is satisfied, or when a limit is reached; excess; overplus."
+Description,描述。注意是-scrip-,Account,,Core,55,A sketch or account of anything in words; a portraiture or representation in language; an enumeration of the essential qualities of a thing or species.,"A registry of pecuniary transactions; a written or printed statement of business dealings or debts and credits, and also of other things subjected to a reckoning or review.",
+Conclude,結論/結束,Finish,Start,Core,55,To end; to come to an end.,An end; the end of anything.,The beginning of an activity.
+Communicate,溝通。雙M,Convey,Silence,Core,55,To impart,To move (something) from one place to another.,The absence of any sound.
+Haphazard,隨意,Random,Planned,Elite,55,"Random; chaotic; incomplete; not thorough, constant, or consistent.",A roving motion; course without definite direction; lack of rule or method; chance.,"To design (a building, machine, etc.)."
+Enthusiastic,熱衷,Eager,Apathetic,Elite,55,"With zealous fervor; excited, motivated.",Sharp; sour; acid.,Void of feeling; not susceptible of deep emotion
+Succumb,屈服/病死。b 不發音,Yield,Survive,Elite,56,To yield to an overpowering force or overwhelming desire.,"To pay, give in payment; repay, recompense; reward; requite.","Of a person, to continue to live; to remain alive."
+Punctual,準時的,On time,Late,Core,56,Prompt; on time.,Punctual or according to schedule.,A shift (scheduled work period) that takes place late in the day or at night.
+Summit,山頂/峰會。雙M,Peak,Bottom,Core,56,"A peak; the topmost point or surface, as of a mountain.","A point; the sharp end or top of anything that terminates in a point; as, the peak, or front, of a cap.",The lowest part of anything.
+Environment,環境。中間有-n-,Surroundings,,Core,56,"The surroundings of, and influences on, a particular item of interest.",An outlying area; area in proximity to something,
+Emancipate,解放,Free,Enslave,Elite,56,To set free from the power of another; to liberate; as:,Free transfer,To make subservient; to strip one of freedom; enthrall.
+Excitement,激動/興奮。注意中間有-e-,Thrill,Boredom,Core,57,The state of being excited (emotionally aroused).,"A trembling or quivering, especially one caused by emotion.",The state of being bored.
+Parallel,平行的。兩條L就是平行的,Even,Crooked,Core,57,One of a set of parallel lines.,(diminutive) An even number.,"To bend, or form into a hook."
+Queue,排隊。全是元音,Line,Disperse,Core,57,An animal's tail.,"A path through two or more points (compare ‘segment’); a continuous mark, including as made by a pen; any path, curved or straight.",To scatter in different directions
+Mischievous,頑皮。注意-ous前無-i,Naughty,Good,Elite,57,Causing mischief; injurious.,Mischievous; tending to misbehave or act badly (especially of a child).,(of people)
+Destitute,赤貧的/窮困落魄,Poor,Wealthy,Elite,57,"(followed by the preposition ""of"") Lacking something; devoid","(with ""the"") Those who have little or no possessions or money, taken as a group.",A rich person.
+Candidate,候選人。-idate,Applicant,,Core,58,A person who is running in an election.,One who applies for something; one who makes a request; a petitioner.,
+Symbol,符號。注意-y-拼寫,Sign,Reality,Core,58,"A character or glyph representing an idea, concept or object.",(sometimes also used uncountably) A visible indication.,The state of being actual or real.
+Category,類別。注意中間是-e-,Class,Individual,Core,58,"A group, often named or numbered, to which items are assigned based on similarity or defined criteria.","A group, collection, category or set sharing characteristics or attributes.","A person considered alone, rather than as belonging to a group of people."
+Shrine,神龕/聖地,Holy place,,Elite,58,"A holy or sacred place dedicated to a specific deity, ancestor, hero, martyr, saint, or similar figure of awe and respect, at which said figure is venerated or worshipped.",a sacred place of pilgrimage,
+Parliament,議會。注意中間有-ia-,Council,Anarchy,Elite,58,A formal council summoned (especially by a monarch) to discuss important issues.,"A committee that leads or governs (e.g. city council, student council).",The state of a society being without authorities or an authoritative governing body.
+Merchant,商人。Merc-與貿易有關,Trader,,Core,59,A person who traffics in commodities for profit.,One who earns a living by trading goods or securities.,
+Hasty,倉促的/草率的,Quick,Slow,Core,59,Acting in haste; being too hurried or quick,"Raw or sensitive flesh, especially that underneath finger and toe nails.",Someone who is slow; a sluggard.
+Wholly,完全地。注意雙L,Totally,Partly,Core,59,Completely and entirely; to the fullest extent.,To the fullest extent or degree.,"In part, or to some degree, but not completely."
+Contagious,傳染性,Catching,Safe,Elite,59,(of a disease) Easily transmitted to others.,"(heading) To capture, overtake.","A box, usually made of metal, in which valuables can be locked for safekeeping."
+Deteriorate,惡化,Worsen,Improve,Elite,59,To make worse; to make inferior in quality or value; to impair.,To make worse; to impair.,To make (something) better; to increase the value or productivity (of something).
+Interested,感興趣的,Keen,Bored,Core,60,"To engage the attention of; to awaken interest in; to excite emotion or passion in, in behalf of a person or thing.","To make cold, to sharpen.",To inspire boredom in somebody.
+Variety,多樣性。注意-ie-拼寫,Diversity,Sameness,Core,60,The quality of being varied; diversity.,The quality of being diverse or different; difference or unlikeness.,The quality of being the same; identity.
+Accuse,指控。雙C拼寫,Blame,Pardon,Core,60,Accusation.,Censure.,Forgiveness for an offence.
+Omen,預兆/前兆,Sign,,Elite,60,"Something which portends or is perceived to portend either a good or evil event or circumstance in the future, or which causes a foreboding; a portent or augury.",(sometimes also used uncountably) A visible indication.,
+Perplexed,困惑的,Puzzled,Clear,Elite,60,To cause to feel baffled; to puzzle.,To perplex (someone).,"Full extent; distance between extreme limits; especially; the distance between the nearest surfaces of two bodies, or the space between walls."
+Traitor,叛徒/賣國賊,Betrayer,Loyalist,Core,61,"Someone who violates an allegiance and betrays their country; someone guilty of treason; one who, in breach of trust, delivers their country to an enemy, or yields up any fort or place entrusted to his defense, or surrenders an army or body of troops to the enemy, unless when vanquished",one who reveals confidential information in return for money,"A person who is loyal to a cause, generally used as a political affiliation."
+Anxious,焦慮的。注意 -x-,Worried,Calm,Core,61,Nervous and worried.,Thinking about unpleasant things that have happened or that might happen; feeling afraid and unhappy.,"(in a person) The state of being calm; peacefulness; absence of worry, anger, fear or other strong negative emotion."
+Oblige,被迫/必須/幫忙,Force,Free,Core,61,"To constrain someone by force or by social, moral or legal means.",Strength or energy of body or mind; active power; vigour; might; capacity of exercising an influence or producing an effect.,Free transfer
+Awkward,w-k-w。左右為難很尷尬,Clumsy,Graceful,Elite,61,Someone or something that is awkward.,A clumsy person.,"Having or showing grace in movement, shape, or proportion."
+Brerevity,簡潔,Shortness,Length,Elite,61,,"The property of being short, of being small of stature or brief.",The distance measured along the longest dimension of an object.
+Diminish,減少,Reduce,Increase,Core,62,To make smaller.,"To bring down the size, quantity, quality, value or intensity of something; to diminish, to lower.",An amount by which a quantity is increased.
+Exhausted,筋疲力竭,Tired,Fresh,Core,62,To draw or let out wholly; to drain off completely,To become sleepy or weary.,"A rush of water, along a river or onto the land; a flood."
+Puncture,刺穿/小洞,Hole,,Core,62,The act or an instance of puncturing.,"A hollow place or cavity; an excavation; a pit; an opening in or through a solid body, a fabric, etc.; a perforation; a rent; a fissure.",
+Nostalgia,懷舊,Longing,Future,Elite,62,A longing for home or familiar surroundings; homesickness.,To take a long position in.,The time ahead; those moments yet to be experienced.
+Candour,坦率,Honesty,Deceit,Elite,62,Whiteness; brilliance; purity.,"The act, quality, or condition of being honest.",An act or practice intended to deceive; a trick.
+Neighbour,鄰居。注意-eigh-音,Friend,Stranger,Core,63,A person living on adjacent or nearby land; a person situated adjacently or nearby; anything (of the same type of thing as the subject) in an adjacent or nearby position.,"A person other than a family member, spouse or lover whose company one enjoys and towards whom one feels affection.","Not normal; odd, unusual, surprising, out of the ordinary."
+Programme,程序/節目。雙M,Schedule,,Core,63,A set of structured activities.,A slip of paper; a short note.,
+Special,特別的,Unique,Common,Core,63,A reduction in consumer cost (usually for a limited time) for items or services rendered.,A thing without a like; something unequalled or unparallelled.,"Mutual good, shared by more than one."
+Obdurate,頑固,Stubborn,Flexible,Elite,63,To harden; to obdure.,Stubbornness.,Something that is flexible.
+Contemporary,當代的。Con-temp,Modern,Old,Elite,63,"Someone or something living at the same time, or of roughly the same age as another.",Someone who lives in modern times.,"(with the, invariable plural only) People who are old; old beings; the older generation, taken as a group."
+Proportion,比例/部分,Ratio,,Core,64,A quantity of something that is part of the whole amount or number.,A number representing a comparison between two named things.,
+Worthy,值得的/尊敬的,Valuable,Useless,Core,64,A distinguished or eminent person,"A personal possession such as jewellery, of relatively great monetary value; — usually used in plural form.",Without use or possibility to be used.
+Wound,傷口/創傷,Injury,Heal,Core,64,"An injury, such as a cut, stab, or tear, to a (usually external) part of the body.",Damage to the body of a human or animal.,A spell or ability that restores hit points or removes a status ailment.
+Impudent,無理的/魯莽的,Rude,Polite,Elite,64,Not showing due respect; impertinent; bold-faced.,Bad-mannered.,To polish; to refine; to render polite.
+Indevour,努力(Endeavour),Effort,Lazy,Elite,64,,The work involved in performing an activity; exertion.,A lazy person.
+Equipment,裝備(名詞),Gear,,Core,65,"The act of equipping, or the state of being equipped, as for a voyage or expedition.","Equipment or paraphernalia, especially that used for an athletic endeavor.",
+Option,選擇,Choice,,Core,65,One of a set of choices that can be made.,An option; a decision; an opportunity to choose or select something.,
+Limit,限制/限度,Border,Endless,Core,65,A restriction; a bound beyond which one may not go.,The outer edge of something.,Having no end.
+Magnanimous,寬宏大量,Noble,Mean,Elite,65,Noble and generous in spirit.,An aristocrat; one of aristocratic blood.,To lament.
+Subdued,被壓制的/柔和的,Quiet,Loud,Elite,65,"To overcome, quieten, or bring under control.",The absence of sound; quietness.,A loud sound or part of a sound.
+Arouse,喚醒/激起,Waken,Lull,Core,66,To stimulate feelings.,To wake or rouse from sleep.,A period of rest or soothing.
+In front,在前面。兩個字,Ahead,Behind,Core,66,at or in the front,In or to the front; in advance; onward.,"The rear, back-end"
+Vast,巨大的,Huge,Tiny,Core,66,A vast space.,Very large.,A small child; an infant.
+Counterfeit,偽造。-ei-拼寫,Fake,Genuine,Elite,66,A non-genuine article; a fake.,"Something which is not genuine, or is presented fraudulently.","Belonging to, or proceeding from the original stock; native"
+Chronological,按時間順序,Timed,Random,Elite,66,"Relating to time, or units of time.","To measure or record the time, duration, or rate of.",A roving motion; course without definite direction; lack of rule or method; chance.
+Confine,限制/禁閉,Limit,Free,Core,67,(chiefly in the plural) A boundary or limit.,A restriction; a bound beyond which one may not go.,Free transfer
+Justice,正義/司法,Fairness,Injustice,Core,67,The state or characteristic of being just or fair.,The property of being fair or equitable.,Absence of justice; unjustice.
+Poultry,家禽,Birds,,Core,67,"Domestic fowl (e.g. chickens, ducks, turkeys, and geese) raised for food (either meat or eggs).","A member of the class of animals Aves in the phylum Chordata, characterized by being warm-blooded, having feathers and wings usually capable of flight, and laying eggs.",
+Belligerent,好鬥的/挑釁的,Hostile,Peaceful,Elite,67,A state or other armed participant in warfare,(chiefly in the plural) An enemy.,Not at war or disturbed by strife or turmoil.
+Unorthodox,非正統的,Unusual,Standard,Elite,67,"Unusual, unconventional, or idiosyncratic",Something that is unusual; an anomaly.,A principle or example or measure used for comparison.
+Ventilation,通風/空氣流通,Airflow,,Core,68,The replacement of stale or noxious air with fresh.,"Any flow of air, especially the motion of air around a moving aircraft or aerofoil.",
+Familiar,熟悉。-liar結尾,Known,Strange,Core,68,"An attendant spirit, often in animal or demon form.",To perceive the truth or factuality of; to be certain of or that.,Vagina
+Curiosity,好奇心。無中間-u-,Inquiry,Indifference,Core,68,"(uncountable) Inquisitiveness; the tendency to ask and learn about things by asking questions, investigating, or exploring.",The act of inquiring; a seeking of information by asking questions; interrogation; a question or questioning.,The state of being indifferent.
+Thorough,徹底。注意-ough拼寫,Complete,Partial,Elite,68,"A furrow between two ridges, to drain off the surface water.",A completed survey.,A partial derivative: a derivative with respect to one independent variable of a function in multiple variables while holding the other variables constant.
+Exaggerate,誇張。雙G,Overstate,Understate,Elite,68,"To overstate, to describe more than is fact.",To exaggerate; to state or claim too much.,To state (something) with less completeness than needed; to minimise or downplay.
+Assemble,集合。雙S,Gather,Scatter,Core,69,To put together.,"A plait or fold in cloth, made by drawing a thread through it; a pucker.",The act of scattering or dispersing.
+Suspend,暫停/懸掛,Hang,Continue,Core,69,To halt something temporarily.,The way in which something hangs.,"An option allowing a gamer to resume play after game over, when all lives have been lost."
+Supposed,假設的/應當的,Assumed,,Core,69,"To take for granted; to conclude, with less than absolute supporting data; to believe.","To authenticate by means of belief; to surmise; to suppose to be true, especially without proof",
+Acknowledge,承認。有Know在裡面,Admit,Deny,Elite,69,To admit the knowledge of; to recognize as a fact or truth; to declare one's belief in,"To allow to enter; to grant entrance (to), whether into a place, into the mind, or into consideration",To disallow or reject.
+Illegible,字跡模糊。雙L,Unreadable,Clear,Elite,69,Not clear enough to be read; unreadable; not legible or decipherable.,That cannot be read or is not easy to read.,"Full extent; distance between extreme limits; especially; the distance between the nearest surfaces of two bodies, or the space between walls."
+In fact,事實上。兩個字,Actually,Possibly,Core,70,in reality or actuality,(modal) In act or in fact; really; in truth; positively.,"(modifying a clause or predicate) Perhaps; indicates that the proposition may be true (is not certainly false) regardless of any facts or circumstances known to, stated by or implied by the speaker."
+Loyal,忠誠的,Faithful,Treacherous,Core,70,Having or demonstrating undivided and constant support for someone or something.,(in the plural) The practicing members of a religion or followers of a cause.,Exhibiting treachery.
+Companion,同伴/伴侶,Partner,Stranger,Core,70,"A friend, acquaintance, or partner; someone with whom one spends time or keeps company",Someone who is associated with another in a common activity or interest.,"Not normal; odd, unusual, surprising, out of the ordinary."
+Covet,貪圖/渴望,Desire,Dislike,Elite,70,"To wish for with eagerness; to desire possession of, often enviously.",Someone or something wished for.,An attitude or a feeling of distaste or aversion.
+Callous,冷酷,Heartless,Kind,Elite,70,Emotionally hardened; unfeeling and indifferent to the suffering/feelings of others.,"Without courage; fearful, cowardly.","A type, race or category; a group of entities that have common characteristics such that they may be grouped together."
+Pigment,顏料/色素,Colour,,Core,71,Any color in plant or animal cells,The spectral composition of visible light,
+Sturdy,強健的/堅固的,Strong,Weak,Core,71,"A disease in sheep and cattle, caused by a tapeworm and marked by great nervousness or by dullness and stupor.",Capable of producing great physical force.,Lacking in force (usually strength) or ability.
+College,學院。注意字尾 -ege,School,,Core,71,A corporate group; a group of colleagues.,"(collective) A group of fish or a group of marine mammals such as porpoises, dolphins, or whales.",
+Scripture,經文/聖典,Text,,Elite,71,A sacred writing or holy book.,"A writing consisting of multiple glyphs, characters, symbols or sentences.",
+Unfathomable,深不可測的,Mysterious,Clear,Elite,71,Impossible to fathom or understand.,Of unknown origin.,"Full extent; distance between extreme limits; especially; the distance between the nearest surfaces of two bodies, or the space between walls."
+Wither,枯萎,Fade,Bloom,Core,72,"To shrivel, droop or dry up, especially from lack of water.","A golf shot that (for the right-handed player) curves intentionally to the right. See slice, hook, draw.",A blossom; the flower of a plant; an expanded bud.
+Stubborn,頑固的,Obstinate,Flexible,Core,72,Stubbornness.,"Stubbornly adhering to an opinion, purpose, or course, usually with implied unreasonableness; persistent.",Something that is flexible.
+Rural,農村的/田園的,Country,Urban,Core,72,A person from the countryside; a rustic.,"(chiefly British) An area of land; a district, region.",Related to the (or any) city.
+Precarious,危險,Unsafe,Secure,Elite,72,Dangerously insecure or unstable; perilous.,Not safe (various senses); dangerous.,"To make safe; to relieve from apprehensions of, or exposure to, danger; to guard; to protect."
+Ostentatious,炫耀的/賣弄的,Showy,Modest,Elite,72,Of ostentation.,(sometimes derogatory) calling attention; flashy; standing out to the eye,"Not bragging or boasting about oneself or one's achievements; unpretentious, humble."
+Desperate,絕望。中間是e,Hopeless,Confident,Core,73,"A person in desperate circumstances or who is at the point of desperation, such as a down-and-outer, addict, etc.",Without hope; despairing; not expecting anything positive.,A person in whom one can confide or share one's secrets: a friend.
+Individual,個人/獨特的。注意-uid-,Single,Group,Core,73,"A person considered alone, rather than as belonging to a group of people.",A 45 RPM vinyl record with one song on side A and one on side B.,A number of things or persons being in some relation to one another.
+Occur,雙C。發生,Happen,Cease,Core,73,To happen or take place.,To occur or take place.,Cessation; extinction (see without cease).
+Captivate,著迷,Charm,Repel,Elite,73,To attract and hold interest and attention of; charm.,"An object, act or words believed to have magic power (usually carries a positive connotation).","To turn (someone) away from a privilege, right, job, etc."
+Disastrous,災難性。無中間-e-,Terrible,Lucky,Elite,73,Of the nature of a disaster; calamitous.,"Dreadful; causing terror, alarm and fear; awesome",(of people) Favoured by luck; fortunate; having good success or good fortune
+Compete,競爭,Contest,Surrender,Core,74,"To be in battle or in a rivalry with another for the same thing, position, or reward; to contend",Controversy; debate.,"An act of surrendering, submission into the possession of another; abandonment, resignation."
+All right,沒問題。注意是兩個字,Fine,Wrong,Core,74,"Good; in acceptable, if not excellent condition.",Fine champagne; French brandy.,Something that is immoral or not good.
+Passive,被動的,Inactive,Active,Core,74,(grammar) The passive voice of verbs.,"Not active, temporarily or permanently.",A person or thing that is acting or capable of acting.
+Privilege,特權。兩個I兩個E,Right,Disadvantage,Elite,74,(ecclesiastical law) An exemption from certain laws granted by the Pope.,"Straight, not bent.",A weakness or undesirable characteristic; a con.
+Prominent,著名的/顯眼的,Famous,Obscure,Elite,74,"Standing out, or projecting; jutting; protuberant",To make famous; to bring renown to.,"To render obscure; to darken; to make dim; to keep in the dark; to hide; to make less visible, intelligible, legible, glorious, beautiful, or illustrious."
+Diligent,勤奮,Hardworking,Lazy,Core,75,Performing with industrious concentration; hard-working and focused.,"Of a person, taking their work seriously and doing it well and rapidly.",A lazy person.
+Believe,相信。i 在 e 前,Trust,Doubt,Core,75,"To accept as true, particularly without absolute certainty (i.e., as opposed to knowing)",Confidence in or reliance on some person or quality.,Disbelief or uncertainty (about something); a particular instance of such disbelief or uncertainty.
+Resolve,解決/下定決心,Settle,Hesitate,Core,75,Determination; will power.,To conclude or resolve (something):,To stop or pause respecting decision or action; to be in suspense or uncertainty as to a determination.
+Clemency,仁慈/寬厚,Mercy,Severity,Elite,75,"The gentle or kind exercise of power; leniency, mercy; compassion in judging or punishing.",Relenting; forbearance to cause or allow harm to another.,The state of being severe.
+Disperse,分散/散開,Scatter,Gather,Elite,75,To scatter in different directions,The act of scattering or dispersing.,"A plait or fold in cloth, made by drawing a thread through it; a pucker."
+Abode,住處。與 Abide (居住) 相關,Dwelling,Office,Core,76,To endure without yielding; to withstand; await defiantly; to encounter; to persevere.,"A house or place in which a person lives; a habitation, a home.","A ceremonial duty or service, particularly:"
+Composition,作文/結構,Creation,,Core,76,The act of putting together; assembly.,Something created such as an invention or artwork.,
+Altitude,高度。Alti (高),Height,Depth,Core,76,"The absolute height of a location, usually measured from sea level.",The distance from the base of something to the top.,The vertical distance below a surface; the degree to which something is deep
+Aggressive,兩個G兩個S都很兇,Hostile,Gentle,Elite,76,Characterized by aggression; unjustly attacking; prone to behave in a way that involves attacking or arguing.,(chiefly in the plural) An enemy.,A person of high birth.
+Coincide,巧合,Match,Differ,Elite,76,To occupy exactly the same space.,"A competitive sporting event such as a boxing meet, a baseball game, or a cricket match.",Not to have the same traits or characteristics; to be unalike or distinct.
+Interior,內部的,Inner,Exterior,Core,77,"The inside of a building, container, cavern, or other enclosed structure.",An inner part.,"The outside part, parts or surface of something."
+Satin,緞子。形容平滑,Silky,Rough,Core,77,"A cloth woven from silk, nylon or polyester with a glossy surface and a dull back. (The same weaving technique applied to cotton produces cloth termed sateen).",A seal which can magically transform into a human by shedding its skin.,The unmowed part of a golf course.
+Sincere,真誠的,Honest,Fake,Core,77,Genuine; meaning what one says or does; heartfelt.,"To adorn or grace; to honour; to make becoming, appropriate, or honourable.","Something which is not genuine, or is presented fraudulently."
+Oath,誓言/宣誓,Pledge,,Elite,77,"A solemn pledge or promise, appealing to a deity, a ruler, or another entity (not necessarily present) to attest to the truth of a statement or sincerity of one's desire to fulfill a contract or promise.",A solemn promise to do something.,
+Indispensable,不可或缺,Vital,Extra,Elite,77,A thing that is not dispensable; a necessity.,"Relating to, or characteristic of life.","Something additional, such as an item above and beyond the ordinary school curriculum, or added to the usual charge on a bill."
+Address,地址/演講。雙D雙S,Speech,,Core,78,Direction.,The faculty of uttering articulate sounds or words; the ability to speak or to use vocalizations to communicate.,
+Alert,警覺的,Watchful,Asleep,Core,78,An alarm.,"Observant, vigilant and aware","In a state of sleep; also, broadly, resting."
+Concentrated,集中的/濃縮的,Focused,Diluted,Core,78,"To bring to, or direct toward, a common center; to unite more closely; to gather into one body, mass, or force.",(followed by on or upon) To concentrate one's attention.,"To make thinner by adding solvent to a solution, especially by adding water."
+Din,嘈雜聲,Noise,Silence,Elite,78,A loud noise; a cacophony or loud commotion.,"Various sounds, usually unwanted or unpleasant.",The absence of any sound.
+Plunder,搶劫/掠奪,Loot,Gift,Elite,78,An instance of plundering.,"A kind of scoop or ladle, chiefly used to remove the scum from brine-pans in saltworks.","Something given to another voluntarily, without charge."
+Convince,說服,Persuade,Dissuade,Core,79,"To make someone believe, or feel sure about something, especially by using logic, argument or evidence.","To successfully convince (someone) to agree to, accept, or do something, usually through reasoning and verbal influence.",To convince not to try or do.
+Pasture,牧場/草地,Meadow,,Core,79,"Land, specifically, an open field, on which livestock is kept for feeding.","A field or pasture; a piece of land covered or cultivated with grass, usually intended to be mown for hay.",
+Prohibit,禁止,Forbid,Allow,Core,79,"To forbid, disallow, or proscribe officially; to make illegal or illicit.",To disallow; to proscribe.,"To grant, give, admit, accord, afford, or yield; to let one have."
+Interrogate,審問/質問。雙R,Question,Ignore,Elite,79,"To question or quiz, especially in a thorough and/or aggressive manner","A sentence, phrase or word which asks for information, reply or response; an interrogative.",To deliberately not listen or pay attention to.
+Veil,面紗/遮掩。e 在 i 前,Cover,Reveal,Elite,79,"Something hung up or spread out to hide or protect the face, or hide an object from view; usually of gauze, crepe, or similar diaphanous material.",A lid.,The outer side of a window or door frame; the jamb.
+Plume,羽毛/羽飾,Feather,,Core,80,"A feather of a bird, especially a large or showy one used as a decoration.","A branching, hair-like structure that grows on the bodies of birds, used for flight, swimming, protection and display.",
+Exciting,令人興奮的,Thrilling,Dull,Core,80,To stir the emotions of.,"To suddenly excite someone, or to give someone great pleasure; to (figuratively) electrify; to experience such a sensation.",To render dull; to remove or blunt an edge or something that was sharp.
+Sanitary,衛生的/清潔的,Hygienic,Dirty,Core,80,Sanitary towel.,"Pertaining to hygiene; clean, sanitary.",To make (something) dirty.
+Curb,控制/路邊。抑制情緒,Restrain,Release,Elite,80,"A concrete margin along the edge of a road; a kerb (UK, Australia, New Zealand)",To control or keep in check.,"The event of setting (someone or something) free (e.g. hostages, slaves, prisoners, caged animals, hooked or stuck mechanisms)."
+Careering,猛衝/疾馳,Racing,Stopping,Elite,80,"To move rapidly straight ahead, especially in an uncontrolled way.",To take part in a race (in the sense of a contest).,To cease moving.
+Oppress,壓迫/折磨。雙P雙S,Tyrannize,Free,Elite,81,To keep down by unjust force.,To oppress (someone).,Free transfer
+Present,禮物/現在/出席,Gift,Absent,Core,81,The current moment or period of time.,"Something given to another voluntarily, without charge.","(with definite article) Something absent, especially absent people collectively; those who were or are not there."
+Majestic,雄偉的/莊嚴的,Grand,Modest,Core,81,Having qualities of splendor or royalty.,"(plural ""grand"") A thousand of some unit of currency, such as dollars or pounds. (Compare G.)","Not bragging or boasting about oneself or one's achievements; unpretentious, humble."
+Maximum,最大值的,Most,Minimum,Core,81,The highest limit,The greatest amount.,The lowest limit.
+Restrain,抑制/克制,Control,Release,Elite,81,To control or keep in check.,Influence or authority over something.,"The event of setting (someone or something) free (e.g. hostages, slaves, prisoners, caged animals, hooked or stuck mechanisms)."
+Moral,道德的/寓意,Ethical,Immoral,Core,82,(of a narrative) The ethical significance or practical lesson.,"An ethical drug, one only dispensed on the prescription of a physician.","Not moral; inconsistent with rectitude, purity, or good morals; contrary to conscience or the divine law."
+Linger,逗留/緩緩流逝,Stay,Leave,Core,82,"To stay or remain in a place or situation, especially as if unwilling to depart or not easily able to do so; to loiter.",Continuance or a period of time spent in a place; abode for an indefinite time; sojourn.,To have a consequence or remnant.
+Especially,尤其。注意是-espe-,Particularly,,Core,82,(manner) In a special manner; specially.,"(focus) Especially, extremely.",
+Acquainted,相識的。注意 -cq- 拼寫,Familiar,Stranger,Elite,82,(followed by with) To furnish or give experimental knowledge of; to make (one) to know; to make familiar.,"An attendant spirit, often in animal or demon form.","Not normal; odd, unusual, surprising, out of the ordinary."
+Conferred,授予/商討。雙R,Granted,Taken,Elite,82,To grant as a possession; to bestow.,(ditransitive) to give (permission or wish),"To get into one's hands, possession or control, with or without force."
+Definite,明確。注意中間是-i-,Certain,Vague,Core,83,(grammar) A word or phrase that designates a specified or identified person or entity.,"(with ""the"") Something certain.",A wandering; a vagary.
+Clumsy,笨拙的,Awkward,Graceful,Core,83,A clumsy person.,Someone or something that is awkward.,"Having or showing grace in movement, shape, or proportion."
+Margin,邊緣/餘裕,Edge,Center,Core,83,"The edge of the paper, typically left blank when printing but sometimes used for annotations etc.",The boundary line of a surface.,The point in the interior of a circle that is equidistant from all points on the circumference.
+Bemused,困惑的,Confused,Clear,Elite,83,To confuse or bewilder.,"To puzzle, perplex, baffle, bewilder (somebody).","Full extent; distance between extreme limits; especially; the distance between the nearest surfaces of two bodies, or the space between walls."
+Convey,傳達/運送,Transport,Receive,Elite,83,To move (something) from one place to another.,An act of transporting; conveyance.,An operation in which data is received.
+Dispute,爭論/爭執,Argument,Agreement,Core,84,"An argument or disagreement, a failure to agree.",A fact or statement used to support a proposition; a reason.,An understanding between entities to follow a specific course of conduct.
+System,系統。注意-y-拼寫,Method,Chaos,Core,84,A collection of organized things; a whole composed of relationships among its members.,"A process by which a task is completed; a way of doing something (followed by the adposition of, to or for before the purpose of the process):",The unordered state of matter in classical accounts of cosmogony.
+Available,可得到的,Ready,Busy,Core,84,Such as one may avail oneself of; capable of being used for the accomplishment of a purpose.,Ready money; cash,A police officer.
+Yacht,遊艇。注意-cht-拼寫,Boat,Car,Elite,84,"A slick and light ship for making pleasure trips or racing on water, having sails but often motor-powered. At times used as a residence offshore on a dock.","A craft used for transportation of goods, fishing, racing, recreational cruising, or military use on or in the water, propelled by oars or outboard motor or inboard motor or by wind.","A wheeled vehicle that moves independently, with at least three wheels, powered mechanically, steered by a driver and mostly for personal transportation."
+Arduous,艱鉅的/費力的,Tough,Easy,Elite,84,Needing or using up much energy; testing powers of endurance.,A person who obtains things by force; a thug or bully.,Something that is easy
+Accompany,陪伴。雙C,Escort,Leave,Core,85,To go with or attend as a companion or associate; to keep company with; to go along with.,"A group of people or vehicles, generally armed, who go with a person or people of importance to safeguard them on a journey or mission.",To have a consequence or remnant.
+Temptation,誘惑,Lure,,Core,85,The act of tempting,"Something that tempts or attracts, especially one with a promise of reward or pleasure",
+Accurate,雙C。看準紅心才準確,Precise,Wrong,Core,85,Telling the truth or giving a true result; exact; not defective or faulty,(NNES or European Union documents) To make or render precise; to specify.,Something that is immoral or not good.
+Quaint,古雅的/奇特有趣的,Charming,Modern,Elite,85,"Of a person: cunning, crafty.","To seduce, persuade or fascinate someone or something.",Someone who lives in modern times.
+Disclose,透露/揭發,Reveal,Hide,Elite,85,A disclosure.,The outer side of a window or door frame; the jamb.,To put (something) in a place where it will be harder to discover or out of sight.
+Brief,簡短。i在e前,Short,Long,Core,86,A writ summoning one to answer to any action.,A short circuit.,A long vowel.
+Compulsory,強制,Required,Optional,Core,86,Something that is compulsory or required.,To ask (someone) for something; to request.,"Something that is not compulsory, especially part of an academic course."
+Intense,劇烈的/強烈的,Extreme,Mild,Core,86,Strained; tightly drawn.,"The greatest or utmost point, degree or condition.","A relatively low-gravity beer, often with a dark colour; mild ale"
+Gullible,易受騙。雙L,Naive,Wise,Elite,86,A gullible person; someone easily fooled or tricked.,A naive person; a greenhorn.,To become wise.
+Grieve,悲傷/哀悼。i在e前,Mourn,Rejoice,Elite,86,To cause sorrow or distress to.,"Sorrow, grief.","To be very happy, be delighted, exult; to feel joy."
+Flawless,完美的/無瑕的,Perfect,Faulty,Core,87,"Without flaws, defects, or shortcomings; perfect.","(grammar) The perfect tense, or a form in that tense.",Having or displaying faults; not perfect; not adequate or acceptable.
+Frequent,頻繁的。注意-que-,Often,Rare,Core,87,Done or occurring often; common.,Frequent.,A scarce or uncommon item.
+Submit,提交/服從。雙M過去式,Yield,Resist,Core,87,To yield or give way to another.,"To pay, give in payment; repay, recompense; reward; requite.",A protective coating or covering.
+Wretched,可憐的/惡劣的,Miserable,Happy,Elite,87,Very miserable; feeling deep affliction or distress.,A miserable person; a wretch.,"A happy event, thing, person, etc."
+Futility,徒勞,Useless,Success,Elite,87,The quality of being futile or useless.,Without use or possibility to be used.,The achievement of one's aim or goal.
+Contribute,貢獻。注意-ute字尾,Donate,Take,Core,88,To give something that is or becomes part of a larger whole.,To make a donation; to give away something of value to support or contribute towards a cause or for the benefit of another.,The or an act of taking.
+Bicycle,自行車。注意中間是 y,Cycle,,Core,88,"A vehicle that has two wheels, one behind the other, a steering handle, and a saddle seat or seats and is usually propelled by the action of a rider’s feet upon pedals.",An interval of space or time in which one set of events or phenomena is completed.,
+Surprise,驚訝。注意第一個 r,Astonish,Expected,Core,88,Something unexpected.,To surprise greatly.,To predict or believe that something will happen
+Facade,正面/假象,Front,Back,Elite,88,"The face of a building, especially the front view or elevation.",The foremost side of something or the end that faces the direction it normally moves.,"The rear of the body, especially the part between the neck and the end of the spine and opposite the chest and belly."
+Derelict,荒廢的/被棄置的,Abandoned,Maintained,Elite,88,"Property abandoned by its former owner, especially a ship abandoned at sea.","To give up or relinquish control of, to surrender or to give oneself over, or to yield to one's emotions.","To support (someone), to back up or assist (someone) in an action."
+Sly,狡猾的,Cunning,Honest,Core,89,Artfully cunning; secretly mischievous; wily.,Sly; crafty; clever in surreptitious behaviour.,"To adorn or grace; to honour; to make becoming, appropriate, or honourable."
+Consume,消耗/吃喝,Eat,Produce,Core,89,To use up.,Something to be eaten; a meal; a food item.,"To yield, make or manufacture; to generate."
+Rowdy,吵鬧的/粗魯的,Noisy,Quiet,Core,89,A boisterous person; a brawler.,"Making a noise, especially a loud unpleasant sound",The absence of sound; quietness.
+Ordeal,嚴峻考驗/磨難,Trial,Comfort,Elite,89,A painful or trying experience.,An opportunity to test something out; a test.,"Contentment, ease."
+Expel,驅逐/開除。只有一個L,Banish,Welcome,Elite,89,To eject or erupt.,(heading) To send someone away and forbid that person from returning.,"The act of greeting someone’s arrival, especially by saying ""Welcome!""; reception."
+Depot,倉庫/站。t不發音,Storehouse,,Core,90,"A storage facility, in particular, a warehouse.","A building for keeping goods of any kind, especially provisions",
+Custom,習俗/海關,Tradition,Habit,Core,90,"Frequent repetition of the same behavior; way of behavior common to many; ordinary manner; habitual practice; method of doing, living or behaving.","A part of culture that is passed from person to person or generation to generation, possibly differing in detail from family to family, such as the way to celebrate holidays.",An action performed on a regular basis.
+Stout,肥胖的/壯實的,Fat,Thin,Core,90,A dark and strong malt brew made with toasted grain.,"A specialized animal tissue with a high oil content, used for long-term storage of energy.","A loss or tearing of paper from the back of a stamp, although not sufficient to create a complete hole."
+Persuade,說服。注意-ua-拼寫,Convince,Dissuade,Elite,90,"To successfully convince (someone) to agree to, accept, or do something, usually through reasoning and verbal influence.","To make someone believe, or feel sure about something, especially by using logic, argument or evidence.",To convince not to try or do.
+Boisterous,喧鬧,Noisy,Quiet,Elite,90,Full of energy; exuberant; noisy.,"Making a noise, especially a loud unpleasant sound",The absence of sound; quietness.
+Proclaim,宣佈/公告,Declare,Hide,Core,91,To announce or declare.,"To make clear, explain, interpret.",To put (something) in a place where it will be harder to discover or out of sight.
+Column,柱子。末尾有-n,Pillar,,Core,91,"A solid upright structure designed usually to support a larger structure above it, such as a roof or horizontal beam, but sometimes for decoration.","A large post, often used as supporting architecture.",
+Language,語言。注意-uage結尾,Speech,Silence,Core,91,"A body of words, and set of methods of combining them (called a grammar), understood by a community and used as a form of communication.",The faculty of uttering articulate sounds or words; the ability to speak or to use vocalizations to communicate.,The absence of any sound.
+Lenient,寬大的/仁慈的,Mercy,Severe,Elite,91,A lenitive; an emollient.,Relenting; forbearance to cause or allow harm to another.,Very bad or intense.
+Existence,存在。全是-e-。注意字尾-ence,Living,Death,Elite,91,"The state of being, existing, or occurring; beinghood.",To be alive; to have life.,"The cessation of life and all associated processes; the end of an organism's existence as an entity independent from its environment and its return to an inert, nonliving state."
+Ridiculous,荒謬的,Absurd,Sensible,Core,92,Deserving of ridicule; foolish; absurd.,An absurdity.,Sensation; sensibility.
+Provoke,激怒/挑釁,Annoy,Soothe,Core,92,To cause someone to become annoyed or angry.,A feeling of discomfort or vexation caused by what one dislikes.,"To restore to ease, comfort, or tranquility; relieve; calm; quiet; refresh."
+Apprentice,學徒。雙P,Learner,Master,Core,92,"A trainee, especially in a skilled trade.",One who is learning.,Someone who has control over something or someone.
+Capricious,反覆無常,Fickle,Steady,Elite,92,"Impulsive and unpredictable; determined by chance, impulse, or whim",Quick to change one’s opinion or allegiance; insincere; not loyal or reliable.,"A rest or support, as for the hand, a tool, or a piece of work."
+Choreographer,編舞者,Dancemaker,,Elite,92,A person who choreographs.,,
+Reluctant,不情願,Unwilling,Eager,Core,93,Opposing; offering resistance (to).,Not willing; reluctant,Sharp; sour; acid.
+Promote,晉升/推廣,Advance,Demote,Core,93,"To raise (someone) to a more important, responsible, or remunerative job or rank.",A forward move; improvement or progression.,To lower the rank or status of.
+Successful,成功的。雙C雙S,Victorious,Failing,Core,93,"Resulting in success; assuring, or promoting, success; accomplishing what was proposed; having the desired effect","Being the winner in a contest, struggle, war, etc.",To be unsuccessful.
+Loquacious,多話,Talkative,Silent,Elite,93,Talkative; chatty.,Tending to talk a lot.,That which is silent; a time of silence.
+Endeavour,努力(英式拼寫-our),Effort,Laziness,Elite,93,A sincere attempt; a determined or assiduous effort towards a specific goal; assiduous or persistent activity.,The work involved in performing an activity; exertion.,The quality of being lazy
+Absurd,荒謬的。Ab-surd (不合理的),Ridiculous,Sensible,Core,94,An absurdity.,Deserving of ridicule; foolish; absurd.,Sensation; sensibility.
+Advance,前進/進步,Progress,Retreat,Core,94,A forward move; improvement or progression.,"Movement or advancement through a series of events, or points in time; development through time.","The act of pulling back or withdrawing, as from something dangerous, or unpleasant."
+Completely,完全地,Totally,Partly,Core,94,(manner) In a complete manner,To the fullest extent or degree.,"In part, or to some degree, but not completely."
+Peril,危險,Danger,Safety,Elite,94,A situation of serious and immediate danger.,Exposure to likely harm; peril.,The condition or feeling of being safe; security; certainty.
+Incorrigible,無可救藥,Hopeless,Fixed,Elite,94,An incorrigibly bad individual.,Without hope; despairing; not expecting anything positive.,To pierce; now generally replaced by transfix.
+No one,沒有人。兩個字,Nobody,Everyone,Core,95,"Used in contrast to anyone, someone or everyone: not one person; nobody.",Someone who is not important or well-known.,Every person.
+Paid,已付錢。Pay的過去式,,,Core,95,To give money or other compensation to in exchange for goods or services.,,
+Sow,播種。與 Sew(縫) 同音,Plant,Harvest,Core,95,A female pig.,"An organism that is not an animal, especially an organism capable of photosynthesis. Typically a small or herbaceous organism of this kind, rather than a tree.",The third season of the year; autumn; fall.
+Acquire,獲得。注意 -cq-,Obtain,Lose,Elite,95,To get.,"To get hold of; to gain possession of, to procure; to acquire, in any way.","To cause (something) to cease to be in one's possession or capability due to unfortunate or unknown circumstances, events or reasons."
+Trifle,瑣事/少量,Trivia,Important,Elite,95,"An English dessert made from a mixture of thick custard, fruit, sponge cake, jelly and whipped cream.","Insignificant trifles of little importance, especially items of unimportant information",Having relevant and crucial value.
+Bewildered,困惑的,Puzzled,Aware,Core,96,"To confuse, disorientate, or puzzle someone, especially with many different choices.",To perplex (someone).,Vigilant or on one's guard against danger or difficulty.
+Coarse,粗糙的。不是 Course,Rough,Smooth,Core,96,Composed of large parts or particles; of inferior quality or appearance; not fine in material or close in texture.,The unmowed part of a golf course.,"Something that is smooth, or that goes smoothly and easily."
+Latter,後者的。雙T,Second,Former,Core,96,Relating to or being the second of two items.,Something that is number two in a series.,Previous.
+Divine,神聖的/非凡的,Holy,Earthly,Elite,96,One skilled in divinity; a theologian.,A thing that is extremely holy; used almost exclusively in Holy of Holies.,(collective or in the plural) That which is of the earth or earthly; a terrestrial being.
+Compel,強迫,Force,Allow,Elite,96,"To drive together, round up",Strength or energy of body or mind; active power; vigour; might; capacity of exercising an influence or producing an effect.,"To grant, give, admit, accord, afford, or yield; to let one have."
+Deposit,存款/堆積物,Place,Withdraw,Core,97,Sediment or rock that is not native to its present location or is different from the surrounding material. Sometimes refers to ore or gems.,(physical) An area; somewhere within an area.,"To pull (something) back, aside, or away."
+Immediate,立即。雙M。-ate字尾,Instant,Delayed,Core,97,"Happening right away, instantly, with no delay.",A very short period of time; a moment.,To put off until a later time; to defer.
+Retain,保留/保持,Keep,Lose,Core,97,To keep in possession or use.,"The main tower of a castle or fortress, located within the castle walls.","To cause (something) to cease to be in one's possession or capability due to unfortunate or unknown circumstances, events or reasons."
+Pronunciation,發音。中間沒有-o-,Diction,,Elite,97,The formal or informal way in which a word is made to sound when spoken.,"Choice and use of words, especially with regard to effective communication.",
+Submissive,服從的/順從的,Obedient,Defiant,Elite,97,(BDSM) One who submits to a dominant partner in sexual practices.,One who obeys.,One who defies opposition.
+Imminent,逼近。雙M,Approaching,Distant,Elite,98,"About to happen, occur, or take place very soon, especially of something which won't last long.","To come or go near, in place or time; to draw nigh; to advance nearer.","Far off (physically, logically or mentally)."
+Revive,使蘇醒/恢復,Recover,Die,Core,98,To return to life; to become reanimated or reinvigorated.,Recovery.,To stop living; to become dead; to undergo death.
+Stretched,拉長的,Extended,Short,Core,98,To lengthen by pulling.,To increase in extent.,A short circuit.
+Favourite,最喜愛的。英式拼寫有-u-,Preferred,Hated,Core,98,A person or thing who enjoys special regard or favour.,To be in the habit of choosing something rather than something else; to favor; to like better.,To dislike intensely or greatly.
+Adhere,堅持/黏附。如同膠水,Stick,Detach,Elite,98,"To stick fast or cleave, as a glutinous substance does; to become joined or united.","An elongated piece of wood or similar material, typically put to some use, for example as a wand or baton.",To take apart from; to take off.
+Shoulder,肩膀。注意-oul-音,Joint,Foot,Core,99,The part of an animal's body between the base of the neck and forearm socket.,"The point where two components of a structure join, but are still able to rotate.",A biological structure found in many animals that is used for locomotion and that is frequently a separate organ at the terminal part of the leg.
+Appearance,外表。注意 -ance,Look,Reality,Core,99,The act of appearing or coming into sight; the act of becoming visible to the eye.,the feelings expressed on a person's face,The state of being actual or real.
+Interpret,口譯/解釋,Translate,Confuse,Core,99,"To explain or tell the meaning of; to translate orally into intelligible or familiar language or terms. applied especially to language, but also to dreams, signs, conduct, mysteries, etc.",In Euclidean spaces: a set of points obtained by adding a given fixed vector to each point of a given set.,"To puzzle, perplex, baffle, bewilder (somebody)."
+Cynical,憤世嫉俗,Skeptical,Trusting,Elite,99,Of or relating to the belief that human actions are motivated only or primarily by base desires or selfishness.,"Having, or expressing doubt; questioning.","To place confidence in; to rely on, to confide, or have faith, in."
+Polarity,極性,Difference,,Elite,99,The state of being a north pole or south pole; the magnetic equivalent of electric charge,The quality of being different.,
+Deny,否認/拒絕,Reject,Admit,Core,100,To disallow or reject.,Something that is rejected.,"To allow to enter; to grant entrance (to), whether into a place, into the mind, or into consideration"
+Banish,驅逐出境,Expel,Welcome,Core,100,(heading) To send someone away and forbid that person from returning.,To eject or erupt.,"The act of greeting someone’s arrival, especially by saying ""Welcome!""; reception."
+Trivia,瑣事,Trifles,Facts,Core,100,"Insignificant trifles of little importance, especially items of unimportant information","An English dessert made from a mixture of thick custard, fruit, sponge cake, jelly and whipped cream.",Something actual as opposed to invented.
+Temperate,溫和的/適度的,Mild,Extreme,Elite,100,To render temperate; to moderate,"A relatively low-gravity beer, often with a dark colour; mild ale","The greatest or utmost point, degree or condition."
+Palaeontologist,古生物學家,,,Elite,100,a specialist in paleontology,,
+Entirely,完全地,Totally,Partly,Core,101,To the full or entire extent.,To the fullest extent or degree.,"In part, or to some degree, but not completely."
+Lightning,閃電。沒有中間的-e-,Flash,Darkness,Core,101,"A flash of light produced by short-duration, high-voltage discharge of electricity within a cloud, between clouds, or between a cloud and the earth.","A device that produces a short flash of light to help illuminate a scene, mostly for night-time or indoors photography.",The state of being dark; lack of light.
+Caution,小心/警告,Warning,Carelessness,Core,101,Precept or warning against evil or danger of any kind; exhortation to wariness; advice; injunction; prudence in regard to danger; provident care,To make (someone) aware of (something impending); especially:,Lack of care.
+Chivalrous,有騎士風度的,Gallant,Rude,Elite,101,"(of a man) Honourable, especially to women; gallant.","Brave, valiant.",Bad-mannered.
+Boycott,抵制。雙T,Reject,Accept,Elite,101,The act of boycotting.,Something that is rejected.,"To receive, especially with a consent, with favour, or with approval."
+Sane,神智正常的,Rational,Insane,Core,102,Being in a healthy condition; not deranged; thinking rationally.,A rational number: a number that can be expressed as the quotient of two integers.,Exhibiting unsoundness or disorder of mind; not sane; mad
+Convert,轉換/改變,Change,Keep,Core,102,A person who has converted to a religion.,The process of becoming different.,"The main tower of a castle or fortress, located within the castle walls."
+Occupied,被佔用的。y變i,Busy,Free,Core,102,"Reserved, engaged.",A police officer.,Free transfer
+Ambiguous,模棱兩可,Vague,Clear,Elite,102,Open to multiple interpretations.,A wandering; a vagary.,"Full extent; distance between extreme limits; especially; the distance between the nearest surfaces of two bodies, or the space between walls."
+Disarray,混亂/不整潔,Disorder,Order,Elite,102,Lack of array or regular order; disorder; confusion.,Absence of order; state of not being arranged in an orderly manner.,"Arrangement, disposition, or sequence."
+Purpose,目的/意圖,Intention,Accident,Core,103,An objective to be reached; a target; an aim; a goal.,The goal or purpose behind a specific action or set of actions.,An unexpected event with negative consequences occurring without the intention of the one suffering the consequences.
+Rare,稀有的,Uncommon,Common,Core,103,A scarce or uncommon item.,Rare; not readily found; unusual.,"Mutual good, shared by more than one."
+Twilight,黃昏/黎明,Dusk,Dawn,Core,103,"The soft light in the sky seen before the rising and (especially) after the setting of the sun, occasioned by the illumination of the earth’s atmosphere by the direct rays of the sun and their reflection on the earth.","A period of time at the end of day when the sun is below the horizon but before the full onset of night, especially the darker part of twilight.",The morning twilight period immediately before sunrise.
+Lucrative,賺錢的,Profitable,Loss,Elite,103,Producing a surplus; profitable.,Producing a profit.,"The result of no longer possessing an object, a function, or a characteristic due to external causes or misplacement."
+Sufficient,足夠。雙F。-ient字尾,Enough,Lacking,Elite,103,Equal to the end proposed; adequate to what is needed; enough,Sufficiently.,"To be without, to need, to require."
+Recognise,認出。注意中間有-g-,Identify,Ignore,Core,104,To match (something or someone which one currently perceives) to a memory of some previous encounter with the same person or thing.,To establish the identity of someone or something.,To deliberately not listen or pay attention to.
+Endurance,忍耐,Stamina,Weakness,Core,104,The measure of a person's stamina or persistence.,"The energy and strength for continuing to do something over a long period of time; power of sustained exertion, or resistance to hardship, illness etc.",The condition of being weak.
+Odour,氣味。英式-our,Scent,,Core,104,"Any smell, whether fragrant or offensive.",A distinctive odour or smell.,
+Mariner,水手/船員,Sailor,,Elite,104,A sailor.,A person in the business of navigating ships or other vessels,
+Cavalry,騎兵。注意不要拼成Calvary,Horsemen,Infantry,Elite,104,The military arm of service that fights while riding horses.,A man who rides a horse.,"Soldiers who fight on foot (on land), as opposed to cavalry and other mounted units, regardless of external transport (e.g. airborne)."
+Stern,嚴厲的/船尾,Severe,Kind,Core,105,Having a hardness and severity of nature or manner.,Very bad or intense.,"A type, race or category; a group of entities that have common characteristics such that they may be grouped together."
+Fleet,艦隊/快速的,Group,Slow,Core,105,A group of vessels or vehicles.,A number of things or persons being in some relation to one another.,Someone who is slow; a sluggard.
+Credible,可信,Believable,FALSE,Core,105,Believable or plausible.,Capable of being believed; credible.,One of two options on a true-or-false test.
+Yield,產出/屈服。i 在 e 前,Produce,Resist,Elite,105,"To pay, give in payment; repay, recompense; reward; requite.","To yield, make or manufacture; to generate.",A protective coating or covering.
+Besieged,被圍困的,Surrounded,Free,Elite,105,"To beset or surround with armed forces for the purpose of compelling to surrender, to lay siege to, beleaguer.",To encircle something or simultaneously extend in all directions.,Free transfer
+Community,社區。雙M,Society,Solitude,Core,106,"A group sharing a common understanding, and often the same language, law, manners, and/or tradition.","A long-standing group of people sharing cultural aspects such as language, dress, norms of behavior and artistic forms.","Aloneness; state of being alone or solitary, by oneself."
+Appreciate,感激/欣賞,Value,Ignore,Core,106,To be grateful or thankful for.,The quality (positive or negative) that renders something desirable or valuable.,To deliberately not listen or pay attention to.
+Minimum,最小值的,Least,Maximum,Core,106,The lowest limit.,Something of the smallest possible extent; an indivisible unit.,The highest limit
+Asunder,分離地/化為碎片,Apart,Together,Elite,106,Into separate parts or pieces.,"(Used after a noun or in the predicate) Exceptional, distinct.",Coherent; well organized.
+Venerable,受人尊敬的,Respected,Infamous,Elite,106,"Commanding respect because of age, dignity, character or position.",To have respect for.,"Having a bad reputation, disreputable; notoriously bad, unpleasant or evil; widely known, especially for something bad."
+Alteration,改變,Change,Fix,Core,107,The act of altering or making different.,The process of becoming different.,A repair or corrective action.
+Vacant,空的。注意字尾 -ant,Empty,Full,Core,107,Not occupied; empty.,"(usually plural) A container, especially a bottle, whose contents have been used up, leaving it empty.",Containing the maximum possible amount that can fit in the space available.
+Earnest,認真的/真誠的,Serious,Frivolous,Core,107,Gravity; serious purpose; earnestness.,Without humor or expression of happiness; grave in manner or disposition,"Silly, especially at an inappropriate time or in an inappropriate manner."
+Committee,2M 2T 2E。委員會,Council,Individual,Elite,107,"A body of one or more persons convened for the accomplishment of some specific purpose, typically with formal protocols.","A committee that leads or governs (e.g. city council, student council).","A person considered alone, rather than as belonging to a group of people."
+Contempt,輕視/蔑視,Scorn,Respect,Elite,107,"The state or act of contemning; the feeling or attitude of regarding someone or something as inferior, base, or worthless; scorn, disdain.",Contempt or disdain.,An attitude of consideration or high regard
+Conclusion,結論。注意 -sion,End,Beginning,Core,108,"The end, finish, close or last part of something.",The terminal point of something in space or time.,"The act of doing that which begins anything; commencement of an action, state, or space of time; entrance into being or upon a course; the first act, effort, or state of a succession of acts or states."
+Average,平均。中間有-e-,Normal,Extreme,Core,108,The arithmetic mean.,"A line or vector that is perpendicular to another line, surface, or plane.","The greatest or utmost point, degree or condition."
+Intention,意圖/目的,Purpose,Accident,Core,108,The goal or purpose behind a specific action or set of actions.,An objective to be reached; a target; an aim; a goal.,An unexpected event with negative consequences occurring without the intention of the one suffering the consequences.
+Assiduous,勤勉的。雙S,Diligent,Lazy,Elite,108,"Hard-working, diligent or regular (in attendance or work); industrious.",Performing with industrious concentration; hard-working and focused.,A lazy person.
+Obstinate,頑固的。11+極常考,Stubborn,Flexible,Elite,108,"Stubbornly adhering to an opinion, purpose, or course, usually with implied unreasonableness; persistent.",Stubbornness.,Something that is flexible.
+Rigid,硬的/嚴格的,Stiff,Flexible,Core,109,A bicycle with no suspension system.,"An average person, usually male, of no particular distinction, skill, or education, often a working stiff or lucky stiff.",Something that is flexible.
+Comparison,比較,Contrast,,Core,109,The act of comparing or the state or process of being compared.,"A difference in lightness, brightness and/or hue between two colours that makes them more or less distinguishable.",
+Consent,同意/贊成,Agreement,Refusal,Core,109,Voluntary agreement or permission.,An understanding between entities to follow a specific course of conduct.,The act of refusing.
+Inconspicuous,不顯眼的。-sc-拼寫,Hidden,Obvious,Elite,109,Not prominent nor easily noticeable,Located or positioned out of sight; not visually apparent.,"Easily discovered, seen, or understood; self-explanatory."
+Impediment,障礙,Hurdle,Help,Elite,109,A hindrance; that which impedes or obstructs progress.,"An artificial barrier, variously constructed, over which athletes or horses jump in a race.",Action given to provide assistance; aid.
+Criticise,批評。-cise,Condemn,Praise,Core,110,To find fault (with something).,To strongly criticise or denounce; to excoriate the perpetrators of.,Commendation; favourable representation in words
+Abandon,A-Band (樂隊) 離開了,Desert,Keep,Core,110,"To give up or relinquish control of, to surrender or to give oneself over, or to yield to one's emotions.",(usually in the plural) That which is deserved or merited; a just punishment or reward,"The main tower of a castle or fortress, located within the castle walls."
+Sacred,神聖的,Holy,Cursed,Core,110,"Characterized by solemn religious ceremony or religious use, especially, in a positive sense; consecrated, made holy.",A thing that is extremely holy; used almost exclusively in Holy of Holies.,To place a curse upon (a person or object).
+Antagonise,對抗。-ise結尾,Provoke,Soothe,Elite,110,To work against; to oppose (especially to incite reaction),To cause someone to become annoyed or angry.,"To restore to ease, comfort, or tranquility; relieve; calm; quiet; refresh."
+Commemorate,雙M。紀念,Honour,Forget,Elite,110,To honour the memory of someone or something with a ceremony or object.,"Recognition of importance or value; respect; veneration (of someone, usually for being morally upright or successful)",To lose remembrance of.
+Erect,垂直的/豎立,Upright,Flat,Core,111,Upright; vertical or reaching broadly upwards.,"Any vertical part of a structure, especially one of the goal posts in sports.",An area of level ground.
+Jovial,愉快的,Happy,Sad,Core,111,"Cheerful and good-humoured; jolly, merry.","A happy event, thing, person, etc.",To make melancholy; to sadden or grieve (someone).
+Objection,反對/異議,Challenge,Approval,Core,111,The act of objecting.,A confrontation; a dare.,"An expression granting permission; an indication of agreement with a proposal; an acknowledgement that a person, thing or event meets requirements."
+Malleable,可塑的。雙L,Flexible,Rigid,Elite,111,"Able to be hammered into thin sheets; capable of being extended or shaped by beating with a hammer, or by the pressure of rollers.",Something that is flexible.,A bicycle with no suspension system.
+Meticulous,一絲不苟,Precise,Careless,Elite,111,"Characterized by very precise, conscientious attention to details.",(NNES or European Union documents) To make or render precise; to specify.,Not concerned or worried (about).
+Vapour,水汽/蒸氣。英式 -our,Steam,,Core,112,"Cloudy diffused matter such as mist, steam or fumes suspended in the air.",The vapor formed when water changes from liquid phase to gas phase.,
+Ramble,漫步/閒逛,Wander,Stay,Core,112,A leisurely stroll; a recreational walk in the countryside.,The act or instance of wandering.,Continuance or a period of time spent in a place; abode for an indefinite time; sojourn.
+Labour,勞動/勞工。英式-our,Work,Leisure,Core,112,"Effort expended on a particular task; toil, work.",(heading) Employment.,Freedom provided by the cessation of activities.
+Rhythm,節奏。注意只有Y一個元音,Beat,Silence,Elite,112,"The variation of strong and weak elements (such as duration, accent) of sounds, notably in speech or music, over time; a beat or meter.",A stroke; a blow.,The absence of any sound.
+Bizarre,雙R。奇異的怪胎,Strange,Ordinary,Elite,112,Strangely unconventional in style or appearance.,Vagina,"A person with authority; authority, ordinance."
+Artificial,人造的。注意-ci-,Fake,Natural,Core,113,Man-made; of artifice.,"Something which is not genuine, or is presented fraudulently.","A native inhabitant of a place, country etc."
+Loneliness,孤獨。注意y變i,Solitude,Company,Core,113,A feeling of depression resulting from being alone or from having no companions.,"Aloneness; state of being alone or solitary, by oneself.",A team; a group of people who work together professionally.
+Enterprise,企業/進取心,Business,,Core,113,"A company, business, organization, or other purposeful endeavor.",A specific commercial enterprise or establishment.,
+Inevitable,不可避免,Sure,Unlikely,Elite,113,"Something that is predictable, necessary, or cannot be avoided.","Physically secure and certain, non-failing, reliable.",Something or somebody considered unlikely.
+Comprehend,理解,Understand,Confuse,Elite,113,"To include, comprise; to contain.","To grasp a concept fully and thoroughly, especially (of words, statements, art, etc.) to be aware of the meaning of and (of people) to be aware of the intent of.","To puzzle, perplex, baffle, bewilder (somebody)."
+Combination,結合/組合,Mixture,Single,Core,114,"The act of combining, the state of being combined or the result of combining.",The act of mixing.,A 45 RPM vinyl record with one song on side A and one on side B.
+Offend,冒犯/進攻,Insult,Please,Core,114,To hurt the feelings of; to displease; to make angry; to insult.,Action or form of speech deliberately intended to be rude; a particular act or statement having this effect.,To make happy or satisfy; to give pleasure to.
+Endure,忍受,Last,Quit,Core,114,"To continue or carry on, despite obstacles or hardships; to persist.","Final, ultimate, coming after all others of its kind.","To pay (a debt, fine etc.)."
+Fatigue,疲勞。注意-u-不發音,Tiredness,Energy,Elite,114,A weariness caused by exertion; exhaustion.,The state of being tired.,The impetus behind all motion and all activity.
+Courteous,有禮貌。注意-ou-,Polite,Rude,Elite,114,"Showing regard or thought for others; especially, displaying good manners or etiquette.",To polish; to refine; to render polite.,Bad-mannered.
+Necessary,1隻貓2隻襪子(1C 2S),Essential,Optional,Core,115,"(usually with the definite article) A place to do the ""necessary"" business of urination and defecation: an outhouse or lavatory.",A necessary ingredient.,"Something that is not compulsory, especially part of an academic course."
+Betray,背叛,Deceive,Loyal,Core,115,"To deliver into the hands of an enemy by treachery or fraud, in violation of trust; to give up treacherously or faithlessly.",To trick or mislead.,Having or demonstrating undivided and constant support for someone or something.
+Plunge,跳入/驟降,Dive,Rise,Core,115,The act of plunging or submerging,A jump or plunge into water.,"To move, or appear to move, physically upwards relative to the ground."
+Incentive,動力,Motivation,Deterrent,Elite,115,"Something that motivates, rouses, or encourages.",Willingness of action especially in behavior.,Something that deters.
+Raiment,衣服/服裝,Clothing,,Elite,115,"Clothing, garments, dress, material.",To adorn or cover with clothing; to dress; to supply clothes or clothing.,
+Occupy,雙C。佔領,Inhabit,Vacate,Core,116,(of time) To take or use.,To live or reside in.,"To move out of a dwelling, either by choice or by eviction."
+Modest,謙虛的,Humble,Vain,Core,116,"Not bragging or boasting about oneself or one's achievements; unpretentious, humble.",(Baltimore) An arrest based on weak evidence intended to demean or punish the subject.,"Overly proud of oneself, especially concerning appearance; having a high opinion of one's own accomplishments with slight reason."
+Article,文章/物品,Item,,Core,116,"A piece of nonfictional writing such as a story, report, opinion piece, or entry in a newspaper, magazine, journal, dictionary, encyclopedia, etc.",A distinct physical object.,
+Procure,獲得/取得,Obtain,Lose,Elite,116,To acquire or obtain.,"To get hold of; to gain possession of, to procure; to acquire, in any way.","To cause (something) to cease to be in one's possession or capability due to unfortunate or unknown circumstances, events or reasons."
+Commence,開始。雙M,Begin,Finish,Elite,116,"To begin, start.",Beginning; start.,An end; the end of anything.
+Domestic,家庭的/國內的,Home,Foreign,Core,117,A house servant; a maid; a household worker.,A dwelling.,"A foreign person, particularly:"
+Suspect,懷疑/嫌疑犯,Doubt,Trust,Core,117,"A person who is suspected of something, in particular of committing a crime.",Disbelief or uncertainty (about something); a particular instance of such disbelief or uncertainty.,Confidence in or reliance on some person or quality.
+Secretary,秘書。Secret+ary,Assistant,Boss,Core,117,Someone entrusted with a secret; a confidant.,"Someone who is present; a bystander, a witness.",A person who oversees and directs the work of others; a supervisor.
+Catastrophe,大災難,Disaster,Blessing,Elite,117,Any large and disastrous event of great significance,"An unexpected natural or man-made catastrophe of substantial extent causing significant physical damage or destruction, loss of life or sometimes permanent change to the natural environment.","To make something holy by religious rite, sanctify."
+Lethargic,懶散,Lazy,Active,Elite,117,"Sluggish, slow",A lazy person.,A person or thing that is acting or capable of acting.
+Boundary,邊界。注意-ary,Border,Center,Core,118,The dividing line or location between two areas.,The outer edge of something.,The point in the interior of a circle that is equidistant from all points on the circumference.
+Brutal,殘忍的,Cruel,Kind,Core,118,"Savagely violent, vicious, ruthless, or cruel",To spoil or ruin (one's chance of success),"A type, race or category; a group of entities that have common characteristics such that they may be grouped together."
+Imitate,模仿/仿效,Copy,Lead,Core,118,"To follow as a model or a pattern; to make a copy, counterpart or semblance of.",The result of copying; an identical duplicate of an original.,"A heavy, pliable, inelastic metal element, having a bright, bluish color, but easily tarnished; both malleable and ductile, though with little tenacity. It is easily fusible, forms alloys with other metals, and is an ingredient of solder and type metal. Atomic number 82, symbol Pb (from Latin plumbum)."
+Inaudible,聽不見的,Silent,Loud,Elite,118,Unable to be heard or not loud enough to be heard.,That which is silent; a time of silence.,A loud sound or part of a sound.
+Scarcity,缺乏,Shortage,Plenty,Elite,118,The condition of something being scarce or deficient,A lack or deficiency; an insufficient amount.,A more-than-adequate amount.
+Sleek,光滑的/苗條的,Smooth,Rough,Core,119,That which makes smooth; varnish.,"Something that is smooth, or that goes smoothly and easily.",The unmowed part of a golf course.
+Mortal,會死的/凡人的,Deadly,Immortal,Core,119,A human; someone susceptible to death.,Subject to death; mortal.,One who is not susceptible to death.
+Abundance,豐富。注意字尾 -ance,Plenty,Scarcity,Core,119,A large quantity; many.,A more-than-adequate amount.,The condition of something being scarce or deficient
+Malady,疾病/弊端,Illness,Health,Elite,119,"Any ailment or disease of the body; especially, a lingering or deep-seated disorder.",An instance of a disease or poor health.,"The state of being free from physical or psychological disease, illness, or malfunction; wellness."
+Pompous,自大的/浮誇的,Arrogant,Humble,Elite,119,"Affectedly grand, solemn or self-important.","Having excessive pride in oneself, often with contempt or disrespect for others.",(Baltimore) An arrest based on weak evidence intended to demean or punish the subject.
+Charred,燒焦的,Burnt,Fresh,Core,120,To burn something to charcoal.,To cause to be consumed by fire.,"A rush of water, along a river or onto the land; a flood."
+Public,公眾的,Social,Private,Core,120,"The people in general, regardless of membership of any particular group.",A festive gathering to foster introductions.,A soldier of the lowest rank in the army.
+Business,生意/事務。Busy 的名詞,Trade,,Core,120,A specific commercial enterprise or establishment.,Buying and selling of goods and services on a market.,
+Fragrant,芬芳的。注意字尾-ant,Scented,Smelly,Elite,120,Sweet-smelling; having a pleasant (usually strong) scent or fragrance.,To detect the scent of; to discern by the sense of smell.,Having a bad smell.
+Beck,召喚/小河,Signal,,Elite,120,A stream or small river.,A sequence of states representing an encoded message in a communication channel.,
+Lean,傾斜/瘦的,Thin,Fat,Core,121,(of an object taller than its width and depth) An inclination away from the vertical.,"A loss or tearing of paper from the back of a stamp, although not sufficient to create a complete hole.","A specialized animal tissue with a high oil content, used for long-term storage of energy."
+Handkerchief,手帕。D不發音，像Hand-Ker-Chief,Tissue,,Core,121,"A piece of cloth, usually square and often fine and elegant, carried for wiping the face, eyes, nose or hands.","Thin, woven, gauze-like fabric.",
+Barren,荒蕪的。雙R,Infertile,Fertile,Elite,121,"An area of low fertility and habitation, a desolate place.",Not fertile.,(of land etc) capable of growing abundant crops; productive
+Coy,羞怯的,Shy,Bold,Elite,121,"To caress, pet; to coax, entice.",An act of throwing.,A dwelling; habitation; building.
+Oblivious,遺忘,Unaware,Mindful,Elite,121,"(usually followed by to or of) Lacking awareness; unmindful; unaware, unconscious of.",Not aware or informed; lacking knowledge.,"Being aware (of something); attentive, heedful."
+Content,滿意的/內容,Satisfied,Unhappy,Core,122,"(except in phrases) Satisfaction, contentment; pleasure.",To do enough for; to meet the needs of; to fulfill the wishes or requirements of.,An individual who is not happy.
+Soldier,士兵。注意中間有-i-,Warrior,Civilian,Core,122,"A member of an army, of any rank.","A person who is actively engaged in battle, conflict or warfare; a soldier or combatant.","A person following the pursuits of civil life, especially one who is not an active member of the armed forces."
+Placid,平靜的/溫和的,Calm,Stormy,Elite,122,Calm and quiet; peaceful; tranquil,"(in a person) The state of being calm; peacefulness; absence of worry, anger, fear or other strong negative emotion.",Of or pertaining to storms.
+Physiotherapy,物理治療,Treatment,,Elite,122,"Therapy that uses physical techniques such as massage, ultrasound, heat, and exercise",The process or manner of treating someone or something.,
+Intricate,複雜,Complex,Simple,Elite,122,Having a great deal of fine detail or complexity.,A network of interconnected systems.,"A herbal preparation made from one plant, as opposed to something made from more than one plant."
+Discern,辨別。-sc-拼寫,Notice,Miss,Elite,123,"To detect with the senses, especially with the eyes.",The act of observing; perception.,A failure to hit.
+Exclaim,大聲呼喊,Shout,Whisper,Core,123,"Exclamation; outcry, clamor.","A loud burst of voice or voices; a violent and sudden outcry, especially that of a multitude expressing joy, triumph, exultation, anger, or animated courage.","The act of speaking in a quiet voice, especially, without vibration of the vocal cords."
+Imperative,極重要,Vital,Trivial,Elite,123,"(grammar) The grammatical mood expressing an order (see jussive). In English, the imperative form of a verb is the same as that of the bare infinitive.","Relating to, or characteristic of life.",Any of the three liberal arts forming the trivium.
+Obscure,模糊的/難解的,Vague,Clear,Elite,123,"To render obscure; to darken; to make dim; to keep in the dark; to hide; to make less visible, intelligible, legible, glorious, beautiful, or illustrious.",A wandering; a vagary.,"Full extent; distance between extreme limits; especially; the distance between the nearest surfaces of two bodies, or the space between walls."
+Feasible,可行的,Possible,Impossible,Elite,123,Able to be done in practice.,A possible one.,An impossibility
