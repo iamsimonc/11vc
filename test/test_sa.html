@@ -25,7 +25,6 @@
         .opt-btn { padding: 20px; border: 2px solid #cbd5e1; background: white; cursor: pointer; font-size: 1.2em; border-radius: 12px; text-align: left; }
         .opt-btn.selected { border-color: var(--exam-blue); background: #dbeafe; font-weight: bold; }
         
-        /* 回饋樣式 */
         .opt-btn.is-correct { background-color: var(--light-correct) !important; border-color: var(--correct) !important; color: #065f46; }
         .opt-btn.is-wrong { background-color: var(--light-wrong) !important; border-color: var(--wrong) !important; color: #991b1b; }
         .result-info { margin-top: 15px; padding: 15px; border-radius: 8px; font-weight: bold; border: 1px solid #ddd; display: none; }
@@ -208,22 +207,19 @@
             const isCorrect = q.userChoiceLetter === q.correctLetter;
             const correctText = q.options[q.correctLetter.charCodeAt(0) - 65];
             
-          // 1. 準備提交數據 (確保 Key 名稱與 App Script 一致)
             const payload = { 
                 student: student, 
                 submitDate: new Date().toLocaleString(), 
-                testType: q.type, // 如果是選擇題，這裡會傳 "Synonym" 或 "Antonym"
+                testType: q.type, 
                 word: q.word, 
                 userAnswer: q.userChoiceText || "No Answer", 
                 correctAnswer: correctText || "N/A", 
                 status: isCorrect ? "✅ Correct" : "❌ Incorrect" 
             };
 
-            // 2. 執行提交 (使用更穩定的傳輸模式)
             try { 
                 await fetch(SCRIPT_URL, { 
                     method: 'POST', 
-                    // 使用 text/plain 配合 JSON 字符串是繞過 CORS 且讓 Google Script 接收數據最穩定的方式
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
                     body: JSON.stringify(payload) 
                 }); 
@@ -231,11 +227,10 @@
                 console.error("Submission error for question " + (i+1) + ": ", err);
             }
             
-            // 3. 更新進度條
             document.getElementById('progressText').innerText = `${i+1} / ${examData.length}`;
-            
-            // 4. 顯示即時回饋 (Highlight 正確與錯誤選項)
             showInstantFeedback(i, q, isCorrect, correctText);
+        }
+
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('finalSubmitBtn').style.display = 'none';
         document.getElementById('exitBtn').style.display = 'block';
@@ -249,18 +244,13 @@
         const correctOptIdx = q.correctLetter.charCodeAt(0) - 65;
         const userOptIdx = q.userChoiceLetter ? q.userChoiceLetter.charCodeAt(0) - 65 : -1;
 
-        // 鎖定按鈕不可再按
         block.querySelectorAll('.opt-btn').forEach(btn => btn.style.pointerEvents = 'none');
-
-        // 標記正確選項
         document.getElementById(`btn-${idx}-${correctOptIdx}`).classList.add('is-correct');
 
-        // 如果答錯，標記錯誤選項
         if (!isCorrect && userOptIdx !== -1) {
             document.getElementById(`btn-${idx}-${userOptIdx}`).classList.add('is-wrong');
         }
 
-        // 顯示文字資訊
         resultDiv.style.display = 'block';
         if (isCorrect) {
             resultDiv.style.backgroundColor = 'var(--light-correct)';
