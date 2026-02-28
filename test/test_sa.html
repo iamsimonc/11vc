@@ -208,17 +208,34 @@
             const isCorrect = q.userChoiceLetter === q.correctLetter;
             const correctText = q.options[q.correctLetter.charCodeAt(0) - 65];
             
-            // 提交數據
-            const payload = { student: student, submitDate: new Date().toLocaleString(), testType: q.type, word: q.word, userAnswer: q.userChoiceText || "No Answer", correctAnswer: correctText, status: isCorrect ? "✅ Correct" : "❌ Incorrect" };
-            try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) }); } catch (err) {}
+          // 1. 準備提交數據 (確保 Key 名稱與 App Script 一致)
+            const payload = { 
+                student: student, 
+                submitDate: new Date().toLocaleString(), 
+                testType: q.type, // 如果是選擇題，這裡會傳 "Synonym" 或 "Antonym"
+                word: q.word, 
+                userAnswer: q.userChoiceText || "No Answer", 
+                correctAnswer: correctText || "N/A", 
+                status: isCorrect ? "✅ Correct" : "❌ Incorrect" 
+            };
+
+            // 2. 執行提交 (使用更穩定的傳輸模式)
+            try { 
+                await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    // 使用 text/plain 配合 JSON 字符串是繞過 CORS 且讓 Google Script 接收數據最穩定的方式
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
+                    body: JSON.stringify(payload) 
+                }); 
+            } catch (err) {
+                console.error("Submission error for question " + (i+1) + ": ", err);
+            }
             
-            // 更新進度條
+            // 3. 更新進度條
             document.getElementById('progressText').innerText = `${i+1} / ${examData.length}`;
             
-            // 即時反饋邏輯
+            // 4. 顯示即時回饋 (Highlight 正確與錯誤選項)
             showInstantFeedback(i, q, isCorrect, correctText);
-        }
-
         document.getElementById('overlay').style.display = 'none';
         document.getElementById('finalSubmitBtn').style.display = 'none';
         document.getElementById('exitBtn').style.display = 'block';
