@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>11+ VR Exam Simulator (GL Mode)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        :root { --exam-blue: #1e3a8a; --paper-bg: #ffffff; --correct: #10b981; --wrong: #ef4444; --light-correct: #d1fae5; --light-wrong: #fee2e2; }
+        body { font-family: "Times New Roman", serif; background-color: #f1f5f9; margin: 0; padding: 10px; color: #1e293b; }
+        .container { max-width: 850px; margin: auto; background: var(--paper-bg); padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 8px; }
+        .no-print { background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 30px; border: 1px solid #e2e8f0; }
+        #timerDisplay { position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 10px 20px; border-radius: 50px; font-family: Arial; font-weight: bold; display: none; z-index: 1000; }
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: bold; margin-bottom: 8px; font-family: Arial; color: var(--exam-blue); }
+        .input-field { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1.1em; box-sizing: border-box; }
+        .day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; max-height: 200px; overflow-y: auto; background: white; padding: 15px; border: 1px solid #cbd5e1; border-radius: 8px; }
+        .day-item { display: flex; align-items: center; cursor: pointer; font-size: 14px; }
+        .btn-start { width: 100%; padding: 18px; background: var(--exam-blue); color: white; border: none; border-radius: 10px; font-size: 1.3em; font-weight: bold; cursor: pointer; }
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 9999; }
+        .section-header { background: var(--exam-blue); color: white; padding: 15px; margin: 30px 0 20px 0; border-radius: 5px; text-transform: uppercase; }
+        .question-block { margin-bottom: 40px; padding: 20px; border-bottom: 2px solid #f1f5f9; border-radius: 10px; }
+        .target-word { font-size: 1.8em; font-weight: bold; text-decoration: underline; display: block; margin: 15px 0; text-align: center; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .opt-btn { padding: 20px; border: 2px solid #cbd5e1; background: white; cursor: pointer; font-size: 1.2em; border-radius: 12px; text-align: left; }
+        .opt-btn.selected { border-color: var(--exam-blue); background: #dbeafe; font-weight: bold; }
+        
+        /* 回饋樣式 */
+        .opt-btn.is-correct { background-color: var(--light-correct) !important; border-color: var(--correct) !important; color: #065f46; }
+        .opt-btn.is-wrong { background-color: var(--light-wrong) !important; border-color: var(--wrong) !important; color: #991b1b; }
+        .result-info { margin-top: 15px; padding: 15px; border-radius: 8px; font-weight: bold; border: 1px solid #ddd; display: none; }
+    </style>
+</head>
+<body>
+
+<div id="timerDisplay">Time Left: <span id="time">00:00</span></div>
+<div id="overlay">
+    <h2 id="statusText">Saving your answers...</h2>
+    <div id="progressText" style="font-size: 1.5em;">0 / 0</div>
+</div>
+
+<div class="container">
+    <div id="setupArea" class="no-print">
+        <h1>🚀 11+ VR Exam Simulator</h1>
+        <div class="input-group">
+            <label>👤 Student Name:</label>
+            <input type="text" id="studentName" class="input-field" placeholder="Enter student name">
+        </div>
+        <div class="input-group">
+            <label>📅 Select Days:</label>
+            <div id="dayStatus">
+                <div style="margin-bottom: 10px;">
+                    <button onclick="toggleAll(true)">Select All</button>
+                    <button onclick="toggleAll(false)">Clear All</button>
+                </div>
+                <div class="day-grid" id="daySelector">Loading data...</div>
+            </div>
+        </div>
+        <div class="input-group">
+            <label>⏱️ Exam Timer Settings:</label>
+            <input type="number" id="examTimeLimit" class="input-field" placeholder="Minutes">
+            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; margin-top:10px;">
+                <input type="checkbox" id="showTimerCheck" checked style="width:20px; height:20px;"> 
+                <span>Show visible timer on screen</span>
+            </label>
+        </div>
+        <div class="input-group">
+            <label>📝 Test Mode:</label>
+            <select id="modeSelect" class="input-field">
+                <option value="both">Mixed (SYN then ANT)</option>
+                <option value="syn">Synonyms Only</option>
+                <option value="ant">Antonyms Only</option>
+            </select>
+        </div>
+        <button class="btn-start" id="generateBtn" onclick="prepareExam()" disabled>Please Wait...</button>
+    </div>
+    <div id="examPaper"></div>
+</div>
+
+<script>
+    const CSV_URL = "./csv/syn_ant.csv"; 
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxSUw-5tHjb07KxKea45gTRjyIRP0D3kUoRVjlB6Njmbtdnx1wEYrwffJOrvogPP1B1iw/exec"; 
+
+    let rawData = [];
+    let examData = [];
+    let timerInterval;
+
+    window.onload = loadCSV;
+
+    function loadCSV() {
+        Papa.parse(CSV_URL + "?v=" + new Date().getTime(), {
+            download: true, header: true, skipEmptyLines: true,
+            complete: function(results) {
+                rawData = results.data;
+                const days = [...new Set(rawData.map(item => item.day))].filter(d => d).sort((a,b) => parseInt(a) - parseInt(b));
+                renderDaySelector(days);
+                document.getElementById('generateBtn').disabled = false;
+                document.getElementById('generateBtn').innerText = "Generate Exam";
+            }
+        });
+    }
+
+    function renderDaySelector(days) {
+        document.getElementById('daySelector').innerHTML = days.map(d => `<label class="day-item"><input type="checkbox" name="dayCheck" value="${d}"> Day ${d}</label>`).join('');
+    }
+
+    function toggleAll(status) { document.querySelectorAll('input[name="dayCheck"]').forEach(cb => cb.checked = status); }
+
+    function prepareExam() {
+        const student = document.getElementById('studentName').value.trim();
+        const selectedDays = Array.from(document.querySelectorAll('input[name="dayCheck"]:checked')).map(cb => cb.value);
+        const timeLimit = document.getElementById('examTimeLimit').value;
+        const showTimer = document.getElementById('showTimerCheck').checked;
+
+        if (!student) return alert("Please enter your name!");
+        if (selectedDays.length === 0) return alert("Please select at least one day!");
+
+        const mode = document.getElementById('modeSelect').value;
+        let filtered = rawData.filter(item => selectedDays.includes(item.day));
+        
+        let synPart = [], antPart = [];
+        filtered.forEach(item => {
+            const word = (item.Word || item.word || "").trim();
+            if ((mode === 'syn' || mode === 'both') && word && item['Syn Answer']) {
+                synPart.push({ word: word, instruction: item['Synonym Question'], options: [item['Syn Option A'], item['Syn Option B'], item['Syn Option C'], item['Syn Option D']], correctLetter: item['Syn Answer'].trim().toUpperCase(), type: 'Synonym' });
+            }
+            if ((mode === 'ant' || mode === 'both') && word && item['Ant Answer']) {
+                antPart.push({ word: word, instruction: item['Antonym Question'], options: [item['Ant Option A'], item['Ant Option B'], item['Ant Option C'], item['Ant Option D']], correctLetter: item['Ant Answer'].trim().toUpperCase(), type: 'Antonym' });
+            }
+        });
+
+        synPart.sort(() => Math.random() - 0.5);
+        antPart.sort(() => Math.random() - 0.5);
+        examData = [...synPart, ...antPart];
+
+        const paper = document.getElementById('examPaper');
+        document.getElementById('setupArea').style.display = 'none';
+        
+        paper.innerHTML = `
+            <div style="text-align:center; padding: 50px 0;">
+                <h2>Exam Readiness</h2>
+                <p>Candidate: <b>${student}</b> | Questions: <b>${examData.length}</b></p>
+                <button class="btn-start" onclick="startExam(${timeLimit}, ${showTimer})">START EXAM NOW</button>
+            </div>
+        `;
+    }
+
+    function startExam(minutes, showTimer) {
+        renderQuestions();
+        if (minutes > 0) startTimer(minutes * 60, showTimer);
+    }
+
+    function startTimer(seconds, showTimer) {
+        const display = document.getElementById('time');
+        if (showTimer) document.getElementById('timerDisplay').style.display = 'block';
+        let timer = seconds;
+        timerInterval = setInterval(() => {
+            let m = parseInt(timer / 60, 10), s = parseInt(timer % 60, 10);
+            display.textContent = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+            if (--timer < 0) { clearInterval(timerInterval); submitExam(); }
+        }, 1000);
+    }
+
+    function renderQuestions() {
+        const paper = document.getElementById('examPaper');
+        paper.innerHTML = `<h2 style="text-align:center; border-bottom: 2px solid #000; padding-bottom:10px;">11+ VR Exam</h2>`;
+        let currentType = "";
+        examData.forEach((q, i) => {
+            if (q.type !== currentType) {
+                currentType = q.type;
+                paper.innerHTML += `<div class="section-header">${q.type}s</div>`;
+            }
+            paper.innerHTML += `
+                <div class="question-block" id="block-${i}">
+                    <div style="font-weight:bold; color:var(--exam-blue);">Question ${i + 1}</div>
+                    <span class="target-word">${q.word.toUpperCase()}</span>
+                    <div style="font-style:italic; margin-bottom:15px;">${q.instruction}</div>
+                    <div class="options-grid">
+                        ${[0,1,2,3].map(optIdx => `<button class="opt-btn" id="btn-${i}-${optIdx}" onclick="setChoice(${i}, ${optIdx}, this)">${String.fromCharCode(65+optIdx)}. ${q.options[optIdx]}</button>`).join('')}
+                    </div>
+                    <div id="result-${i}" class="result-info"></div>
+                </div>
+            `;
+        });
+        paper.innerHTML += `<button class="btn-start" id="finalSubmitBtn" style="background:#059669; margin-top:40px;" onclick="submitExam()">Submit My Answers</button>
+                            <button class="btn-start" id="exitBtn" style="background:#64748b; margin-top:10px; display:none;" onclick="location.reload()">Finish & Exit</button>`;
+    }
+
+    function setChoice(idx, optIdx, btn) {
+        const parent = document.getElementById(`block-${idx}`);
+        parent.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        examData[idx].userChoiceLetter = String.fromCharCode(65 + optIdx);
+        examData[idx].userChoiceText = examData[idx].options[optIdx];
+    }
+
+    async function submitExam() {
+        if (!confirm("Are you sure you want to submit?")) return;
+        
+        clearInterval(timerInterval);
+        document.getElementById('timerDisplay').style.display = 'none';
+        document.getElementById('overlay').style.display = 'flex';
+
+        const student = document.getElementById('studentName').value;
+        
+        for (let i = 0; i < examData.length; i++) {
+            const q = examData[i];
+            const isCorrect = q.userChoiceLetter === q.correctLetter;
+            const correctText = q.options[q.correctLetter.charCodeAt(0) - 65];
+            
+            // 提交數據
+            const payload = { student: student, submitDate: new Date().toLocaleString(), testType: q.type, word: q.word, userAnswer: q.userChoiceText || "No Answer", correctAnswer: correctText, status: isCorrect ? "✅ Correct" : "❌ Incorrect" };
+            try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) }); } catch (err) {}
+            
+            // 更新進度條
+            document.getElementById('progressText').innerText = `${i+1} / ${examData.length}`;
+            
+            // 即時反饋邏輯
+            showInstantFeedback(i, q, isCorrect, correctText);
+        }
+
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('finalSubmitBtn').style.display = 'none';
+        document.getElementById('exitBtn').style.display = 'block';
+        window.scrollTo(0, 0);
+        alert("Exam submitted! Scroll down to review your results.");
+    }
+
+    function showInstantFeedback(idx, q, isCorrect, correctText) {
+        const block = document.getElementById(`block-${idx}`);
+        const resultDiv = document.getElementById(`result-${idx}`);
+        const correctOptIdx = q.correctLetter.charCodeAt(0) - 65;
+        const userOptIdx = q.userChoiceLetter ? q.userChoiceLetter.charCodeAt(0) - 65 : -1;
+
+        // 鎖定按鈕不可再按
+        block.querySelectorAll('.opt-btn').forEach(btn => btn.style.pointerEvents = 'none');
+
+        // 標記正確選項
+        document.getElementById(`btn-${idx}-${correctOptIdx}`).classList.add('is-correct');
+
+        // 如果答錯，標記錯誤選項
+        if (!isCorrect && userOptIdx !== -1) {
+            document.getElementById(`btn-${idx}-${userOptIdx}`).classList.add('is-wrong');
+        }
+
+        // 顯示文字資訊
+        resultDiv.style.display = 'block';
+        if (isCorrect) {
+            resultDiv.style.backgroundColor = 'var(--light-correct)';
+            resultDiv.innerHTML = `✅ Excellent! You chose the correct answer.`;
+        } else {
+            resultDiv.style.backgroundColor = 'var(--light-wrong)';
+            resultDiv.innerHTML = `❌ Incorrect. <br>Your answer: ${q.userChoiceLetter || 'None'} | Correct answer: ${q.correctLetter} (${correctText})`;
+        }
+    }
+</script>
+</body>
+</html>
