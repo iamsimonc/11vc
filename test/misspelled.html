@@ -3,32 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>11+ VR: Spelling Master</title>
+    <title>11+ VR Master: Expert Feedback Mode</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
-        :root { --exam-blue: #1e3a8a; --paper-bg: #ffffff; --correct: #10b981; --wrong: #ef4444; --accent: #3b82f6; }
+        :root { --exam-blue: #1e3a8a; --paper-bg: #ffffff; --correct: #10b981; --wrong: #ef4444; --highlight: #fee2e2; }
+        
         body { font-family: "Times New Roman", serif; background-color: #f1f5f9; margin: 0; padding: 10px; color: #1e293b; }
         .container { max-width: 850px; margin: auto; background: var(--paper-bg); padding: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 8px; }
-        .no-print { background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 30px; border: 1px solid #e2e8f0; }
-        #timerDisplay { position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 10px 20px; border-radius: 50px; font-family: Arial; font-weight: bold; display: none; z-index: 1000; }
-        .input-group { margin-bottom: 20px; }
-        .input-group label { display: block; font-weight: bold; margin-bottom: 8px; font-family: Arial; color: var(--exam-blue); }
-        .input-field { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1.1em; box-sizing: border-box; }
-        .day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; max-height: 200px; overflow-y: auto; background: white; padding: 15px; border: 1px solid #cbd5e1; border-radius: 8px; }
-        .day-item { display: flex; align-items: center; cursor: pointer; font-size: 14px; }
-        .btn-start { width: 100%; padding: 18px; background: var(--exam-blue); color: white; border: none; border-radius: 10px; font-size: 1.3em; font-weight: bold; cursor: pointer; }
-        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 9999; }
+        .no-print-area { background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 30px; border: 1px solid #e2e8f0; }
         
-        /* 拼字題專屬樣式 */
-        .question-block { margin-bottom: 50px; padding: 25px; border-bottom: 2px solid #e2e8f0; background: #fff; }
-        .spelling-word { font-size: 2.8em; letter-spacing: 12px; font-family: 'Courier New', monospace; text-align: center; margin: 30px 0; color: #1e293b; font-weight: bold; }
-        .blank { border-bottom: 5px solid var(--exam-blue); color: var(--accent); display: inline-block; min-width: 45px; text-align: center; }
-        .letter-pool { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 25px; }
-        .letter-btn { background: #ffffff; border: 2px solid #cbd5e1; font-size: 1.6em; width: 65px; height: 65px; cursor: pointer; border-radius: 12px; font-weight: bold; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        .letter-btn:active { background: #dbeafe; transform: scale(0.9); }
-        .letter-btn.used { opacity: 0.2; pointer-events: none; background: #f1f5f9; }
-        .control-btns { display: flex; justify-content: center; gap: 15px; margin-top: 25px; }
-        .btn-undo { background: #64748b; color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-size: 1em; }
+        #timerDisplay { position: fixed; top: 20px; right: 20px; background: #ef4444; color: white; padding: 10px 20px; border-radius: 50px; font-weight: bold; display: none; z-index: 1000; }
+        
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-weight: bold; margin-bottom: 8px; color: var(--exam-blue); }
+        .input-field { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 1.1em; box-sizing: border-box; }
+        
+        .day-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; max-height: 200px; overflow-y: auto; background: white; padding: 15px; border: 1px solid #cbd5e1; border-radius: 8px; }
+        .btn-start { width: 100%; padding: 18px; background: var(--exam-blue); color: white; border: none; border-radius: 10px; font-size: 1.3em; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
+        
+        .question-block { margin-bottom: 40px; padding: 20px; border-bottom: 1px solid #e2e8f0; border-radius: 10px; transition: 0.3s; }
+        .spelling-word { font-size: 2.5em; letter-spacing: 10px; font-family: 'Courier New', monospace; text-align: center; margin: 20px 0; }
+        .blank { border-bottom: 3px solid #000; display: inline-block; min-width: 35px; text-align: center; height: 1.2em; line-height: 1.2em; }
+        
+        /* 錯誤字母 Highlight 樣式 */
+        .char-wrong { color: var(--wrong); text-decoration: underline; background: var(--highlight); border-radius: 4px; }
+        .char-correct { color: var(--correct); }
+
+        .letter-pool { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px 0; }
+        .letter-btn { background: #fff; border: 2px solid #cbd5e1; font-size: 1.3em; width: 55px; height: 55px; cursor: pointer; border-radius: 10px; font-weight: bold; transition: 0.2s; }
+        .letter-btn:active { background: #e2e8f0; }
+        .letter-btn.used { opacity: 0.2; pointer-events: none; background: #cbd5e1; }
+        
+        .backspace-btn { background: #f87171; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+
+        .feedback-area { margin-top: 15px; padding: 15px; border-radius: 8px; display: none; text-align: center; font-weight: bold; }
+
+        @media print {
+            .no-print-area, #timerDisplay, .letter-pool, .control-btns, .btn-start, #overlay, .ipad-only, .backspace-btn, .feedback-area { display: none !important; }
+            .question-block { border-bottom: 1px solid #000 !important; }
+        }
+        
+        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 9999; }
     </style>
 </head>
 <body>
@@ -37,33 +52,26 @@
 <div id="overlay"><h2 id="statusText">Uploading Results...</h2><div id="progressText" style="font-size: 1.5em;">0 / 0</div></div>
 
 <div class="container">
-    <div id="setupArea" class="no-print">
-        <h1>✍️ 11+ Spelling Master (GL Mode)</h1>
+    <div id="setupArea" class="no-print-area">
+        <h1>✍️ 11+ Spelling Practice (Expert Mode)</h1>
         
         <div class="input-group">
             <label>👤 Student Name:</label>
-            <input type="text" id="studentName" class="input-field" placeholder="Enter name">
+            <input type="text" id="studentName" class="input-field" placeholder="Enter student name">
         </div>
 
         <div class="input-group">
-            <label>📅 Select Days (from vocab.csv):</label>
-            <div style="margin-bottom: 10px;">
-                <button onclick="toggleAll(true)">Select All</button>
-                <button onclick="toggleAll(false)">Clear All</button>
-            </div>
-            <div class="day-grid" id="daySelector">Loading data...</div>
+            <label>📅 Select Days:</label>
+            <div class="day-grid" id="daySelector">Loading vocabulary...</div>
         </div>
 
         <div class="input-group">
-            <label>⏱️ Timer & Options:</label>
-            <input type="number" id="examTimeLimit" class="input-field" placeholder="Minutes (Optional)">
-            <label style="display: flex; align-items: center; gap: 10px; margin-top: 15px; cursor: pointer;">
-                <input type="checkbox" id="showTimerCheck" checked style="width:20px; height:20px;"> 
-                <span>Show timer during exam</span>
-            </label>
+            <label>⏱️ Exam Timer (Minutes):</label>
+            <input type="number" id="examTimeLimit" class="input-field" placeholder="Leave empty for unlimited">
         </div>
 
-        <button class="btn-start" id="generateBtn" onclick="prepareExam()" disabled>Waiting for CSV...</button>
+        <button class="btn-start" id="generateBtn" onclick="prepareExam('ipad')" disabled>Start iPad Challenge</button>
+        <button class="btn-start" style="background:#64748b;" onclick="prepareExam('print')">🖨️ Generate PDF Paper</button>
     </div>
 
     <div id="examPaper"></div>
@@ -81,92 +89,38 @@
 
     function loadCSV() {
         Papa.parse(CSV_URL + "?v=" + new Date().getTime(), {
-            download: true,
-            header: true,
-            skipEmptyLines: true,
+            download: true, header: true, skipEmptyLines: true,
             complete: function(results) {
-                // 處理標題大小寫不一的情況
                 rawData = results.data.map(row => {
                     let newRow = {};
-                    for (let key in row) {
-                        newRow[key.toLowerCase().trim()] = row[key];
-                    }
+                    for (let key in row) newRow[key.toLowerCase().trim()] = row[key];
                     return newRow;
                 });
-
                 const days = [...new Set(rawData.map(item => item.day))].filter(d => d).sort((a,b) => parseInt(a) - parseInt(b));
-                
-                if (days.length === 0) {
-                    document.getElementById('daySelector').innerHTML = "<b style='color:red;'>Error: 'day' column not found in CSV!</b>";
-                    return;
-                }
-
-                document.getElementById('daySelector').innerHTML = days.map(d => `<label class="day-item"><input type="checkbox" name="dayCheck" value="${d}"> Day ${d}</label>`).join('');
+                document.getElementById('daySelector').innerHTML = days.map(d => `<label style="display:flex;align-items:center;font-size:14px;cursor:pointer;"><input type="checkbox" name="dayCheck" value="${d}" style="margin-right:8px;width:18px;height:18px;"> Day ${d}</label>`).join('');
                 document.getElementById('generateBtn').disabled = false;
-                document.getElementById('generateBtn').innerText = "Generate Spelling Test";
-            },
-            error: function() {
-                document.getElementById('daySelector').innerHTML = "<b style='color:red;'>Error: Cannot load csv/vocab.csv</b>";
+                document.getElementById('generateBtn').innerText = "Start iPad Challenge";
             }
         });
-    }
-
-    function toggleAll(s) { document.querySelectorAll('input[name="dayCheck"]').forEach(cb => cb.checked = s); }
-
-    function prepareExam() {
-        const student = document.getElementById('studentName').value.trim();
-        const selectedDays = Array.from(document.querySelectorAll('input[name="dayCheck"]:checked')).map(cb => cb.value);
-        if (!student) return alert("Please enter student name!");
-        if (selectedDays.length === 0) return alert("Please select at least one day!");
-
-        // 過濾並生成題目
-        let filtered = rawData.filter(item => selectedDays.includes(item.day));
-        examData = filtered.map(item => createSpellingQuestion(item.word)).filter(q => q !== null);
-        
-        if (examData.length === 0) {
-            return alert("No valid words found in the selected days! (Words must be at least 4 letters long)");
-        }
-
-        examData.sort(() => Math.random() - 0.5);
-
-        const setup = document.getElementById('setupArea');
-        const paper = document.getElementById('examPaper');
-        const timeLimit = document.getElementById('examTimeLimit').value;
-        const showTimer = document.getElementById('showTimerCheck').checked;
-
-        setup.style.display = 'none';
-        paper.innerHTML = `
-            <div style="text-align:center; padding:50px;">
-                <h2>Spelling Exam Ready</h2>
-                <p>Candidate: <b>${student}</b></p>
-                <p>Total Questions: <b>${examData.length}</b></p>
-                <p>Time Limit: <b>${timeLimit ? timeLimit + ' mins' : 'Unlimited'}</b></p>
-                <button class="btn-start" onclick="startExam(${timeLimit}, ${showTimer})">START EXAM</button>
-            </div>
-        `;
     }
 
     function createSpellingQuestion(word) {
         if (!word || word.trim().length < 4) return null;
         const cleanWord = word.trim().toUpperCase();
-        const wordArr = cleanWord.split('');
-        
-        // 決定遮蓋位置 (中間部分)
         const hideCount = cleanWord.length > 7 ? 3 : 2;
         const startIdx = Math.floor((cleanWord.length - hideCount) / 2);
         
+        let displayArr = cleanWord.split('');
         let missing = [];
-        let displayArr = [...wordArr];
         let blanksIdx = [];
 
         for(let i=0; i<hideCount; i++) {
             let idx = startIdx + i;
-            missing.push(wordArr[idx]);
+            missing.push(displayArr[idx]);
             displayArr[idx] = '_';
             blanksIdx.push(idx);
         }
 
-        // 字母池：正確答案 + 4個干擾字母
         let pool = [...missing];
         const alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         while(pool.length < missing.length + 4) {
@@ -175,73 +129,90 @@
         }
         pool.sort(() => Math.random() - 0.5);
 
-        return {
-            original: cleanWord,
-            display: displayArr,
-            missing: missing,
-            pool: pool,
-            userEntry: [],
-            blanksIdx: blanksIdx
-        };
+        return { original: cleanWord, display: displayArr, pool: pool, userEntry: [], blanksIdx: blanksIdx };
     }
 
-    function startExam(mins, show) {
+    function prepareExam(mode) {
+        const selectedDays = Array.from(document.querySelectorAll('input[name="dayCheck"]:checked')).map(cb => cb.value);
+        if (selectedDays.length === 0) return alert("Please select at least one Day!");
+
+        let filtered = rawData.filter(item => selectedDays.includes(item.day));
+        examData = filtered.map(item => createSpellingQuestion(item.word)).filter(q => q !== null);
+        
+        if (examData.length === 0) return alert("No valid words found in the selected days.");
+        examData.sort(() => Math.random() - 0.5);
+
         renderExam();
-        if (mins > 0) {
-            let timer = mins * 60;
-            const display = document.getElementById('time');
-            if (show) document.getElementById('timerDisplay').style.display = 'block';
-            timerInterval = setInterval(() => {
-                let m = Math.floor(timer / 60), s = timer % 60;
-                display.textContent = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
-                if (--timer < 0) { clearInterval(timerInterval); alert("Time's up!"); submitExam(); }
-            }, 1000);
+
+        if (mode === 'ipad') {
+            const mins = document.getElementById('examTimeLimit').value;
+            if (mins > 0) startTimer(mins * 60);
+            document.getElementById('setupArea').style.display = 'none';
+            window.scrollTo(0,0);
+        } else if (mode === 'print') {
+            setTimeout(() => { window.print(); }, 500);
         }
+    }
+
+    function startTimer(seconds) {
+        document.getElementById('timerDisplay').style.display = 'block';
+        timerInterval = setInterval(() => {
+            let m = Math.floor(seconds / 60), s = seconds % 60;
+            document.getElementById('time').textContent = `${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s}`;
+            if (--seconds < 0) { clearInterval(timerInterval); submitExam(); }
+        }, 1000);
     }
 
     function renderExam() {
         const paper = document.getElementById('examPaper');
-        paper.innerHTML = `<h2 style="text-align:center;">11+ Spelling Selection Test</h2>`;
+        const student = document.getElementById('studentName').value || "Candidate";
+        paper.innerHTML = `<h1 style="text-align:center;">11+ Spelling Practice</h1>
+                           <p style="text-align:center;"><b>Candidate:</b> ${student} &nbsp;&nbsp; <b>Date:</b> ${new Date().toLocaleDateString()}</p>`;
         
         examData.forEach((q, i) => {
             paper.innerHTML += `
                 <div class="question-block" id="block-${i}">
-                    <div style="font-weight:bold; color:var(--exam-blue);">Question ${i+1}</div>
-                    <div class="spelling-word" id="word-${i}">${q.display.map(c => c === '_' ? `<span class="blank">_</span>` : c).join('')}</div>
-                    <div class="letter-pool" id="pool-${i}">
-                        ${q.pool.map((l, li) => `<button class="letter-btn" onclick="addLetter(${i}, '${l}', ${li}, this)">${l}</button>`).join('')}
+                    <div style="font-weight:bold;">Question ${i+1}:</div>
+                    <div class="spelling-word" id="word-${i}">${q.display.map(c => c === '_' ? `<span class="blank">&nbsp;</span>` : c).join('')}</div>
+                    
+                    <div class="ipad-only" style="text-align:center;">
+                        <div class="letter-pool" id="pool-${i}">
+                            ${q.pool.map((l, li) => `<button class="letter-btn" id="btn-${i}-${li}" onclick="addLetter(${i}, '${l}', ${li}, this)">${l}</button>`).join('')}
+                        </div>
+                        <button class="backspace-btn" id="back-${i}" onclick="removeLastLetter(${i})">⌫ Backspace / Undo</button>
                     </div>
-                    <div class="control-btns">
-                        <button class="btn-undo" onclick="undoLetter(${i})">Undo Clear</button>
-                    </div>
+
+                    <div id="feedback-${i}" class="feedback-area"></div>
                 </div>`;
         });
-        paper.innerHTML += `<button class="btn-start" style="background:#059669; margin-top:40px;" onclick="submitExam()">Submit All Answers</button>`;
+        
+        paper.innerHTML += `<button class="btn-start ipad-only" id="submitBtn" style="background:#059669; margin-top:40px;" onclick="submitExam()">Finish and Submit</button>
+                            <button class="btn-start ipad-only" id="reloadBtn" style="display:none; background:#64748b;" onclick="location.reload()">Back to Menu</button>`;
     }
 
     function addLetter(qIdx, letter, poolIdx, btn) {
         const q = examData[qIdx];
-        if (q.userEntry.length >= q.missing.length) return;
-        
+        if (q.userEntry.length >= q.blanksIdx.length) return;
         q.userEntry.push({letter, poolIdx});
         btn.classList.add('used');
         updateWordDisplay(qIdx);
     }
 
-    function undoLetter(qIdx) {
+    function removeLastLetter(qIdx) {
         const q = examData[qIdx];
         if (q.userEntry.length === 0) return;
-        const last = q.userEntry.pop();
-        const btns = document.getElementById(`pool-${qIdx}`).querySelectorAll('.letter-btn');
-        btns[last.poolIdx].classList.remove('used');
+        
+        const lastEntry = q.userEntry.pop();
+        const btn = document.getElementById(`btn-${qIdx}-${lastEntry.poolIdx}`);
+        if(btn) btn.classList.remove('used');
         updateWordDisplay(qIdx);
     }
 
     function updateWordDisplay(qIdx) {
         const q = examData[qIdx];
         let tempDisplay = [...q.display];
-        q.userEntry.forEach((entry, i) => {
-            tempDisplay[q.blanksIdx[i]] = `<span class="blank" style="color:var(--exam-blue)">${entry.letter}</span>`;
+        q.userEntry.forEach((entry, i) => { 
+            tempDisplay[q.blanksIdx[i]] = `<span class="blank" style="color:var(--exam-blue)">${entry.letter}</span>`; 
         });
         document.getElementById(`word-${qIdx}`).innerHTML = tempDisplay.join('');
     }
@@ -250,34 +221,64 @@
         clearInterval(timerInterval);
         document.getElementById('timerDisplay').style.display = 'none';
         document.getElementById('overlay').style.display = 'flex';
-        const student = document.getElementById('studentName').value;
+        const student = document.getElementById('studentName').value || "Manual";
 
         for (let i = 0; i < examData.length; i++) {
             const q = examData[i];
             let finalArr = [...q.display];
-            q.userEntry.forEach((entry, idx) => {
-                if (idx < q.blanksIdx.length) finalArr[q.blanksIdx[idx]] = entry.letter;
-            });
+            q.userEntry.forEach((entry, idx) => { finalArr[q.blanksIdx[idx]] = entry.letter; });
             const userStr = finalArr.join('');
-            const isCorrect = userStr === q.original;
+            const isCorrect = (userStr === q.original);
 
+            // 準備提交
             const payload = {
-                student: student,
-                submitDate: new Date().toLocaleString(),
-                testType: "Misspelled",
-                word: q.original,
-                userAnswer: userStr,
-                correctAnswer: q.original,
+                student: student, submitDate: new Date().toLocaleString(), testType: "Misspelled",
+                word: q.original, userAnswer: userStr, correctAnswer: q.original,
                 status: isCorrect ? "✅ Correct" : "❌ Incorrect"
             };
+
+            // 顯示即時回饋與 Highlight
+            showFeedback(i, userStr, q.original);
 
             try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) }); } catch (e) {}
             document.getElementById('progressText').innerText = `${i+1} / ${examData.length}`;
         }
-        
+
         document.getElementById('overlay').style.display = 'none';
-        alert("Great job! You have completed the spelling test.\n\nKeep practicing to master your vocabulary!");
-        location.reload();
+        document.getElementById('submitBtn').style.display = 'none';
+        document.getElementById('reloadBtn').style.display = 'block';
+        alert("Exam Submitted! Please review your answers highlighted on the screen.");
+    }
+
+    function showFeedback(i, userStr, original) {
+        const feedbackDiv = document.getElementById(`feedback-${i}`);
+        const wordDiv = document.getElementById(`word-${i}`);
+        const block = document.getElementById(`block-${i}`);
+        
+        // 隱藏控制項
+        document.getElementById(`pool-${i}`).style.display = 'none';
+        document.getElementById(`back-${i}`).style.display = 'none';
+
+        let coloredWord = "";
+        for (let charIdx = 0; charIdx < original.length; charIdx++) {
+            const userChar = userStr[charIdx] || "";
+            if (userChar === original[charIdx]) {
+                coloredWord += `<span class="char-correct">${userChar}</span>`;
+            } else {
+                coloredWord += `<span class="char-wrong">${userChar || ' '}</span>`;
+            }
+        }
+
+        wordDiv.innerHTML = coloredWord;
+        feedbackDiv.style.display = 'block';
+        
+        if (userStr === original) {
+            block.style.background = "#f0fdf4";
+            feedbackDiv.innerHTML = `<span style="color:var(--correct)">Excellent! ✅</span>`;
+        } else {
+            block.style.background = "#fff1f1";
+            feedbackDiv.innerHTML = `<span style="color:var(--wrong)">Incorrect. Correct answer: ${original}</span>`;
+        }
     }
 </script>
 </body>
