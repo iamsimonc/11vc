@@ -6,7 +6,7 @@
     <title>11+ VR Vocabulary Practice</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
-        :root { --primary: #6c5ce7; --core: #55efc4; --elite: #fd79a8; --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; --wrong: #ff7675; }
+        :root { --primary: #6c5ce7; --core: #55efc4; --elite: #fd79a8; --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; --wrong-label: #ff7675; --user-wrong-text: #81ecec; }
         body { font-family: 'Arial', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
         .container { max-width: 900px; margin: auto; }
         
@@ -37,9 +37,12 @@
 
         .result-box { margin-top: 15px; padding: 15px; border-radius: 10px; font-weight: bold; display: none; text-align: center; }
         .result-correct { background: rgba(85, 239, 196, 0.1); border: 1px solid var(--core); color: var(--core); }
-        .result-wrong { background: rgba(255, 118, 117, 0.1); border: 1px solid var(--wrong); color: var(--wrong); }
-        .correct-ans-label { color: var(--core); text-decoration: none; margin-left: 10px; font-size: 1.2em; font-weight: 800;}
-        .user-ans-label { text-decoration: line-through; opacity: 0.7; }
+        .result-wrong { background: rgba(255, 118, 117, 0.1); border: 1px solid var(--wrong-label); color: #fff; }
+        
+        /* 修改後的結果顯示顏色 */
+        .user-ans-label { color: var(--user-wrong-text); text-decoration: none; font-weight: 800; font-size: 1.1em; }
+        .wrong-title { color: var(--wrong-label); }
+        .correct-ans-label { color: var(--core); margin-left: 10px; font-size: 1.2em; font-weight: 800; }
 
         input[type="text"] { padding: 8px; border-radius: 5px; border: 1px solid #334155; background: #0f172a; color: white; }
 
@@ -103,6 +106,8 @@
     let mediaRecorder;
     let audioChunks = {};
     let userAnswers = {};
+    let isRecording = false;
+    let isPlayingAudio = false;
 
     window.onload = function() {
         const container = document.getElementById('checkbox-container');
@@ -146,10 +151,7 @@
             document.querySelectorAll('.day-cb:checked').forEach(cb => selectedDays.push(cb.value));
         }
 
-        if (selectedDays.length === 0) {
-            alert("請至少選擇或輸入一個天數！");
-            return;
-        }
+        if (selectedDays.length === 0) { alert("Please select a day!"); return; }
 
         currentWords = allVocab.filter(v => {
             const dayValue = (v.day || v.DAY || "").toString().trim();
@@ -165,9 +167,14 @@
     }
 
     function playAudio(word) {
-        if (!word || word === '-' || word.toLowerCase() === 'n/a') return;
+        if (!word || word === '-' || word.toLowerCase() === 'n/a' || isPlayingAudio) return;
+        isPlayingAudio = true;
         const audio = new Audio(`audio/${word.trim().toLowerCase()}.mp3`);
-        audio.play().catch(e => console.log("Audio not found: " + word));
+        audio.onended = () => { isPlayingAudio = false; };
+        audio.play().catch(e => { 
+            console.log("Audio not found: " + word);
+            isPlayingAudio = false;
+        });
     }
 
     function render() {
@@ -186,7 +193,7 @@
                     <div id="learn-view-${i}">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <span class="badge ${typeClass}">${item.type} (Day ${item.day})</span>
-                            <div>
+                            <div id="audio-tools-${i}">
                                 <button class="btn btn-audio" onclick="playAudio('${item.word}')">🔊 Word</button>
                                 <button class="btn btn-record" id="rec-${i}" onclick="toggleRecord(${i})">🎤</button>
                                 <button class="btn btn-play-rec" id="play-${i}" style="display:none;">▶️</button>
@@ -201,7 +208,7 @@
                                 <div style="color: var(--core); font-weight: bold; font-size: 0.8em;">🟢 SYNONYM</div>
                                 <div style="font-size: 1.1em; display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
                                     ${item.syn || '-'} 
-                                    ${(item.syn && item.syn !== '-' && item.syn.toLowerCase() !== 'n/a') ? `<button class="btn-audio" style="border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center;" onclick="playAudio('${item.syn}')">🔊</button>` : ''}
+                                    ${(item.syn && item.syn !== '-' && item.syn.toLowerCase() !== 'n/a') ? `<button class="btn-audio" onclick="playAudio('${item.syn}')">🔊</button>` : ''}
                                 </div>
                                 <div class="sub-def">${item.syn_def || ''}</div>
                             </div>
@@ -209,7 +216,7 @@
                                 <div style="color: var(--elite); font-weight: bold; font-size: 0.8em;">🔴 ANTONYM</div>
                                 <div style="font-size: 1.1em; display:flex; align-items:center; gap:5px; flex-wrap:wrap;">
                                     ${item.ant || '-'}
-                                    ${(item.ant && item.ant !== '-' && item.ant.toLowerCase() !== 'n/a') ? `<button class="btn-audio" style="border-radius:50%; width:24px; height:24px; display:flex; align-items:center; justify-content:center;" onclick="playAudio('${item.ant}')">🔊</button>` : ''}
+                                    ${(item.ant && item.ant !== '-' && item.ant.toLowerCase() !== 'n/a') ? `<button class="btn-audio" onclick="playAudio('${item.ant}')">🔊</button>` : ''}
                                 </div>
                                 <div class="sub-def">${item.ant_def || ''}</div>
                             </div>
@@ -239,6 +246,9 @@
     }
 
     function toggleChallenge(i) {
+        if (isRecording) { alert("Please stop recording first!"); return; }
+        if (isPlayingAudio) { alert("Wait for the audio to finish!"); return; }
+        
         document.getElementById(`learn-view-${i}`).style.display = 'none';
         document.getElementById(`challenge-view-${i}`).style.display = 'block';
         document.getElementById(`btn-toggle-${i}`).style.display = 'none';
@@ -285,12 +295,12 @@
             
             if(isCorrect) {
                 resultDiv.className = "result-box result-correct";
-                resultDiv.innerHTML = `<span>🌟 Correct! Great memory!</span>`;
+                resultDiv.innerHTML = `<span>🌟 Perfect! You nailed it!</span>`;
             } else {
                 resultDiv.className = "result-box result-wrong";
                 resultDiv.innerHTML = `
-                    <span>💪 Don't worry, keep practicing! </span><br>
-                    <small>Your Answer: <span class="user-ans-label">${userAnswer || '(Empty)'}</span></small>
+                    <span style="font-size: 1.1em; margin-bottom: 8px; display: block;">🔍 Check your spelling below to learn!</span>
+                    <span class="wrong-title">Your Answer:</span> <span class="user-ans-label">${userAnswer || '(Empty)'}</span>
                     <span class="correct-ans-label">➜ Correct: ${correctWord}</span>
                 `;
             }
@@ -311,10 +321,10 @@
         }
 
         const scorePercent = (correctCount / currentWords.length) * 100;
-        let message = `You got ${correctCount} / ${currentWords.length} correct! `;
-        if(scorePercent === 100) message += "🏆 Perfect Score! Amazing!";
-        else if(scorePercent >= 70) message += "✨ Great job!";
-        else message += "📚 Keep studying, you're improving!";
+        let message = `Score: ${correctCount} / ${currentWords.length}. `;
+        if(scorePercent === 100) message += "🏆 Outstanding Performance!";
+        else if(scorePercent >= 70) message += "✨ Well done! Check the ones you missed.";
+        else message += "📚 Keep at it! Review the correct spellings to improve.";
 
         document.getElementById('overall-feedback').innerText = message;
         mainBtn.innerText = "✅ Finished";
@@ -329,17 +339,25 @@
                 const mimeType = MediaRecorder.isTypeSupported('audio/mp4') ? 'audio/mp4' : 'audio/webm';
                 mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
                 audioChunks[id] = [];
+                isRecording = true;
                 mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks[id].push(e.data); };
                 mediaRecorder.onstop = () => {
                     const blob = new Blob(audioChunks[id], { type: mimeType });
                     const url = URL.createObjectURL(blob);
                     playBtn.style.display = 'inline-block';
-                    playBtn.onclick = () => { const audio = new Audio(url); audio.play(); };
+                    playBtn.onclick = () => { 
+                        if(isPlayingAudio) return;
+                        isPlayingAudio = true;
+                        const audio = new Audio(url); 
+                        audio.onended = () => { isPlayingAudio = false; };
+                        audio.play(); 
+                    };
+                    isRecording = false;
                 };
                 mediaRecorder.start();
                 btn.innerText = "🛑 Stop";
                 btn.style.background = "#ff7675";
-            } catch (err) { alert("microphone malfunction"); }
+            } catch (err) { alert("Microphone malfunction"); isRecording = false; }
         } else {
             mediaRecorder.stop();
             btn.innerText = "🎤";
